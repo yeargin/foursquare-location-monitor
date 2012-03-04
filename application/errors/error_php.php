@@ -1,10 +1,17 @@
-<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-<h4>A PHP Error was encountered</h4>
-
-<p>Severity: <?php echo $severity; ?></p>
-<p>Message:  <?php echo $message; ?></p>
-<p>Filename: <?php echo $filepath; ?></p>
-<p>Line Number: <?php echo $line; ?></p>
-
+<?php
+$CI = get_instance();
+if ($CI->input->is_cli_request()):
+	printf('[%s] %s: %s in %s, line %s'.PHP_EOL, date('c'), $severity, strip_tags($message), $filepath, $line);
+	return;
+endif;
+?>
+<div class="alert alert-block error">
+	<a class="close" href="#">×</a>
+	<p onclick="javascript:$('.error-detail').toggle();"><strong>A PHP Error was encountered</strong></p>
+	<ul class="error-detail" style="display:none;">
+	  <li>Severity: <?php echo $severity; ?></li>
+	  <li>Message:  <?php echo $message; ?></li>
+	  <li>Filename: <?php echo $filepath; ?></li>
+	  <li>Line Number: <?php echo $line; ?></li>
+	</ul>
 </div>

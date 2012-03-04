@@ -1,0 +1,63 @@
+/* Override some defaults */
+html, body {
+	background-color: #eee;
+}
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.container > footer p {
+	text-align: center; /* center align it with the container */
+}
+
+/* The white background content wrapper */
+.content {
+	background-color: #fff;
+	padding: 20px;
+	margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+/* Page header tweaks */
+.page-header {
+	background-color: #f5f5f5;
+	padding: 20px 20px 10px;
+	margin: -20px -20px 20px;
+}
+.topbar .btn {
+	border: 0;
+}
+
+/* Extra table format */
+table.table-stats th, table.table-stats td { width: 25%; border: 0 }
+table.table-stats th { text-align: right; }
+
+/* Footer */
+footer {
+	margin-top: 17px;
+	margin-bottom: 2em; 
+}
+
+/* Miscellaneous Tweaks */
+.meows { top: 40px; }
+.span10 table, .span10 .alert-message { width: 95%; }
+.topbar-inner, .topbar .fill { background-color: #333333; background-image: -moz-linear-gradient(center top , #333333, #222222); }
+
+/* Profiler */
+#codeigniter_profiler legend { padding-left: 0.5em }
+#codeigniter_profiler code { line-height: 2em; }
+
+.spinner { display: block-inline; width: 10px; height: 10px; }
+
+/* Media Queries for Mobile */
+@media (max-width: 980px) { 
+	body { padding-top: 0; }
+	.navbar-fixed-top { margin-bottom: 0; }
+}

@@ -38,9 +38,13 @@
 |
 */
 
-$route['default_controller'] = "welcome";
-$route['404_override'] = '';
+$route['logout'] = 'login_controller/logout';
+$route['([a-z]+)'] = '$1_controller/index';
+$route['([a-z_\-]+)/([a-z_\-]+)'] = '$1_controller/$2';
+$route['([a-z_\-]+)/([a-z_\-]+)/([a-zA-z0-9_\-\.]+)'] = '$1_controller/$2/$3';
 
+$route['default_controller'] = "dashboard_controller";
+$route['404_override'] = '';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

@@ -10,7 +10,12 @@
 |
 */
 
-
+/* Yield is a RoR-like method of allowing a layout to be set */
+$hook['display_override'][] = array('class'    => 'Yield',
+                                    'function' => 'doYield',
+                                    'filename' => 'Yield.php',
+                                    'filepath' => 'hooks'
+                                   );
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

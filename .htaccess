@@ -13,3 +13,6 @@ RewriteRule . /index.php [L]
  order allow,deny
  deny from all
 </Files>
+
+AddHandler php5-script .php
+

@@ -1,0 +1,15 @@
+# Redirect traffic to index.php controller
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# Restrict access to build.xml
+<Files build.xml>
+ order allow,deny
+ deny from all
+</Files>

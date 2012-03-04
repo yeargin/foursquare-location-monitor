@@ -9,8 +9,8 @@ endif;
 <html lang="en">
 <head>
 <title>Database Error</title>
-<link rel="stylesheet" type="text/css" href="<?php echo ('/assets/bootstrap/bootstrap/css/bootstrap.css'); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo ('/assets/bootstrap/bootstrap/css/bootstrap-responsive.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo ('/assets/bootstrap/css/bootstrap.css'); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo ('/assets/bootstrap/css/bootstrap-responsive.css'); ?>" />
 <link rel="stylesheet" type="text/css" href="<?php echo ('/assets/css/main.css'); ?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 </head>
@@ -19,7 +19,7 @@ endif;
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
-				<a href="/" class="brand">CodeIgniter Test</a>
+				<a href="/" class="brand">Location Monitor</a>
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,15 @@
+[submodule "application/third_party/swiftmailer"]
+	path = application/third_party/swiftmailer
+	url = git://github.com/swiftmailer/swiftmailer.git
+[submodule "assets/js/jquery.fancybox/"]
+	path = assets/js/jquery.fancybox
+	url = https://github.com/fancyapps/fancyBox.git
+[submodule "assets/js/spin.js"]
+	path = assets/js/spin.js
+	url = https://github.com/fgnass/spin.js.git
+[submodule "application/third_party/php-foursquare"]
+	path = application/third_party/php-foursquare
+	url = git://github.com/stephenyoung/php-foursquare.git
+[submodule "application/third_party/bootstrap"]
+	path = application/third_party/bootstrap
+	url = git://github.com/twitter/bootstrap.git

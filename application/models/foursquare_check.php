@@ -78,6 +78,16 @@ class Foursquare_check extends CI_Model {
 	}
 	
 	/**
+	 * Add New Check
+	 *
+	 * @param array $record 
+	 */
+	public function updateCheck($record = array()) {
+		$this->db->where('id', $record['id']);
+		$this->db->update('foursquare_checks', $record);
+	}
+	
+	/**
 	 * Deactivate a Check
 	 *
 	 * @param int $check_id 

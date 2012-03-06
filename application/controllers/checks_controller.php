@@ -82,7 +82,7 @@ class Checks_controller extends CI_Controller {
 			'end_ts' => date('c', time())
 		);
 		
-		// Find related check in array
+		// Get data for this check
 		$data['check'] = $this->foursquare_check->getCheckById($check_id);
 
 		// Load Live Check Data
@@ -103,6 +103,9 @@ class Checks_controller extends CI_Controller {
 		$this->load->view('checks/check', $data);	
 	}
 	
+	/**
+	 * Check Add
+	 */
 	public function check_add() {
 		// Setup for various actions
 		$data = $this->setup();
@@ -123,13 +126,14 @@ class Checks_controller extends CI_Controller {
 		$venue = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s', $venue_id)));
 		if (!isset($venue->response->venue->name))
 			show_error('Could not locate venue', 404);
-		$data['venue'] = $venue->response->venue;
+		$data['check']->check_title = $venue->response->venue->name;
+		$data['check']->active = '1';
 		
 		// Process posted check name
 		if ($this->input->post('check_title') != ''):
 			$record['user_id'] = $user->id;
 			$record['venue_id'] = $venue_id;
-			$record['check_title'] = $this->input->post('check_title');
+			$record['check_title'] = $this->input->post('title');
 			$record['active'] = '1';
 			$record['insert_ts'] = date('c');
 			$result = $this->foursquare_check->addNewCheck($record);
@@ -138,6 +142,38 @@ class Checks_controller extends CI_Controller {
 		
 		// Confirm Add
 		$this->load->view('checks/check_form', $data);
+	}
+	
+	/**
+	 * Check Edit
+	 */
+	public function check_edit() {
+		// Setup for various actions
+		$data = $this->setup();
+
+		// Grab check_id from URL
+		$check_id = $this->uri->segment(3);
+		
+		// See if check is already added
+		$this->load->model('foursquare_check');
+		$check = $this->foursquare_check->getCheckById($check_id);
+		$data['check'] = $check;
+		
+		if (!isset($check->id))
+			show_error('Check could not be found.', 404);
+		
+		// Process posted check name
+		if ($this->input->post('check_title') != ''):
+			$record['id'] = $check_id;
+			$record['check_title'] = $this->input->post('check_title');
+			$record['active'] = ($this->input->post('active') == '1') ? '1' : '0' ;
+			$result = $this->foursquare_check->updateCheck($record);
+			redirect(sprintf('foursquare/venue/%s', $check->venue_id));
+		endif;
+		
+		// Show Edit Form
+		$this->load->view('checks/check_form', $data);
+	
 	}
 	
 	/* *** AJAX data sources *** */

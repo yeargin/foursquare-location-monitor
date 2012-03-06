@@ -1,14 +1,18 @@
 <h3>Venue Search</h3>
 
-<form method="get" class="form-inline">
+<form method="get" class="form form-stacked">
 <fieldset>
-	<p>
+	<div>
 		<label>Venue Name</label>
-		<input type="search" name="q" value="<?php echo __($this->input->get('q')); ?>" />
+		<div class="input"><input type="search" name="q" placeholder="Tom's Reastaurant" value="<?php echo __($this->input->get('q')); ?>" /></div>
+	</div>
+	<div>
 		<label>Near</label>
-		<input type="text" name="near" value="<?php echo __($this->input->get('near')); ?>" class="required" />
+		<div class="input"><input type="text" name="near" placeholder="Anytown, USA" value="<?php echo __($this->input->get('near')); ?>" class="required" /></div>
+	</div>
+	<div class="actions">
 		<input type="submit" class="btn" value="Search" />
-	</p>
+	</div>
 
 </fieldset>
 </form>
@@ -31,9 +35,18 @@
 		</td>
 		<td>
 			<a href="<?php echo site_url('foursquare/venue') .'/'. $row->id; ?>" class="btn secondary">View Venue</a>
+			<?php if (isset($checks_by_venue[$row->id])): ?>
+			<a href="<?php echo site_url('checks/check') .'/'. $checks_by_venue[$row->id]->id; ?>" class="btn secondary disabled">Check Log</a>
+			<?php else: ?>
+			<a href="<?php echo site_url('checks/check_add') .'/'. $row->id; ?>" class="btn secondary">Add Check</a>
+			<?php endif; ?>
 		</td>
 	</tr>
 	<?php endforeach; ?>
 </tbody>
 </table>
 <?php endif; ?>
+
+<p>
+	<a href="<?php echo site_url('dashboard'); ?>">&laquo; Back to Dashboard</a>
+</p>

@@ -36,15 +36,12 @@
 			<h3>Categories</h3>
 			<div class="row">
 				<?php foreach ($venue->categories as $category): ?>
-				<div class="span1 well" style="text-align:center;">
-					<img src="<?php echo ($category->icon->prefix) . '32.png'; ?>" alt="<?php echo ($category->name); ?>" /><br />
-					<span style="display:block;height:2.5em;overflow:hidden;"><?php echo ($category->name); ?></span>
-				</div>
+					<div class="span2"><img src="<?php echo ($category->icon->prefix) . '32.png'; ?>" alt="<?php echo ($category->name); ?>" style="vertical-align:middle;margin-right:0.25em; margin-bottom:0.25em;"/> <?php echo ($category->name); ?></div> 
 				<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
 
-			<p>
+			<p style="margin-top:1em;">
 				<a href="<?php echo ($venue->canonicalUrl); ?>" class="btn">View on Foursquare</a>
 			</p>
 
@@ -65,16 +62,22 @@
 <?php endif; ?>
 
 <?php if (isset($check->id) && $check->id > 0): ?>
+<?php if ($check->active != '1'): ?>
+<p class="alert alert-error">
+	<i class="icon-exclamation-sign"></i> <strong>This check is not active!</strong> Data is not being collected for this venue. <a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>">Edit Check</a>
+	<span class="close" onclick="$('.alert.warning').hide();">&times</span>
+</p>
+<?php endif; ?>
 
-<h3>Live Data</h3>
+<h3>Live Metrics</h3>
 
 <?php if (count($live_data) > 2): ?>
 <div id="chart_live" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">
 	<p class="alert alert-info">Loading ...</p>
 </div>
 <?php else: ?>
-<p class="alert alert-information">
-	Live data can be viewed in about 15 minutes.
+<p class="alert alert-info">
+	<i class="icon-time"></i> Live metrics can be viewed in about 15 minutes.
 	<span class="close" onclick="$('.alert').hide();">&times</span>
 </p>
 <?php endif; ?>
@@ -86,14 +89,15 @@
 	<p class="alert alert-info">Loading ...</p>
 </div>
 <?php else: ?>
-<p class="alert alert-information">
-	Daily data can be viewed in about 48 hours.
+<p class="alert alert-info">
+	<i class="icon-time"></i> Daily metrics can be viewed in about 48 hours.
 	<span class="close" onclick="$('.alert').hide();">&times</span>
 </p>
 <?php endif; ?>
 
 <p>
-	<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small">View Check Details</a>
+	<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small">Check Log</a>
+	<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small">Edit Check</a>
 </p>
 
 <hr />

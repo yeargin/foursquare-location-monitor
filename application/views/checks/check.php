@@ -3,12 +3,13 @@
 	<li><strong>Status:</strong> <?php echo ($check->active == 1) ? 'Active' : 'Disabled'; ?></li>
 	<li><strong>Created:</strong> <?php echo date('F j Y', strtotime($check->insert_ts)); ?></li>
 	<li><strong>Updated:</strong> <?php echo date('F j Y', strtotime($check->insert_ts)); ?></li>
-	<li><strong>Last Daily Check:</strong> <?php echo date('F j Y g:i a', strtotime($check->last_daily_check_ts)); ?></li>
-	<li><strong>Last Live Check:</strong> <?php echo date('F j Y g:i a', strtotime($check->last_live_check_ts)); ?></li>
+	<li><strong>Last Daily Check:</strong> <?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></li>
+	<li><strong>Last Live Check:</strong> <?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></li>
 </ul>
 
 <p>
 	<a href="<?php echo site_url('foursquare/venue') .'/'. $check->venue_id; ?>" class="btn small">View Venue</a>
+	<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small">Edit Check</a>
 </p>
 
 <h3>Live Data</h3>

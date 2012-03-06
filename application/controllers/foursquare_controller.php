@@ -25,6 +25,8 @@ class Foursquare_controller extends CI_Controller {
 		
 		// Tokens model
 		$this->load->model('foursquare_token');
+		$this->load->model('foursquare_check');
+
 	}
 	
 	/**
@@ -44,6 +46,9 @@ class Foursquare_controller extends CI_Controller {
 		
 		// Setup for various actions
 		$data = (array) $this->setup();
+		
+		// Authenticated User
+		$user = unserialize($this->session->userdata('user'));
 		
 		// Grab venue from URL string
 		$venue_id = $this->uri->segment(3);
@@ -70,13 +75,16 @@ class Foursquare_controller extends CI_Controller {
 		// Stats
 		$stats = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s/stats', $venue_id)));
 		$data['stats'] = $stats->response;
-		
-		// Check Data
-		$this->load->model('foursquare_check');
-		$check = $this->foursquare_check->getCheckByVenueId($venue_id);
 
+		// Get list of Foursquare Checks
+		$checks = $this->foursquare_check->getChecksByUserId($user->id);
+		$data['checks'] = $checks;
+
+		// Check Data
+		$check = $this->foursquare_check->getCheckByVenueId($venue_id);
 		if (isset($check->id) && $check->id > 0):
-		
+			
+			// Check Settings
 			$data['check'] = $check;
 			
 			// Load Live Check Data (30 days)
@@ -106,6 +114,7 @@ class Foursquare_controller extends CI_Controller {
 		$data['head_content'] = $this->load->view('foursquare/_head', $data, true);
 		$data['head_content'] .= $this->load->view('checks/_chart_js', $data, true);
 		$data['sidebar_content'] = $this->load->view('foursquare/_sidebar', $data, true);
+		$data['sidebar_content'] .= $this->load->view('checks/_sidebar', $data, true);
 		$this->load->view('foursquare/venue', $data);
 		
 	}
@@ -139,7 +148,19 @@ class Foursquare_controller extends CI_Controller {
 		// Setup for various actions
 		$data = (array) $this->setup();
 		
+		// Authenticated User
+		$user = unserialize($this->session->userdata('user'));
 		
+		// Get list of Foursquare Checks
+		$checks = $this->foursquare_check->getChecksByUserId($user->id);
+		$data['checks'] = $checks;
+
+		// Re-assign check array to be keyed by venue ID
+		$checks_by_venue = array();
+		foreach ($checks as $check_item):
+			$checks_by_venue[$check_item->venue_id] = $check_item;
+		endforeach;
+		$data['checks_by_venue'] = $checks_by_venue;
 		
 		// Get search results
 		if ($this->input->get('near') != '' && $this->input->get('q')):
@@ -162,6 +183,8 @@ class Foursquare_controller extends CI_Controller {
 			$data['search_results'] = null;
 		endif;
 		
+		$data['page_title'] = 'Foursquare - Search';
+		$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
 		$this->load->view('foursquare/search', $data);
 		
 	}

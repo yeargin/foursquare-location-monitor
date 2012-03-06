@@ -1,5 +1,5 @@
 <?php if ($this->input->get('login_failed')): ?>
-<p class="alert-message error">Your login attempt failed.</p>
+<p class="alert alert-error">Your login attempt failed.</p>
 <?php endif; ?>
 
 <?php echo form_open('login/post'); ?>

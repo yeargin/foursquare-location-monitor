@@ -33,7 +33,12 @@ class Dashboard_controller extends CI_Controller {
 		$user_token = $this->foursquare_token->getTokenByUserId($user->id);
 		$data['has_foursquare'] = ($user_token) ? true : false;
 
+		// Get list of Foursquare Checks
+		$checks = $this->foursquare_check->getChecksByUserId($user->id);
+		$data['checks'] = $checks;
+
 		$data['page_title'] = 'Dashboard';
+		$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
 		$this->load->view('dashboard/index', $data);
 	}
 }

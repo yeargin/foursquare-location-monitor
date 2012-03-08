@@ -4,7 +4,7 @@
 <fieldset>
 	<div>
 		<label>Venue Name</label>
-		<div class="input"><input type="search" name="q" placeholder="Tom's Reastaurant" value="<?php echo __($this->input->get('q')); ?>" /></div>
+		<div class="input"><input type="search" name="q" placeholder="Tom's Restaurant" value="<?php echo __($this->input->get('q')); ?>" /></div>
 	</div>
 	<div>
 		<label>Near</label>

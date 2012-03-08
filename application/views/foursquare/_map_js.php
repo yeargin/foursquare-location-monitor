@@ -58,6 +58,8 @@
 		marker.setIcon('<?php echo $venue->categories[0]->icon->prefix . '32.png'; ?>');
 		<?php endif; ?>
 
+		$('#map').removeClass('spinner');
+
 	}
 
 	// Bind init method

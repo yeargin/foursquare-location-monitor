@@ -86,7 +86,7 @@
 	
 	<footer class="container">
 		<p>
-			<!-- Footer -->
+			<a href="<?php echo site_url(); ?>">Location Monitor</a> &bull; Designed and developed by <a href="http://yearg.in">Yeargin Marketing &amp; Creative</a>
 		</p>
 	</footer>
 	

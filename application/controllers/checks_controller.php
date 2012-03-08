@@ -133,7 +133,7 @@ class Checks_controller extends CI_Controller {
 		if ($this->input->post('check_title') != ''):
 			$record['user_id'] = $user->id;
 			$record['venue_id'] = $venue_id;
-			$record['check_title'] = $this->input->post('title');
+			$record['check_title'] = $this->input->post('check_title');
 			$record['active'] = '1';
 			$record['insert_ts'] = date('c');
 			$result = $this->foursquare_check->addNewCheck($record);

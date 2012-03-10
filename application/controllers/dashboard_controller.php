@@ -17,6 +17,7 @@ class Dashboard_controller extends CI_Controller {
 		// Load models
 		$this->load->model('foursquare_token');
 		$this->load->model('foursquare_check');
+		$this->load->model('foursquare_check_log');
 
 	}
 
@@ -39,6 +40,10 @@ class Dashboard_controller extends CI_Controller {
 
 		$data['page_title'] = 'Dashboard';
 		$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
+
+		$data['dashboard_modules'] = $this->foursquare_check_log->getAllCheckDataDelta();
+
 		$this->load->view('dashboard/index', $data);
+		
 	}
 }

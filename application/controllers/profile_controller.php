@@ -27,6 +27,7 @@ class Profile_controller extends CI_Controller {
 		$data = $this->setup();
 
 		$data['page_title'] = 'Profile';
+		$data['sidebar_content'] = $this->load->view('account/_sidebar', $data, true);
 		$this->load->view('account/profile', $data);
 	}
 

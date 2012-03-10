@@ -1,7 +1,5 @@
-<h3>Change Password</h3>
-
-<?php echo form_open('profile/change_password'); ?>
-<?php echo form_fieldset('Edit'); ?>
+<?php echo form_open('profile/change_password', 'class="form form-vertical"'); ?>
+<?php echo form_fieldset(''); ?>
 
 <div class="clearfix">
 	<?php echo form_label('Password', 'password'); ?>
@@ -17,8 +15,9 @@
 	</div>
 </div>
 
-<div class="actions">
+<div class="form-actions">
 	<?php echo form_submit('update', 'Change Password', 'class="btn primary"'); ?>
+	<a href="<?php echo site_url('profile'); ?>">Cancel</a>
 </div>
 
 <?php echo form_fieldset_close(); ?>

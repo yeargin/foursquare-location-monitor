@@ -110,7 +110,7 @@ class Foursquare_controller extends CI_Controller {
 		
 		endif;
 
-		$data['page_title'] = sprintf('Foursquare - Venue: %s', isset($data['venue']->name) ? ($data['venue']->name) : 'Venue');
+		$data['page_title'] = sprintf('Venue: %s', isset($data['venue']->name) ? __($data['venue']->name) : 'Venue');
 		$data['head_content'] = $this->load->view('foursquare/_head', $data, true);
 		$data['head_content'] .= $this->load->view('checks/_chart_js', $data, true);
 		$data['sidebar_content'] = $this->load->view('foursquare/_sidebar', $data, true);
@@ -135,7 +135,7 @@ class Foursquare_controller extends CI_Controller {
 		$profile = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/users/%s', $profile_id)));
 		$data['member'] = $profile->response->user;
 
-		$data['page_title'] = sprintf('Foursquare - Profile: %s %s', isset($data['member']->firstName) ? $data['member']->firstName : '', isset($data['member']->lastName) ? $data['member']->lastName : '' );
+		$data['page_title'] = sprintf('Profile: %s %s', isset($data['member']->firstName) ? __($data['member']->firstName) : '', isset($data['member']->lastName) ? __($data['member']->lastName) : '' );
 		$data['sidebar_content'] = $this->load->view('foursquare/_sidebar', $data, true);
 		$this->load->view('foursquare/profile', $data);
 		
@@ -183,7 +183,7 @@ class Foursquare_controller extends CI_Controller {
 			$data['search_results'] = null;
 		endif;
 		
-		$data['page_title'] = 'Foursquare - Search';
+		$data['page_title'] = 'Search Venues';
 		$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
 		$this->load->view('foursquare/search', $data);
 		

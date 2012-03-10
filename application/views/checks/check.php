@@ -1,8 +1,7 @@
-<h2><?php echo isset($check->check_title) ? $check->check_title : '(No title provided)'; ?></h2>
 <ul>
 	<li><strong>Status:</strong> <?php echo ($check->active == 1) ? 'Active' : 'Disabled'; ?></li>
-	<li><strong>Created:</strong> <?php echo date('F j Y', strtotime($check->insert_ts)); ?></li>
-	<li><strong>Updated:</strong> <?php echo date('F j Y', strtotime($check->insert_ts)); ?></li>
+	<li><strong>Created:</strong> <?php echo date('F j, Y', strtotime($check->insert_ts)); ?></li>
+	<li><strong>Updated:</strong> <?php echo date('F j, Y', strtotime($check->insert_ts)); ?></li>
 	<li><strong>Last Daily Check:</strong> <?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></li>
 	<li><strong>Last Live Check:</strong> <?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></li>
 </ul>

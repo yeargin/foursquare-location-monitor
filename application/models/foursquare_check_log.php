@@ -95,11 +95,11 @@ class Foursquare_check_log extends CI_Model {
 	
 	/* *** Calculation methods *** */
 	
-	public function getAllCheckDataDelta($date_since = null, $date_sort_dir = 'DESC') {
+	public function getAllCheckDataDelta($date_since = null) {
 		if ($date_since == '' || is_null($date_since))
 			$date_since = date('Y-m-d', strtotime('-5 days'));
 		
-		$query = sprintf('SELECT fc.check_title, fc.venue_id, fcl1.check_id, fcl2.log_date, (fcl2.total_checkins-ifnull(fcl1.total_checkins, 0)) AS total_checkins_delta, (fcl2.unique_visitors-ifnull(fcl1.unique_visitors, 0)) AS unique_visitors_delta, (fcl2.tips_left-ifnull(fcl1.tips_left, 0)) AS tips_left_delta, (fcl2.photo_count-ifnull(fcl1.photo_count, 0)) AS photo_count_delta FROM foursquare_checks fc INNER JOIN foursquare_check_log fcl1 ON fc.id = fcl1.check_id LEFT OUTER JOIN foursquare_check_log fcl2 ON fcl1.check_id = fcl2.check_id AND DAY(fcl1.log_date)-MONTH(fcl2.log_date)=1 WHERE fcl2.log_date >= "%s" ORDER BY fcl1.check_id ASC, fcl2.log_date %s', date('Y-m-d', strtotime($date_since)), $date_sort_dir);
+		$query = sprintf('SELECT fc.`check_title`, fc.`venue_id`, fcl1.`check_id`, fcl2.`log_date`, (fcl2.`total_checkins`-IFNULL(fcl1.`total_checkins`, 0)) AS total_checkins_delta, (fcl2.`unique_visitors`-IFNULL(fcl1.`unique_visitors`, 0)) AS unique_visitors_delta, (fcl2.`tips_left`-IFNULL(fcl1.`tips_left`, 0)) AS tips_left_delta, (fcl2.`photo_count`-IFNULL(fcl1.`photo_count`, 0)) AS photo_count_delta FROM `foursquare_checks` fc INNER JOIN `foursquare_check_log` fcl1 ON fc.`id` = fcl1.`check_id` LEFT OUTER JOIN `foursquare_check_log` fcl2 ON fcl1.`check_id` = fcl2.`check_id` AND DAY(fcl2.`log_date`)-DAY(fcl1.`log_date`)=1 WHERE fcl2.`log_date` >= "%s" ORDER BY fcl1.`check_id` ASC, fcl1.`log_date` DESC', date('Y-m-d', strtotime($date_since)) );
 		$result = $this->db->query($query);
 		
 		$array = $result->result_array();

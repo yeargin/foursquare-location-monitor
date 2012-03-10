@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<?php endif; ?>
-	<div class="actions">
+	<div class="form-actions">
 		<?php if (isset($check->id)): ?>
 		<?php echo form_submit('add', 'Update Check', 'class="btn primary"'); ?>
 		<a href="<?php echo site_url('checks/check' .'/'. $check->id); ?>" class="btn cancel">Cancel</a>

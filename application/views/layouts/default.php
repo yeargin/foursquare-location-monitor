@@ -41,18 +41,13 @@
 				<div class="nav-collapse">
 				<?php if ($this->session->userdata('user')): ?>
 				<ul class="nav">
-					<li><a>Welcome <?php echo $user->display_name; ?>!</a></li>
-					<li class="dropdown">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#">Main Menu <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="/checks/">Checks</a></li>
-							<li><a href="/foursquare/search/">Search</a></li>
-						</ul>
-					</li>
+					<li><a href="/">Dashboard</a></li>
+					<li><a href="/checks/">Venue Checks</a></li>
+					<li><a href="/foursquare/search/">Search Venues</a></li>
 				</ul>
 				<div class="pull-right">
 				<ul class="nav">
-					<li><a href="/profile/">Account Profile</a></li>
+					<li><a href="/profile/"><?php echo $user->display_name; ?>'s Profile</a></li>
 					<li><a href="<?php echo site_url('logout'); ?>">Logout</a></li>
 				</ul>
 				</div>
@@ -85,6 +80,7 @@
 	</div>
 	
 	<footer class="container">
+		<hr />
 		<p>
 			<a href="<?php echo site_url(); ?>">Location Monitor</a> &bull; Designed and developed by <a href="http://yearg.in">Yeargin Marketing &amp; Creative</a>
 		</p>

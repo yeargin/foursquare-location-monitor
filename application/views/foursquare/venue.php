@@ -1,7 +1,5 @@
 <div class="hero-unit">
-	
-	<h2><?php echo $venue->name; ?></h2>
-	
+
 	<div class="row">
 		<div class="span7">
 		<div id="map" class="spinner" style="width:100%; height:200px; margin-bottom:1em;">
@@ -69,7 +67,7 @@
 </p>
 <?php endif; ?>
 
-<h3>Live Metrics</h3>
+<h3>Live Metrics <small>(About every 10 minutes)</h3>
 
 <?php if (count($live_data) > 2): ?>
 <div id="chart_live" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">

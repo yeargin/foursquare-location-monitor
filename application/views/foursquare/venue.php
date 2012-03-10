@@ -49,155 +49,182 @@
 
 </div>
 
-<?php if (isset($stats->stats)): ?>
-<h3>Venue Manager Stats</h3>
-<pre>
-<?php print_R($stats); ?>
-</pre>
+<div class="tabbable" id="venueTabs">
 
-<hr />
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#metrics" data-toggle="tab">Metrics</a></li>
+		<li class=""><a href="#photos" data-toggle="tab">Photos</a></li>
+		<li class=""><a href="#tips" data-toggle="tab">Tips</a></li>
+		<li class=""><a href="#mayor" data-toggle="tab">Mayor</a></li>
+		<li class=""><a href="#herenow" data-toggle="tab">Here Now</a></li>
+	</ul>
+	
+	<div class="tab-content">
 
-<?php endif; ?>
+		<?php /* ****** Metrics ****** */ ?>
+		<div class="tab-pane active" id="metrics">
+			<?php if (isset($check->id) && $check->id > 0): ?>
+			<?php if ($check->active != '1'): ?>
+			<p class="alert alert-error">
+				<i class="icon-exclamation-sign"></i> <strong>This check is not active!</strong> Data is not being collected for this venue. <a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>">Edit Check</a>
+				<span class="close" onclick="$('.alert.warning').hide();">&times</span>
+			</p>
+			<?php endif; ?>
 
-<?php if (isset($check->id) && $check->id > 0): ?>
-<?php if ($check->active != '1'): ?>
-<p class="alert alert-error">
-	<i class="icon-exclamation-sign"></i> <strong>This check is not active!</strong> Data is not being collected for this venue. <a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>">Edit Check</a>
-	<span class="close" onclick="$('.alert.warning').hide();">&times</span>
-</p>
-<?php endif; ?>
+			<h3>Live Metrics <small>(About every 10 minutes)</small></h3>
 
-<h3>Live Metrics <small>(About every 10 minutes)</h3>
+			<?php if (count($live_data) > 2): ?>
+			<div id="chart_live" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">
+				<p class="alert alert-info">Loading ...</p>
+			</div>
+			<?php else: ?>
+			<p class="alert alert-info">
+				<i class="icon-time"></i> Live metrics can be viewed in about 15 minutes.
+				<span class="close" onclick="$('.alert').hide();">&times</span>
+			</p>
+			<?php endif; ?>
 
-<?php if (count($live_data) > 2): ?>
-<div id="chart_live" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">
-	<p class="alert alert-info">Loading ...</p>
+			<h3>Daily Metrics</h3>
+
+			<?php if (count($daily_data_delta) > 2): ?>
+			<div id="chart_daily" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">
+				<p class="alert alert-info">Loading ...</p>
+			</div>
+			<?php else: ?>
+			<p class="alert alert-info">
+				<i class="icon-time"></i> Daily metrics can be viewed in about 48 hours.
+				<span class="close" onclick="$('.alert').hide();">&times</span>
+			</p>
+			<?php endif; ?>
+
+			<p>
+				<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small">Check Log</a>
+				<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small">Edit Check</a>
+			</p>
+
+			<hr />
+
+			<?php else: ?>
+
+			<p class="alert alert-information">
+				This venue is not being monitored. <a href="<?php echo site_url('checks/check_add') .'/'. $venue->id; ?>">Activate monitoring check</a>?
+				<span class="close" onclick="$('.alert').hide();">&times</span>
+			</p>
+
+			<?php endif; ?>
+
+		</div>
+		
+		<?php /* ****** Photos ****** */ ?>
+		<div class="tab-pane" id="photos">
+			<h3>Photos</h3>
+			<?php if (isset($photos->groups) && $photos->count > 0): ?>
+			<ul class="thumbnails">
+			<?php foreach ($photos->groups as $group): ?>
+			<?php foreach ($group->items as $item): ?>
+				<li class="span2"><a href="<?php echo $item->url; ?>" class="fancybox" rel="photos" title="Photo: <?php echo $item->user->firstName; ?> <?php echo isset($item->user->lastName) ? $item->user->lastName : ''; ?>, <?php echo date('F j, Y', $item->createdAt); ?>"><img src="<?php echo $item->sizes->items[1]->url; ?>" alt="Photo" /></a></li>
+			<?php endforeach; ?>
+			<?php endforeach; ?>
+			</ul>
+			<?php else: ?>
+			<p>
+				<em>Nobody has posted photos for this venue.</em>
+			</p>
+			<?php endif; ?>
+		</div>
+
+		<?php /* ****** Tips ****** */ ?>
+		<div class="tab-pane" id="tips">
+			<h3>Tips</h3>
+			<?php if (isset($tips->items) && $tips->count > 0): ?>
+			<ul class="thumbnails">
+			<?php foreach ($tips->items as $item): ?>
+				<li class="span2">
+					<blockquote style="height:175px; overflow-y:auto; width: 100%;">
+					<?php echo nl2br($item->text); ?>
+					<small><?php echo $item->user->firstName; ?> <?php echo isset($item->user->lastName) ? $item->user->lastName : ''; ?>, <?php echo date('F j, Y', $item->createdAt); ?></small>
+					</blockquote>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+			<?php else: ?>
+			<p>
+				<em>Nobody has left tips for this venue.</em>
+			</p>
+			<?php endif; ?>
+		</div>
+		
+		<?php /* ****** Mayor ****** */ ?>
+		<div class="tab-pane" id="mayor">
+			<h3>The Mayor</h3>
+			<?php if (isset($venue->mayor->user)): ?>
+			<table class="table">
+			<tbody>
+			<tr>
+				<td><img src="<?php echo ($venue->mayor->user->photo); ?>" alt="Profile Picture" /></td>
+				<td>
+					<a href="<?php echo site_url('foursquare/profile') .'/'. $venue->mayor->user->id; ?>"><?php echo ($venue->mayor->user->firstName); ?> <?php echo isset($venue->mayor->user->lastName) ? $venue->mayor->user->lastName : ''; ?></a><br />
+				</td>
+				<td><?php echo ($venue->mayor->user->homeCity); ?></td>
+				<td><a href="<?php echo site_url('foursquare/profile') .'/'. $venue->mayor->user->id; ?>" class="btn secondary">View Profile</a></td>
+			</tr>
+			</tbody>
+			</table>
+			<?php else: ?>
+			<p>
+				<em>This place does not have a mayor.</em>
+			</p>
+			<?php endif; ?>
+		</div>
+
+		<?php /* ****** Here Now ****** */ ?>
+		<div class="tab-pane" id="herenow">
+			<?php if (isset($venue->hereNow->groups)): ?>
+			<h3>Here Now <small>(<?php echo (int) $venue->hereNow->count; ?>)</small></h3>
+			<?php if ($venue->hereNow->count > 0): ?>
+			<table class="table">
+			<tbody>
+			<?php foreach ($venue->hereNow->groups as $group): ?>
+				<tr>
+					<th colspan="4">
+						<h3><?php echo $group->name; ?> <small>(<?php echo $group->count; ?>)</small></h4>
+					</th>
+				</tr>
+			<?php foreach ($group->items as $friend): ?>
+				<tr>
+					<td><img src="<?php echo ($friend->user->photo); ?>" alt="Profile Picture" /></td>
+					<td>
+						<a href="<?php echo site_url('foursquare/profile') .'/'. $friend->user->id; ?>"><?php echo ($friend->user->firstName); ?> <?php echo isset($friend->user->lastName) ? $friend->user->lastName : ''; ?></a><br />
+						<?php echo time_ago(date('c', $friend->createdAt)); ?>
+					</td>
+					<td>
+						<?php echo ($friend->user->homeCity); ?>
+					</td>
+					<td>
+						<a href="<?php echo site_url('foursquare/profile') .'/'. $friend->user->id; ?>" class="btn secondary">View Profile</a>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			<?php endforeach; ?>
+			</tbody>
+			</table>
+			<?php else: ?>
+			<p>
+				<em>Nobody is here right now.</em>
+			</p>
+			<?php endif; ?>
+			<?php endif; ?>
+		
+		</div>
+		<script type="text/javascript">
+		$(function() {
+			$('.tabs a:last').tab('show');
+		})
+		</script>
+	</div>
 </div>
-<?php else: ?>
-<p class="alert alert-info">
-	<i class="icon-time"></i> Live metrics can be viewed in about 15 minutes.
-	<span class="close" onclick="$('.alert').hide();">&times</span>
-</p>
-<?php endif; ?>
-
-<h3>Daily Metrics</h3>
-
-<?php if (count($daily_data_delta) > 2): ?>
-<div id="chart_daily" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">
-	<p class="alert alert-info">Loading ...</p>
-</div>
-<?php else: ?>
-<p class="alert alert-info">
-	<i class="icon-time"></i> Daily metrics can be viewed in about 48 hours.
-	<span class="close" onclick="$('.alert').hide();">&times</span>
-</p>
-<?php endif; ?>
-
-<p>
-	<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small">Check Log</a>
-	<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small">Edit Check</a>
-</p>
 
 <hr />
-
-<?php else: ?>
-
-<p class="alert alert-information">
-	This venue is not being monitored. <a href="<?php echo site_url('checks/check_add') .'/'. $venue->id; ?>">Activate monitoring check</a>?
-	<span class="close" onclick="$('.alert').hide();">&times</span>
-</p>
-
-<?php endif; ?>
-
-<?php if (isset($photos->groups) && $photos->count > 0): ?>
-<h3>Photos</h3>
-<ul class="thumbnails">
-<?php foreach ($photos->groups as $group): ?>
-<?php foreach ($group->items as $item): ?>
-	<li class="span2"><a href="<?php echo $item->url; ?>" class="fancybox" rel="photos" title="Photo: <?php echo $item->user->firstName; ?> <?php echo isset($item->user->lastName) ? $item->user->lastName : ''; ?>, <?php echo date('F j, Y', $item->createdAt); ?>"><img src="<?php echo $item->sizes->items[1]->url; ?>" alt="Photo" /></a></li>
-<?php endforeach; ?>
-<?php endforeach; ?>
-</ul>
-<hr />
-<?php endif; ?>
-
-<?php if (isset($tips->items) && $tips->count > 0): ?>
-<h3>Tips</h3>
-<ul class="thumbnails">
-<?php foreach ($tips->items as $item): ?>
-	<li class="span2">
-		<blockquote style="height:175px; overflow-y:auto; width: 100%;">
-		<?php echo nl2br($item->text); ?>
-		<small><?php echo $item->user->firstName; ?> <?php echo isset($item->user->lastName) ? $item->user->lastName : ''; ?>, <?php echo date('F j, Y', $item->createdAt); ?></small>
-		</blockquote>
-	</li>
-<?php endforeach; ?>
-</ul>
-
-<hr />
-<?php endif; ?>
-
-
-<h3>The Mayor</h3>
-<?php if (isset($venue->mayor->user)): ?>
-<table class="table">
-<tbody>
-<tr>
-	<td><img src="<?php echo ($venue->mayor->user->photo); ?>" alt="Profile Picture" /></td>
-	<td>
-		<a href="<?php echo site_url('foursquare/profile') .'/'. $venue->mayor->user->id; ?>"><?php echo ($venue->mayor->user->firstName); ?> <?php echo isset($venue->mayor->user->lastName) ? $venue->mayor->user->lastName : ''; ?></a><br />
-	</td>
-	<td><?php echo ($venue->mayor->user->homeCity); ?></td>
-	<td><a href="<?php echo site_url('foursquare/profile') .'/'. $venue->mayor->user->id; ?>" class="btn secondary">View Profile</a></td>
-</tr>
-</tbody>
-</table>
-<?php else: ?>
-<p>
-	<em>This place does not have a mayor.</em>
-</p>
-<?php endif; ?>
-
-<hr />
-
-<?php if (isset($venue->hereNow->groups)): ?>
-<h3>Here Now <small>(<?php echo (int) $venue->hereNow->count; ?>)</small></h3>
-<?php if ($venue->hereNow->count > 0): ?>
-<table class="table">
-<tbody>
-<?php foreach ($venue->hereNow->groups as $group): ?>
-	<tr>
-		<th colspan="4">
-			<h3><?php echo $group->name; ?> <small>(<?php echo $group->count; ?>)</small></h4>
-		</th>
-	</tr>
-<?php foreach ($group->items as $friend): ?>
-	<tr>
-		<td><img src="<?php echo ($friend->user->photo); ?>" alt="Profile Picture" /></td>
-		<td>
-			<a href="<?php echo site_url('foursquare/profile') .'/'. $friend->user->id; ?>"><?php echo ($friend->user->firstName); ?> <?php echo isset($friend->user->lastName) ? $friend->user->lastName : ''; ?></a><br />
-			<?php echo time_ago(date('c', $friend->createdAt)); ?>
-		</td>
-		<td>
-			<?php echo ($friend->user->homeCity); ?>
-		</td>
-		<td>
-			<a href="<?php echo site_url('foursquare/profile') .'/'. $friend->user->id; ?>" class="btn secondary">View Profile</a>
-		</td>
-	</tr>
-<?php endforeach; ?>
-<?php endforeach; ?>
-</tbody>
-</table>
-<?php else: ?>
-<p>
-	<em>Nobody is here right now.</em>
-</p>
-<?php endif; ?>
-
-<hr />
-
-<?php endif; ?>
 
 <p>
 	<a href="<?php echo site_url('checks'); ?>">&laquo; Back to Checks</a>

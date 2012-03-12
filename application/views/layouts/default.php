@@ -44,6 +44,9 @@
 					<li><a href="/">Dashboard</a></li>
 					<li><a href="/checks/">Venue Checks</a></li>
 					<li><a href="/foursquare/search/">Search Venues</a></li>
+					<?php if ($user->level == 'admin'): ?>
+					<li><a href="/admin/">Site Administration</a></li>
+					<?php endif; ?>
 				</ul>
 				<div class="pull-right">
 				<ul class="nav">

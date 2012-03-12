@@ -9,7 +9,7 @@ class Checks_controller extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-		
+
 		// Require user access, but not for CLI work
 		if (!$this->session->userdata('user') && !$this->input->is_cli_request())
 			redirect('/login/?redirect=/foursquare');
@@ -76,9 +76,9 @@ class Checks_controller extends CI_Controller {
 		$checks = $this->foursquare_check->getChecksByUserId($user->id);
 		$data['checks'] = $checks;
 		
-		// 30 days back
+		// 7 days back
 		$date_range = array(
-			'start_ts' => date('c', time() - (3600*24*30) ),
+			'start_ts' => date('c', time() - (3600*24*7) ),
 			'end_ts' => date('c', time())
 		);
 		

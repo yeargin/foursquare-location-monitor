@@ -7,6 +7,10 @@ body {
   padding-bottom: 40px;
 }
 
+/* Top bar image */
+.navbar a.brand img { height: 16px; vertical-align: middle; width: 16px; }
+
+/* Footer */
 .container > footer p {
 	text-align: center; /* center align it with the container */
 }

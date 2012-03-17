@@ -12,7 +12,7 @@
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
-				<a href="/" class="brand">Location Monitor</a>
+				<a class="brand" href="/"><img src="/assets/img/monitor_icon.png" /> Location Monitor</a>
 			</div>
 		</div>
 	</div>

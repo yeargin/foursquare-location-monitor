@@ -13,6 +13,8 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title>Location Monitor<?php echo isset($page_title) ? ' &raquo; ' . __($page_title) : ''; ?></title>
 
+	<link rel="shortcut icon" type="application/ico" href="<?php echo site_url('/assets/img/favicon.ico'); ?>" />
+
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/bootstrap/css/bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/bootstrap/css/bootstrap-responsive.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/js/jquery.meow/jquery.meow.css'); ?>" />
@@ -35,7 +37,7 @@
 					<span class="icon-bar"></span>
 				</a>
 				<!-- Be sure to leave the brand out there if you want it shown -->
-				<a class="brand" href="<?php echo site_url('/'); ?>">Location Monitor</a>
+				<a class="brand" href="<?php echo site_url('/'); ?>"><img src="<?php echo site_url('/assets/img/monitor_icon.png'); ?>" /> Location Monitor</a>
  
 				<!-- Everything you want hidden at 940px or less, place within here -->
 				<div class="nav-collapse">

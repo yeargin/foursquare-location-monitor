@@ -245,6 +245,7 @@ class Foursquare_controller extends CI_Controller {
 			$this->ignitefoursquare->SetAccessToken($token->access_token);
 			$this->ignitefoursquare->setAuthenticated(true);
 		} else {
+			$this->session->set_flashdata('message', 'The callback received was invalid: ' . $this->input->get('error'));
 			redirect('foursquare/authenticate');
 		}
 		redirect('foursquare');

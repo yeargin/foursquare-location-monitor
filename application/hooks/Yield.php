@@ -13,6 +13,11 @@ class Yield
     global $OUT;
   
     $CI =& get_instance();
+    if (!is_object($CI)):
+      show_error('An application error ocurred.', 500);
+      return;
+    endif;
+
     $output = $CI->output->get_output();
     
     if (isset($CI->layout))

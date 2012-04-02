@@ -2,6 +2,15 @@
 
 class User extends CI_Model {
 
+	public $username;
+	public $first_name;
+	public $last_name;
+	public $email;
+	
+	public function instance() {
+		return $this;
+	}
+
 	public function login() {
 		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level'));
 		$this->db->where('username', $this->input->post('username'));
@@ -33,21 +42,52 @@ class User extends CI_Model {
 	}
 	
 	public function getUserById($id) {
+		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level'));
 		$query = $this->db->get_where('users', array('id' => $id), 1);
 		return array_shift($query->result());
 	}
 	
+	public function updateUserFromPost($id) {
+		$update_user_data = array(
+			'display_name' => $this->input->post('first_name') . ' ' . $this->input->post('last_name'),
+			'first_name' => $this->input->post('first_name'),
+			'last_name' => $this->input->post('last_name'),
+			'email' => $this->input->post('email')
+		);
+		$this->db->where('id', $id);
+		$update = $this->db->update('users', $update_user_data);
+		
+		// Update session information
+		if ($update):
+			$user = $this->getUserById($id);
+			$this->session->unset_userdata('user');
+			$this->session->set_userdata('user', serialize($user));
+		endif;
+		
+		return $update;
+	}
+	
 	public function createNewUserFromPost() {
-		$new_member_insert_data = array(
+		$insert_user_data = array(
 			'username' => $this->input->post('username'),
 			'password' => md5($this->input->post('password') . $this->config->item('encryption_key')),
 			'display_name' => $this->input->post('first_name') . ' ' . $this->input->post('last_name'),
 			'first_name' => $this->input->post('first_name'),
 			'last_name' => $this->input->post('last_name'),
-			'email' => $this->input->post('email_address')
+			'email' => $this->input->post('email'),
+			'package_id' => 1,
+			'level' => 'user'
 		);
 		
-		$insert = $this->db->insert('users', $new_member_insert_data);
+		$insert = $this->db->insert('users', $insert_user_data);
+		
+		// Authenticate the user
+		if ($insert):
+			$user = $this->getUserById($this->db->insert_id());
+			$this->session->unset_userdata('user');
+			$this->session->set_userdata('user', serialize($user));
+		endif;
+		
 		return $insert;
 	}
 

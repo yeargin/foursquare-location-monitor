@@ -1,6 +1,6 @@
 <?php
 $CI = get_instance();
-if ($CI->input->is_cli_request()):
+if (is_object($CI) && $CI->input->is_cli_request()):
 	printf('[%s] %s: %s'.PHP_EOL, date('c'), $heading, strip_tags($message));
 	return;
 endif;
@@ -31,7 +31,9 @@ endif;
 			</div>
 			<div class="row">
 				<div class="span10">
+					<div class="alert alert-block alert-error">
 					<?php echo $message; ?>
+					</div>
 					<p>
 						<a href="javascript:history.back(-1)">&laquo; Back</a>
 					</p>

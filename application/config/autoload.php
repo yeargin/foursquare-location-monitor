@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'form', 'escaping', 'time');
 |
 */
 
-$autoload['config'] = array('api_keys');
+$autoload['config'] = array('application');
 
 
 /*

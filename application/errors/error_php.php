@@ -1,12 +1,12 @@
 <?php
 $CI = get_instance();
-if ($CI->input->is_cli_request()):
+if (is_object($CI) && $CI->input->is_cli_request()):
 	printf('[%s] %s: %s in %s, line %s'.PHP_EOL, date('c'), $severity, strip_tags($message), $filepath, $line);
 	return;
 endif;
 ?>
-<div class="alert alert-block error">
-	<a class="close" href="#">×</a>
+<div class="alert alert-block alert-error">
+	<a class="close" href="#">&times;</a>
 	<p onclick="javascript:$('.error-detail').toggle();"><strong>A PHP Error was encountered</strong></p>
 	<ul class="error-detail" style="display:none;">
 	  <li>Severity: <?php echo $severity; ?></li>

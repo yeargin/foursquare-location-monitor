@@ -9,6 +9,7 @@ class Login_controller extends CI_Controller
 	
 	public function index() {
 		$data['redirect'] = ($this->input->get('redirect')) ? $this->input->get('redirect') : '';
+		$data['beta_only'] = $this->config->item('require_beta_key');
 		$data['page_title'] = 'Sign In';
 		$this->load->view('login/form', $data);
 	}

@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+$config['require_beta_key'] = true;
+
 /* Foursquare */
 $config['foursquare_consumer_key']    = 'ABCDEFHIJKLMOPQRSTUVWXYZ1234567890ABCDEFHIJKLMOP';
 $config['foursquare_consumer_secret'] = 'ABCDEFHIJKLMOPQRSTUVWXYZ1234567890ABCDEFHIJKLMOP';

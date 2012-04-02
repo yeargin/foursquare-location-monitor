@@ -1,12 +1,19 @@
 <?php echo validation_errors(); ?>
 
-<?php echo form_open('profile', 'class="form form-vertical"'); ?>
+<?php echo form_open('register', 'class="form form-vertical"'); ?>
 <?php echo form_fieldset(''); ?>
 
 <div class="clearfix">
-	<label></label>
+	<?php echo form_label('Username', 'username'); ?>
 	<div class="input">
-		<a href="<?php echo site_url('profile/change_password'); ?>">Change Password</a>
+		<?php echo form_input('username', $profile->username); ?>
+	</div>
+</div>
+
+<div class="clearfix">
+	<?php echo form_label('Password', 'password'); ?>
+	<div class="input">
+		<?php echo form_password('password'); ?>
 	</div>
 </div>
 
@@ -32,8 +39,9 @@
 </div>
 
 <div class="form-actions">
-	<?php echo form_submit('update', 'Update Record', 'class="btn primary"'); ?>
-	<a href="<?php echo site_url('dashboard'); ?>">Cancel</a>
+	<?php echo form_hidden('beta_key', $beta_key); ?>
+	<?php echo form_submit('register', 'Register', 'class="btn primary"'); ?>
+	<a href="<?php echo site_url('/'); ?>">Cancel</a>
 </div>
 
 <?php echo form_fieldset_close(); ?>

@@ -24,8 +24,13 @@
 
 		<?php echo form_hidden('redirect', $redirect); ?>
 
-		<div class="actions">
+		<div class="form-actions">
 			<?php echo form_submit('login', 'Login', 'class="btn primary"'); ?>
+			<?php if ($beta_only): ?>
+			<a href="<?php echo site_url('register/beta'); ?>">Have a beta code?</a>
+			<?php else: ?>
+			<a href="<?php echo site_url('register'); ?>">Register for an account</a>
+			<?php endif; ?>
 		</div>
 
 	<?php echo form_fieldset_close(); ?>

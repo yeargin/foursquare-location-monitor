@@ -15,7 +15,7 @@ class Profile_controller extends CI_Controller {
 			redirect('/login/?redirect=/profile');
 	
 		$this->load->model('user');
-		
+		$this->load->library('form_validation');
 	}
 
 	/**
@@ -26,10 +26,24 @@ class Profile_controller extends CI_Controller {
 		// Setup controller
 		$data = $this->setup();
 
+		$this->form_validation->set_error_delimiters('<div class="alert alert-error">', '<a class="close" href="#">&times;</a></div>');
+		$this->form_validation->set_rules('first_name', 'First Name', 'required');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+
+		// If submission valid, run 
+		if ($this->form_validation->run() != FALSE):
+			$user = unserialize($this->session->userdata('user'));
+			$this->user->updateUserFromPost($user->id);
+			$this->session->set_flashdata('message', 'Profile updated!');
+			redirect('profile');
+		endif;
+
 		$data['page_title'] = 'Profile';
 		$data['sidebar_content'] = $this->load->view('account/_sidebar', $data, true);
 		$this->load->view('account/profile', $data);
 	}
+
 
 	/**
 	 * Change Password

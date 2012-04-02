@@ -1,5 +1,5 @@
 .DS_Store
 application/cache/*
-application/config/api_keys.php
+application/config/application.php
 application/config/database.php
 application/logs/*

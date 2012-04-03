@@ -141,7 +141,7 @@ class Admin_controller extends CI_Controller {
 		
 		// Create message
 		$this->email->from($this->config->item('application_email'), $this->config->item('application_name'));
-		$this->email->to($user->email);
+		$this->email->to($key->email);
 		$this->email->subject('Beta invitation for ' . $this->config->item('application_name') . '!');
 		$this->email->message($this->load->view('emails/new_beta_key_message', $data, true));
 

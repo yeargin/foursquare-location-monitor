@@ -111,10 +111,10 @@ class Foursquare_check_log extends CI_Model {
 				$return[$v['check_id']]['check_id'] = $v['check_id'];
 				$return[$v['check_id']]['check_title'] = $v['check_title'];
 				$return[$v['check_id']]['venue_id'] = $v['venue_id'];
-				$return[$v['check_id']]['total_checkins'][$v['log_date']] = $v['total_checkins_delta'];
-				$return[$v['check_id']]['unique_visitors'][$v['log_date']] = $v['unique_visitors_delta'];
-				$return[$v['check_id']]['tips_left'][$v['log_date']] = $v['tips_left_delta'];
-				$return[$v['check_id']]['photo_count'][$v['log_date']] = $v['photo_count_delta'];
+				$return[$v['check_id']]['total_checkins'][$v['log_date']] = ($v['total_checkins_delta'] >= 0) ? $v['total_checkins_delta'] : 0;
+				$return[$v['check_id']]['unique_visitors'][$v['log_date']] = ($v['unique_visitors_delta'] > 0) ? $v['unique_visitors_delta'] : 0;
+				$return[$v['check_id']]['tips_left'][$v['log_date']] = ($v['tips_left_delta'] >= 0) ? $v['tips_left_delta'] : 0;
+				$return[$v['check_id']]['photo_count'][$v['log_date']] = ($v['photo_count_delta'] >= 0) ? $v['photo_count_delta'] : 0;
 		endforeach;
 		
 		// Sort array by check title (date ascending)
@@ -157,6 +157,7 @@ class Foursquare_check_log extends CI_Model {
 						// Determine whether to do calcualte delta
 						if (isset($prev_value[$k2])):
 							$delta = $item - $prev_value[$k2];
+							if ($delta < 0): $delta = 0; endif;
 							$result[$k][$k2] = $delta;
 						else:
 							$prev_value[$k2] = $item;
@@ -174,6 +175,7 @@ class Foursquare_check_log extends CI_Model {
 						// Determine whether to do calcualte delta
 						if (isset($prev_value[$k2])):
 							$delta = $value - $prev_value[$k2];
+							if ($delta < 0): $delta = 0; endif;
 							$result[$k]->$k2 = $delta;
 							$prev_value[$k2] = $value;
 						else:
@@ -193,6 +195,7 @@ class Foursquare_check_log extends CI_Model {
 				// Determine whether to do calcualte delta
 				if (isset($prev_value)):
 					$delta = $row - $prev_value;
+					if ($delta < 0): $delta = 0; endif;
 					$result[$k] = $delta;
 					$prev_value = $row;
 				else:

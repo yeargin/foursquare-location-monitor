@@ -98,7 +98,7 @@ class Foursquare_controller extends CI_Controller {
 
 			// Load Daily Check Data (7 days)
 			$date_range = array(
-				'start_ts' => date('c', time() - (3600*24*7) ),
+				'start_ts' => date('c', time() - (3600*24*10) ),
 				'end_ts' => date('c', time())
 			);
 			$this->load->model('foursquare_check_log');
@@ -228,10 +228,7 @@ class Foursquare_controller extends CI_Controller {
 	public function authenticate() {
 		// Authenticate if not already
 		$authorizeUrl = $this->ignitefoursquare->AuthenticationLink($this->ignitefoursquare->redirectUrl);
-		$data['authorizationUrl'] = $authorizeUrl;
-		
-		$data['page_title'] = 'Foursquare - Authenticate';
-		$this->load->view('foursquare/authenticate', $data);
+		redirect($authorizeUrl);
 	}
 	
 	/**
@@ -246,9 +243,9 @@ class Foursquare_controller extends CI_Controller {
 			$this->ignitefoursquare->setAuthenticated(true);
 		} else {
 			$this->session->set_flashdata('message', 'The callback received was invalid: ' . $this->input->get('error'));
-			redirect('foursquare/authenticate');
+			redirect('');
 		}
-		redirect('foursquare');
+		redirect('');
 	}
 	
 	/**
@@ -257,7 +254,7 @@ class Foursquare_controller extends CI_Controller {
 	public function reset() {
 		$user = unserialize($this->session->userdata('user'));
 		$this->foursquare_token->deleteUserToken($user->id);
-		redirect('foursquare');
+		redirect('');
 	}
 	
 	/* *** Private Methods *** */

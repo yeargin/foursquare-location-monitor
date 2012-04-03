@@ -5,6 +5,12 @@
  */
 class Beta_key extends CI_Model {
 	
+	public function __construct() {
+		parent::__construct();
+		$this->load->library('email');
+		$this->load->helper('string');
+	}
+	
 	/**
 	 * Validate Key
 	 */
@@ -28,6 +34,8 @@ class Beta_key extends CI_Model {
 	
 	/**
 	 * Mark Key As Used
+	 *
+	 * @param string $key 
 	 */
 	public function markKeyAsUsed($key) {
 		$update_data = array(
@@ -36,6 +44,46 @@ class Beta_key extends CI_Model {
 		$this->db->where('beta_key', (string) $key);
 		$this->db->update('beta_keys', $update_data);
 		return;
+	}
+	
+	/* *** Admin Methods *** */
+	
+		/**
+	 * Admin Get All Beta Keys
+	 *
+	 * @param string $count 
+	 */
+	public function adminGetAllBetaKeys($count = 50) {
+		$this->db->order_by('insert_ts', 'DESC');
+		$this->db->limit($count);
+		$query = $this->db->get('beta_keys');
+		
+		return $query->result();
+		
+	}
+
+	/**
+	 * Admin Create Beta Key From Post
+	 */
+	public function adminCreateBetaKeyFromPost() {
+		
+		$insert_beta_key_data = array(
+			'name' => $this->input->post('name'),
+			'beta_key' => random_string('alnum', 16),
+			'email' => $this->input->post('email'),
+			'status' => 1
+		);
+		
+		$insert = $this->db->insert('beta_keys', $insert_beta_key_data);
+
+		// IF created, return row
+		if ($insert):
+			$this->db->where('id', $this->db->insert_id());
+			$query = $this->db->get('beta_keys');
+			return $query->row();
+		endif;
+
+		return false;
 	}
 	
 }

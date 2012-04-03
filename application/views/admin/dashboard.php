@@ -18,7 +18,7 @@
 	<?php foreach ($active_accounts as $user): ?>
 		<tr>
 			<td><?php echo $user->id; ?></td>
-			<td><a href="<?php echo site_url('admin/users') .'/'. $user->id; ?>"><?php echo __($user->username); ?></a></td>
+			<td><a href="<?php echo site_url('admin/user') .'/'. $user->id; ?>"><?php echo __($user->username); ?></a></td>
 			<td><?php echo __($user->display_name); ?></td>
 			<td><?php echo __($user->email); ?><t/d>
 			<td><?php echo ucwords($user->level); ?></td>
@@ -55,7 +55,7 @@
 	<?php foreach ($inactive_accounts as $user): ?>
 		<tr>
 			<td><?php echo $user->id; ?></td>
-			<td><a href="<?php echo site_url('admin/users') .'/'. $user->id; ?>"><?php echo __($user->username); ?></a></td>
+			<td><a href="<?php echo site_url('admin/user') .'/'. $user->id; ?>"><?php echo __($user->username); ?></a></td>
 			<td><?php echo __($user->display_name); ?></td>
 			<td><?php echo __($user->email); ?><t/d>
 			<td><?php echo ucwords($user->level); ?></td>
@@ -89,7 +89,7 @@
 		<tr>
 			<td><?php echo $check->check_id; ?></td>
 			<td><a href="<?php echo site_url('foursquare/venues') .'/'. $check->venue_id; ?>"><?php echo $check->check_title; ?></a></td>
-			<td><a href="<?php echo site_url('admin/users') .'/'. $check->user_id; ?>"><?php echo $check->username; ?></a></td>
+			<td><a href="<?php echo site_url('admin/user') .'/'. $check->user_id; ?>"><?php echo $check->username; ?></a></td>
 			<td><?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></td>
 			<td><?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></td>
 		</tr>
@@ -99,5 +99,41 @@
 <?php else: ?>
 <p class="alert alert-information">
 	No checks have been run. This usually indicates a database error.
+</p>
+<?php endif; ?>
+
+
+<p class="pull-right">
+	<a href="<?php echo site_url('admin/beta_key_new'); ?>" class="btn btn-small"><i class="icon-plus"></i> New Beta Key</a>
+</p>
+
+<h3>Beta Keys</h3>
+
+<?php if (isset($beta_keys) && is_array($beta_keys) && count($beta_keys) > 0): ?>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Key</th>
+			<th>Name</th>
+			<th>E-mail</th>
+			<th>Status</th>
+			<th>Created</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($beta_keys as $key): ?>
+		<tr>
+			<td><tt><?php echo $key->beta_key; ?></tt></td>
+			<td><?php echo __($key->name); ?></td>
+			<td><?php echo auto_link($key->email); ?></td>
+			<td><?php echo ($key->status == 1) ? 'Not Claimed' : 'Claimed' ?></td>
+			<td><?php echo date('F j, Y, g:i a', strtotime($key->insert_ts)); ?></td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
+<?php else: ?>
+<p class="alert alert-information">
+	No beta keys found. It probably means that none have been created yet.
 </p>
 <?php endif; ?>

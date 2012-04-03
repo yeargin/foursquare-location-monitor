@@ -13,6 +13,7 @@ class Register_controller extends CI_Controller {
 		$this->load->model('user');
 		$this->load->model('beta_key');
 		$this->load->library('form_validation');
+		$this->load->library('email');
 	}
 	
 	/**
@@ -20,6 +21,10 @@ class Register_controller extends CI_Controller {
 	 */
 	public function index() {
 		$this->new_user();
+	}
+	
+	public function email_test() {
+		$this->send_welcome_email(1);
 	}
 	
 	/**
@@ -100,12 +105,19 @@ class Register_controller extends CI_Controller {
 	
 	/**
 	 * Send Welcome E-mail
-	 *
-	 * @todo Create welcome e-mail
 	 */
 	private function send_welcome_email($user_id) {
-		// @todo
-		return;
+		$user = $this->user->getUserById($user_id);
+		$data['user'] = $user;
+		$data['application_name'] = $this->config->item('application_name');
+		
+		// Create message
+		$this->email->from($this->config->item('application_email'), $this->config->item('application_name'));
+		$this->email->to($user->email);
+		$this->email->subject('Welcome to ' . $this->config->item('application_name') . '!');
+		$this->email->message($this->load->view('emails/new_user_message', $data, true));
+
+		return $this->email->send();
 	}
 	
 }

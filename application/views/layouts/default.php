@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<title>Location Monitor<?php echo isset($page_title) ? ' &raquo; ' . __($page_title) : ''; ?></title>
+	<title><?php echo $this->config->item('application_name'); ?><?php echo isset($page_title) ? ' &raquo; ' . __($page_title) : ''; ?></title>
 
 	<link rel="shortcut icon" type="application/ico" href="<?php echo site_url('/assets/img/favicon.ico'); ?>" />
 
@@ -37,7 +37,7 @@
 					<span class="icon-bar"></span>
 				</a>
 				<!-- Be sure to leave the brand out there if you want it shown -->
-				<a class="brand" href="<?php echo site_url('/'); ?>"><img src="<?php echo site_url('/assets/img/monitor_icon.png'); ?>" /> Location Monitor</a>
+				<a class="brand" href="<?php echo site_url('/'); ?>"><img src="<?php echo site_url('/assets/img/monitor_icon.png'); ?>" /> <?php echo $this->config->item('application_name'); ?></a>
  
 				<!-- Everything you want hidden at 940px or less, place within here -->
 				<div class="nav-collapse">
@@ -73,7 +73,7 @@
 	<div class="container">
 		<div class="content">
 			<div class="page-header">
-				<h1><?php echo isset($page_title) ? $page_title : 'Location Monitor'; ?></h1>
+				<h1><?php echo isset($page_title) ? $page_title : $this->config->item('application_name'); ?></h1>
 			</div>
 			<div class="row">
 				<div class="span9">{yield}</div>
@@ -87,7 +87,7 @@
 	<footer class="container">
 		<hr />
 		<p>
-			<a href="<?php echo site_url(); ?>">Location Monitor</a> &bull; Designed and developed by <a href="http://yearg.in">Yeargin Marketing &amp; Creative</a>
+			<a href="<?php echo site_url(); ?>"><?php echo $this->config->item('application_name'); ?></a> &bull; Designed and developed by <a href="http://yearg.in">Yeargin Marketing &amp; Creative</a>
 		</p>
 	</footer>
 	

@@ -42,7 +42,7 @@ class User extends CI_Model {
 	}
 	
 	public function getUserById($id) {
-		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level'));
+		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id', 'insert_ts', 'status'));
 		$query = $this->db->get_where('users', array('id' => $id), 1);
 		return array_shift($query->result());
 	}
@@ -93,6 +93,9 @@ class User extends CI_Model {
 
 	/* ***** Site Administrator Methods ***** */
 	
+	/**
+	 * Admin Check
+	 */
 	public function isAdmin() {
 		$user = unserialize($this->session->userdata('user'));
 		if ($user->level != 'admin')
@@ -101,17 +104,39 @@ class User extends CI_Model {
 			return true;
 	}
 	
-	public function adminGetAllUsers($status = 1) {
+	/**
+	 * Admin Get All USers
+	 *
+	 * @param string $status 
+	 * @param string $limit 
+	 * @param string $offset 
+	 */
+	public function adminGetAllUsers($status = true, $limit = 50, $offset = 0) {
 		if (!$this->isAdmin())
 			show_error('Access denied.');
 		
-		$this->db->select(array('users.id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id AS package', 'count(*) AS check_count', 'users.insert_ts'));
-		$this->db->join('foursquare_checks', 'foursquare_checks.user_id = users.id');
-		$this->db->where('status', $status);
+		$this->db->select(array('users.id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id AS package', 'count(foursquare_checks.id) AS check_count', 'users.insert_ts'));
+		$this->db->join('foursquare_checks', 'foursquare_checks.user_id = users.id', 'left');
+		$this->db->where('status', ($status == true) ? 1 : 0);
 		$this->db->group_by('users.id');
+		$this->db->order_by('insert_ts', 'DESC');
+		$this->db->limit($limit, $offset);
 		$query = $this->db->get('users');
 		
 		return $query->result();
+	}
+
+	public function adminUpdateUserStatus($user_id, $status = 0) {
+		if (!$this->isAdmin())
+			show_error('Access denied.');
+		
+		$this->db->where('id', $user_id);
+		$status_data = array(
+			'status' => ($status == 1) ? 1 : 0
+		);
+		$status = $this->db->update('users', $status_data);
+		
+		return $status;
 	}
 
 

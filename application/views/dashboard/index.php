@@ -3,10 +3,13 @@
 	<?php if (is_array($dashboard_modules) && count($dashboard_modules) > 0): ?>
 	<?php foreach ($dashboard_modules as $module): ?>
 	<div class="span4">
+		<p class="pull-right">
+			<a href="<?php echo site_url('foursquare/venue') .'/'. $module['venue_id']; ?>" class="btn btn-small" rel="tooltip" title="View Venue"><i class="icon-map-marker"></i></a>
+			<a href="<?php echo site_url('checks/check_edit') .'/'. $module['check_id']; ?>" class="btn btn-small" rel="tooltip" title="Edit Check"><i class="icon-pencil"></i></a>
+			<a href="<?php echo site_url('checks/check') .'/'. $module['check_id']; ?>" class="btn btn-small" rel="tooltip" title="View Check Log"><i class="icon-book"></i></a>
+		</p>
 		<h3>
-			<a href="<?php echo site_url('foursquare/venue') .'/'. $module['venue_id']; ?>"><?php echo (strlen($module['check_title']) > 25) ? __(substr($module['check_title'], 0, 25)).'...' : __($module['check_title']); ?></a>
-			<small><a href="<?php echo site_url('checks/check') .'/'. $module['check_id']; ?>">Check Log</a>
-			</small>
+			<a href="<?php echo site_url('foursquare/venue') .'/'. $module['venue_id']; ?>"><?php echo (strlen($module['check_title']) > 20) ? __(substr($module['check_title'], 0, 22)).'&#133;' : __($module['check_title']); ?></a>
 		</h3>
 		<table class="table table-condensed">
 			<tr>

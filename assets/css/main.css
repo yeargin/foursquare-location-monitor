@@ -27,6 +27,7 @@ footer {
 
 /* Miscellaneous Tweaks */
 .meows { top: 40px; }
+td.action-cell { width: 65px; }
 
 /* Profiler */
 #codeigniter_profiler legend { padding-left: 0.5em }

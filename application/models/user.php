@@ -86,9 +86,11 @@ class User extends CI_Model {
 			$user = $this->getUserById($this->db->insert_id());
 			$this->session->unset_userdata('user');
 			$this->session->set_userdata('user', serialize($user));
+		else:
+			show_eror('User registration failed.', 500);
 		endif;
 		
-		return $insert;
+		return $user;
 	}
 
 	/* ***** Site Administrator Methods ***** */

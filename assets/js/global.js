@@ -13,4 +13,6 @@ $(document).ready(function() {
 
 	$('.spinner').spin({lines: 10, length: 3, radius: 3, trail: 60, speed: 1.0, width: 2});
 
+	$('a[rel="tooltip"]').tooltip();
+
 });

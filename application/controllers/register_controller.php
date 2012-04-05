@@ -94,9 +94,9 @@ class Register_controller extends CI_Controller {
 	 * New User Post
 	 */
 	private function new_user_post() {
-		$id = $this->user->createNewUserFromPost();
-		if ($id > 0):
-			$this->send_welcome_email($id);
+		$user = $this->user->createNewUserFromPost();
+		if ((is_object($user)) && $user->id > 0):
+			$this->send_welcome_email($user);
 			$this->beta_key->markKeyAsUsed($this->input->post('beta_key'));
 			$this->session->set_flashdata('message', 'New user created! Check your e-mail for login information.');
 			redirect('/');
@@ -106,8 +106,7 @@ class Register_controller extends CI_Controller {
 	/**
 	 * Send Welcome E-mail
 	 */
-	private function send_welcome_email($user_id) {
-		$user = $this->user->getUserById($user_id);
+	private function send_welcome_email($user) {
 		$data['user'] = $user;
 		$data['application_name'] = $this->config->item('application_name');
 		

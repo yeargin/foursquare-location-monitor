@@ -238,6 +238,8 @@ class Foursquare_controller extends CI_Controller {
 		if ($this->input->get('code') != '') {
 			$user = unserialize($this->session->userdata('user'));
 			$token = $this->ignitefoursquare->GetToken($this->input->get('code'), $this->ignitefoursquare->redirectUrl);
+			if (!is_object($token))
+				show_error($token);
 			$this->foursquare_token->saveUserToken($user->id, array($token));
 			$this->ignitefoursquare->SetAccessToken($token->access_token);
 			$this->ignitefoursquare->setAuthenticated(true);

@@ -1,3 +1,10 @@
+<?php if (is_array($tag_list) && count($tag_list) > 0): ?>
+<form class="form form-inline">
+	<?php echo form_dropdown('tag', array(''=>'All Tags')+$tag_list, $this->input->get('tag')); ?>
+	<?php echo form_submit('', 'Filter', 'class="btn"'); ?>
+</form>
+<?php endif; ?>
+
 <table class="table table-bordered table-rounded table-striped">
 <thead>
 	<tr>
@@ -11,8 +18,8 @@
 <tbody>
 	<?php if (is_array($checks) && count($checks) > 0): ?>
 	<?php foreach ($checks as $check): ?>
-	<tr>
-		<td><a href="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></a></td>
+	<tr id="check_<?php echo __($check->id); ?>">
+		<td><a href="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></a> <span class="taglist" data-check_id="<?php echo __($check->id); ?>" style="display:block;"><?php echo (isset($tags[$check->id])) ? listTags($tags[$check->id]) : ''; ?></span></td>
 		<td><?php echo ($check->active == 1) ? 'Active' : 'Inactive'; ?></td>
 		<td><?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></td>
 		<td><?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></td>
@@ -22,6 +29,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="<?php echo site_url('checks/check') .'/'. ($check->id); ?>"><i class="icon-book"></i> Check Log</a></li>
 					<li><a href="<?php echo site_url('checks/check_edit') .'/'. ($check->id); ?>"><i class="icon-pencil"></i> Edit Check</a></li>
+					<li><a data-toggle="modal" href="#tagModal" onclick="openTagModal(this)" data-check_title="<?php echo __($check->check_title); ?>" data-check_id="<?php echo __($check->id); ?>" data-tags="<?php echo (isset($tags[$check->id])) ? join(', ', $tags[$check->id]) : ''; ?>"><i class="icon-tag"></i> Edit Tags</a>
 				</ul>
 			</div>
 		</td>

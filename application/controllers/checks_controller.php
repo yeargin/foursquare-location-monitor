@@ -15,6 +15,7 @@ class Checks_controller extends CI_Controller {
 			redirect('/login/?redirect=/foursquare');
 
 		$this->load->helper('time');
+		$this->load->helper('tag');
 
 		$this->apiKey = $this->config->item('foursquare_consumer_key');
 		$this->clientId = $this->config->item('foursquare_consumer_key');
@@ -23,8 +24,10 @@ class Checks_controller extends CI_Controller {
 		
 		$this->load->library('IgniteFoursquare', array('clientId' => $this->clientId, 'clientSecret' => $this->clientSecret, 'redirectUrl' => $this->callbackUrl));
 		
-		// Tokens model
+		// Load models
 		$this->load->model('foursquare_token');
+		$this->load->model('foursquare_check');
+
 	}
 	
 	/**
@@ -50,12 +53,22 @@ class Checks_controller extends CI_Controller {
 		$user = unserialize($this->session->userdata('user'));
 
 		// Load list of checks
-		$this->load->model('foursquare_check');
-		$checks = $this->foursquare_check->getChecksByUserId($user->id);
+		$checks = $this->foursquare_check->getChecksByUserId($user->id, $this->input->get('tag'));
 		$data['checks'] = $checks;
+
+		// Load Tag List
+		$tags = $this->foursquare_check->getTags();
+		$data['tags'] = $tags;
+		
+		$tag_list = $this->foursquare_check->getTagList();
+		$data['tag_list'] = $tag_list;
 		
 		$data['page_title'] = 'Venue Checks';
+		$data['head_content'] = $this->load->view('checks/_head', $data, true);
 		$this->load->view('checks/checks', $data);	
+		$this->load->view('checks/_tag_modal', $data);	
+		$this->load->view('checks/_tag_js', $data);	
+
 	}
 	
 	/**
@@ -72,7 +85,6 @@ class Checks_controller extends CI_Controller {
 		$check_id = $this->uri->segment(3);
 		
 		// Load list of checks
-		$this->load->model('foursquare_check');
 		$checks = $this->foursquare_check->getChecksByUserId($user->id);
 		$data['checks'] = $checks;
 		
@@ -117,7 +129,6 @@ class Checks_controller extends CI_Controller {
 		$venue_id = $this->uri->segment(3);
 		
 		// See if check is already added
-		$this->load->model('foursquare_check');
 		$check = $this->foursquare_check->getCheckByVenueId($venue_id, $user->id);
 		if (isset($check->id))
 			show_error('This venue is already setup for monitoring.');
@@ -155,7 +166,6 @@ class Checks_controller extends CI_Controller {
 		$check_id = $this->uri->segment(3);
 		
 		// See if check is already added
-		$this->load->model('foursquare_check');
 		$check = $this->foursquare_check->getCheckById($check_id);
 		$data['check'] = $check;
 		
@@ -178,7 +188,79 @@ class Checks_controller extends CI_Controller {
 	
 	/* *** AJAX data sources *** */
 
-	public function live_check_data() {
+	public function ajax_tags() {
+		
+		// Setup controller
+		$this->layout = null;
+		$this->setup();
+		
+		$check_id = $this->input->get('check_id');
+		$tags = $this->input->get('tags');
+		$action = $this->input->get('action');
+		
+		// Retrieve check record. If fails, exit
+		$check = $this->foursquare_check->getCheckById($check_id);
+		if (!$check):
+			header('Content-type: application/json');
+			print json_encode(array('error' => 'Could not load check data.'));
+			exit;
+		endif;
+		
+		// Switch based on action flag
+		switch ($action):
+		
+			// Add Tag(s)
+			case 'add_tag':
+			case 'add_tags':
+			
+				// Ensure a check ID is set
+				if (!$check_id || !$tags):
+					$result = array('error' => 'Requires both a check ID and tag(s).'); break;
+				endif;
+				
+				$result = $this->foursquare_check->addTagBulk($check_id, $tags);
+					
+				break;
+				
+			// Remove Tag
+			case 'remove_tag':
+			
+				// Ensure a check ID and tag list are set
+				if (!$check_id || !$tags):
+					$result = array('error' => 'Requires both a check ID and tag(s).'); break;
+				endif;
+				
+				$result = $this->foursquare_check->removeTag($check_id, $tags);
+			
+				break;
+			
+			// Get list of tags
+			case 'list_tags':
+			
+				// Ensure a check ID is set
+				if (!$check_id):
+					$result = array('error' => 'Requires a check ID.'); break;
+				endif;
+			
+				$result = $this->foursquare_check->getTagsByCheckId($check_id);
+				
+				break;
+			
+			// Error
+			default:
+				$result = array('error' => 'Did not recognize action or was not provided.');
+		endswitch;
+		
+		header('Content-type: application/json');
+		print json_encode($result);
+		
+	}
+
+
+	/**
+	 * AJAX Live Check Data
+	 */
+	public function ajax_live_check_data() {
 		
 		// Setup controller
 		$this->layout = null;
@@ -220,10 +302,6 @@ class Checks_controller extends CI_Controller {
 		$this->layout = null;
 		$this->console_log('Starting Foursquare venue check process ...');
 		
-		// Load additional models
-		$this->load->model('foursquare_check');
-		$this->load->model('foursquare_token');
-
 		// Switch based on type of check being executed
 		switch ($type):
 		
@@ -384,7 +462,7 @@ class Checks_controller extends CI_Controller {
 		
 		// Logged in user info
 		$userInfo = json_decode($this->ignitefoursquare->GetPrivate('/users/self'));
-		$data['userInfo'] = $userInfo->response->user;
+		$data['userInfo'] = (isset($userInfo->response->user)) ? $userInfo->response->user : false;
 
 		return $data;
 		

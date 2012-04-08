@@ -234,6 +234,7 @@ class Foursquare_check extends CI_Model {
 		$result = $query->result();
 		
 		// Build indexed list of tags
+		$output = array();
 		if (is_array($result)):
 			foreach ($result as $row):
 				$output[$row->tag] = $row->tag;

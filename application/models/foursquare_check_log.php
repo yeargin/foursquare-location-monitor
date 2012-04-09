@@ -101,6 +101,7 @@ class Foursquare_check_log extends CI_Model {
 		
 		$this->db->where('foursquare_check_log.insert_ts >=', $date_since);
 		$this->db->where('user_id', $user_id);
+		$this->db->where('active', '1');
 		$this->db->join('foursquare_checks', 'check_id = foursquare_checks.id');
 		$this->db->order_by('check_id', 'ASC');
 		$this->db->order_by('log_date', 'DESC');

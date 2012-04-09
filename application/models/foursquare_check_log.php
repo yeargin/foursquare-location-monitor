@@ -99,22 +99,42 @@ class Foursquare_check_log extends CI_Model {
 		if ($date_since == '' || is_null($date_since))
 			$date_since = date('Y-m-d', strtotime('-5 days'));
 		
-		$query = sprintf('SELECT fc.`check_title`, fc.`venue_id`, fcl1.`check_id`, fcl2.`log_date`, (fcl2.`total_checkins`-IFNULL(fcl1.`total_checkins`, 0)) AS total_checkins_delta, (fcl2.`unique_visitors`-IFNULL(fcl1.`unique_visitors`, 0)) AS unique_visitors_delta, (fcl2.`tips_left`-IFNULL(fcl1.`tips_left`, 0)) AS tips_left_delta, (fcl2.`photo_count`-IFNULL(fcl1.`photo_count`, 0)) AS photo_count_delta FROM `foursquare_checks` fc INNER JOIN `foursquare_check_log` fcl1 ON fc.`id` = fcl1.`check_id` LEFT OUTER JOIN `foursquare_check_log` fcl2 ON fcl1.`check_id` = fcl2.`check_id` AND DAY(fcl2.`log_date`)-DAY(fcl1.`log_date`)=1 WHERE fc.`user_id` = %d AND fcl2.`log_date` >= "%s" ORDER BY fcl1.`check_id` ASC, fcl1.`log_date` DESC', $user_id, date('Y-m-d', strtotime($date_since)) );
-		$result = $this->db->query($query);
-		
+		$this->db->where('foursquare_check_log.insert_ts >=', $date_since);
+		$this->db->where('user_id', $user_id);
+		$this->db->join('foursquare_checks', 'check_id = foursquare_checks.id');
+		$this->db->order_by('check_id', 'ASC');
+		$this->db->order_by('log_date', 'DESC');
+		$this->db->group_by('check_id, log_date');
+		$result = $this->db->get('foursquare_check_log');
 		$array = $result->result_array();
 		
 		// Build data array
 		$return = array();
 		foreach ($array as $k => $v):
-				if (is_null($v['log_date'])) continue;
-				$return[$v['check_id']]['check_id'] = $v['check_id'];
-				$return[$v['check_id']]['check_title'] = $v['check_title'];
-				$return[$v['check_id']]['venue_id'] = $v['venue_id'];
-				$return[$v['check_id']]['total_checkins'][$v['log_date']] = ($v['total_checkins_delta'] >= 0) ? $v['total_checkins_delta'] : 0;
-				$return[$v['check_id']]['unique_visitors'][$v['log_date']] = ($v['unique_visitors_delta'] > 0) ? $v['unique_visitors_delta'] : 0;
-				$return[$v['check_id']]['tips_left'][$v['log_date']] = ($v['tips_left_delta'] >= 0) ? $v['tips_left_delta'] : 0;
-				$return[$v['check_id']]['photo_count'][$v['log_date']] = ($v['photo_count_delta'] >= 0) ? $v['photo_count_delta'] : 0;
+		
+			// Baseline numbers
+			$v['total_checkins_delta'] = 0;
+			$v['unique_visitors_delta'] = 0;
+			$v['tips_left_delta'] = 0;
+			$v['photo_count_delta'] = 0;
+			
+			// Process math if pre-existing row
+			if (isset($array[$k-1]['total_checkins']) && $array[$k-1]['check_id'] == $v['check_id'])
+				$return[$v['check_id']]['total_checkins'][$array[$k-1]['log_date']] = $array[$k-1]['total_checkins'] - $v['total_checkins'];
+
+			if (isset($array[$k-1]['unique_visitors']) && $array[$k-1]['check_id'] == $v['check_id'])
+				$return[$v['check_id']]['unique_visitors'][$array[$k-1]['log_date']] = $array[$k-1]['unique_visitors'] - $v['unique_visitors'];
+			
+			if (isset($array[$k-1]['tips_left']) && $array[$k-1]['check_id'] == $v['check_id'])
+				$return[$v['check_id']]['tips_left'][$array[$k-1]['log_date']] = $array[$k-1]['tips_left'] - $v['tips_left'];
+				
+			if (isset($array[$k-1]['photo_count']) && $array[$k-1]['check_id'] == $v['check_id'])
+				$return[$v['check_id']]['photo_count'][$array[$k-1]['log_date']] = $array[$k-1]['photo_count'] - $v['photo_count'];
+
+			$return[$v['check_id']]['check_id'] = $v['check_id'];
+			$return[$v['check_id']]['check_title'] = $v['check_title'];
+			$return[$v['check_id']]['venue_id'] = $v['venue_id'];
+			
 		endforeach;
 		
 		// Sort array by check title (date ascending)

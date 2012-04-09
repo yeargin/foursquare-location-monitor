@@ -186,6 +186,34 @@ class Checks_controller extends CI_Controller {
 	
 	}
 	
+	public function check_delete() {
+		// Setup for various actions
+		$data = $this->setup();
+
+		// Grab check_id from URL
+		$check_id = $this->uri->segment(3);
+		
+		// See if check is already added
+		$check = $this->foursquare_check->getCheckById($check_id);
+		$data['check'] = $check;
+		
+		if (!isset($check->id))
+			show_error('Check could not be found.', 404);
+		
+		// Process check delete
+		if ($this->input->post('confirm')):
+			$result = $this->foursquare_check->deleteCheck($check_id);
+			redirect(sprintf('foursquare/venue/%s', $check->venue_id));
+		endif;
+			
+		// Show Edit Form
+		$this->load->view('checks/check_delete', $data);
+		
+		
+		
+	}
+	
+	
 	/* *** AJAX data sources *** */
 
 	public function ajax_tags() {

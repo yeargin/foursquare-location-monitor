@@ -120,6 +120,20 @@ class Foursquare_check extends CI_Model {
 		$this->db->update('foursquare_checks', array('active' => '1'));
 	}
 	
+	public function deleteCheck($check_id) {
+		
+		if (!$check_id > 0)
+			return false;
+			
+		// Cascade delete related records
+		$this->db->delete('foursquare_checks', array('id' => $check_id));
+		$this->db->delete('foursquare_check_log', array('check_id' => $check_id));
+		$this->db->delete('foursquare_check_log_live', array('check_id' => $check_id));
+		$this->db->delete('foursquare_check_tags', array('check_id' => $check_id));
+		
+		return true;
+	}
+	
 	/**
 	 * Add Tag
 	 *

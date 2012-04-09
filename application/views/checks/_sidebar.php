@@ -7,6 +7,7 @@
 <select name="check_list" onchange="window.location=$(this).val()">
 	<option value="">(Select a Venue)</option>
 	<?php foreach ($checks as $check): ?>
+	<?php if ($check->active != '1') continue; ?>
 	<option value="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></option>
 	<?php endforeach; ?>
 </select>

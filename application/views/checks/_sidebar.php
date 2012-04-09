@@ -26,6 +26,6 @@
 
 <?php else: ?>
 <p>
-	<em>No venues monitored. <a href="<?php echo site_url('foursquare/search'); ?>">Add via Search</a>.
+	<em>No venues monitored. <a href="<?php echo site_url('foursquare/search'); ?>">Add via Search</a></em>.
 </p>
 <?php endif; ?>

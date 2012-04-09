@@ -97,6 +97,12 @@
 		<?php endif; ?>
 	</div>
 	
+	<?php if ($this->session->userdata('admin_user_tmp')): ?>
+	<div style="position:fixed;bottom:10px;right:10px;">
+		<a href="<?php echo site_url('login/resume_admin'); ?>" class="btn">Return to Administrator Role</a>
+	</div>
+	<?php endif; ?>
+	
 	<script src="<?php echo base_url('/assets/bootstrap/js/bootstrap.js'); ?>"> </script>
 	<script src="<?php echo base_url('/assets/js/jquery.meow/jquery.meow.js'); ?>"> </script>
 	<script src="<?php echo base_url('assets/js/spin.js/spin.js'); ?>"> </script>

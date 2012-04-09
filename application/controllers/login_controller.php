@@ -34,4 +34,9 @@ class Login_controller extends CI_Controller
 		redirect('/');
 	}
 	
+	public function resume_admin() {
+		$this->user->adminResumeAdmin();
+		redirect('admin');
+	}
+	
 }

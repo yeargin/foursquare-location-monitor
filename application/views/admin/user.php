@@ -1,6 +1,4 @@
-<h2>User #<?php echo __($user->id);?></h2>
 <ul>
-	<li>Username: <?php echo __($user->username);?></li>
 	<li>Display Name: <?php echo __($user->display_name);?></li>
 	<li>First Name: <?php echo __($user->first_name);?></li>
 	<li>Last Name: <?php echo __($user->last_name);?></li>
@@ -17,6 +15,7 @@
 	<?php else: ?>
 	<a href="<?php echo site_url('admin/activate_user').'/'.$user->id; ?>" class="btn btn-primary">Activate User</a>	
 	<?php endif; ?>
+	<a href="<?php echo site_url('admin/assume_user').'/'.$user->id; ?>" rel="tooltip" class="btn btn-information" title="Note: This will log you out of your own account and in as this user.">Login As User</a>
 </p>
 
 <hr />

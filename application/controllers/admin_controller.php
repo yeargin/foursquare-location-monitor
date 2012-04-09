@@ -74,9 +74,13 @@ class Admin_controller extends CI_Controller {
 		
 		$data['user'] = $this->user->getUserById($user_id);
 		$data['checks'] = $this->foursquare_check->getChecksByUserId($user_id);
+		$data['page_title'] = sprintf('User: %s', $data['user']->username);
 		$this->load->view('admin/user', $data);	
 	}
 	
+	/**
+	 * Deactivate User
+	 */
 	public function deactivate_user() {
 		$user_id = $this->uri->segment(3);
 		
@@ -90,11 +94,24 @@ class Admin_controller extends CI_Controller {
 		redirect('admin');
 	}
 	
+	/**
+	 * Activate User
+	 */
 	public function activate_user() {
 		$user_id = $this->uri->segment(3);
 		$this->user->adminUpdateUserStatus($user_id, 1);
 		$this->session->set_flashdata('message', 'User activated!');
 		redirect('admin');
+	}
+
+	/**
+	 * Assume User
+	 */
+	public function assume_user() {
+		$user_id = $this->uri->segment(3);
+		$this->user->adminAssumeUser($user_id);
+		$this->session->set_flashdata('message', 'You have been logged out of your account and in as this user.');
+		redirect('/');
 	}
 
 	public function beta_keys() {

@@ -140,6 +140,33 @@ class User extends CI_Model {
 		
 		return $status;
 	}
+	
+	public function adminAssumeUser($user_id) {
+		if (!$this->isAdmin())
+			show_error('Access denied.');
+		
+		// Load user record
+		$user = $this->getUserById($user_id);
+		if (!$user)
+			show_error('Could not locate user record', 404);
+		$this->session->set_userdata('admin_user_tmp', $this->session->userdata('user'));
+		$this->session->unset_userdata('user');
+		$this->session->set_userdata('user', serialize($user));
+		
+		return $user;
+	}
+	
+	public function adminResumeAdmin() {
+		
+		// Pull Admin data out of temporary session store
+		$user = unserialize($this->session->userdata('admin_user_tmp'));
+		if (!$user)
+			show_error('Could not resume admin session.', 500);
+
+		$this->session->unset_userdata('admin_user_tmp');
+		$this->session->unset_userdata('user');
+		$this->session->set_userdata('user', serialize($user));
+	}
 
 
 }

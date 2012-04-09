@@ -19,6 +19,7 @@
 				<th>Tips Left</th>
 				<th>Photos</th>
 			</tr>
+			<?php if (isset($module['total_checkins'])): ?>
 			<?php foreach (array_keys($module['total_checkins']) as $date): ?>
 			<tr>
 				<td class="decimal"><?php echo date('n/j', strtotime($date)); ?></td>
@@ -28,6 +29,11 @@
 				<td><?php echo number_format($module['photo_count'][$date]); ?></td>
 			</tr>
 			<?php endforeach; ?>
+			<?php else: ?>
+			<tr>
+				<td colspan="5"><em>Not enough check history yet.</em></td>
+			</tr>
+			<?php endif; ?>
 		</table>
 
 	</div>

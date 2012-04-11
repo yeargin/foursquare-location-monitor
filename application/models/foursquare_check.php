@@ -87,7 +87,11 @@ class Foursquare_check extends CI_Model {
 	 * @param array $record 
 	 */
 	public function addNewCheck($record = array()) {
+		$record['active'] = '0'; // deactivated by default
 		$this->db->insert('foursquare_checks', $record);
+		
+		// Activate check (if possible)
+		return $this->activate($this->db->insert_id());
 	}
 	
 	/**
@@ -108,6 +112,8 @@ class Foursquare_check extends CI_Model {
 	public function deactivate($check_id) {
 		$this->db->where('id', $check_id);
 		$this->db->update('foursquare_checks', array('active' => '0'));
+		
+		return true;
 	}
 	
 	/**
@@ -116,8 +122,13 @@ class Foursquare_check extends CI_Model {
 	 * @param int $check_id 
 	 */
 	public function activate($check_id) {
+		// Check if user has remaining checks	
+		if (!$this->hasRemainingChecks())
+			return false;	
+		
 		$this->db->where('id', $check_id);
 		$this->db->update('foursquare_checks', array('active' => '1'));
+		return true;
 	}
 	
 	public function deleteCheck($check_id) {
@@ -258,6 +269,35 @@ class Foursquare_check extends CI_Model {
 			return array();
 		endif;
 	}
+	
+	public function remainingChecksCount() {
+		// Get count of active checks
+		$user = unserialize($this->session->userdata('user'));
+		$this->db->select('count(*) AS active_checks');
+		$this->db->where('active', '1');
+		$this->db->where('user_id', $user->id);
+		$query = $this->db->get('foursquare_checks');
+		$checks = $query->row();
+		
+		// Get package limit
+		$this->db->where('id', $user->package_id);
+		$query = $this->db->get('packages');
+		$package = $query->row();
+		
+		return array('package' => $package, 'checks' => $checks);
+	}
+	
+	public function hasRemainingChecks() {
+
+		$data = $this->remainingChecksCount();
+		
+		// Simple math to see if there are remaining checks
+		if ($data['checks']->active_checks < $data['package']->check_limit)
+			return true;
+		else
+			return false;
+	}
+	
 
 	/**
 	 * Admin: Get All Checks

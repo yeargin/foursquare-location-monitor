@@ -72,10 +72,25 @@ class Admin_controller extends CI_Controller {
 		if (!is_numeric($user_id))
 			show_error('Invalid user ID.');
 		
+		// Package list
+		$packages = $this->user->packageList();
+		foreach ($packages as $row):
+			$package_list[$row->id] = sprintf('%s (%s)', $row->name, number_format($row->check_limit));
+		endforeach;
+		$data['packages'] = $package_list;
+		
 		$data['user'] = $this->user->getUserById($user_id);
 		$data['checks'] = $this->foursquare_check->getChecksByUserId($user_id);
 		$data['page_title'] = sprintf('User: %s', $data['user']->username);
 		$this->load->view('admin/user', $data);	
+	}
+	
+	function user_change_package() {
+		$user_id = $this->input->post('user_id');
+		$package_id = $this->input->post('package_id');
+		$this->user->adminchangeUserPackage($user_id, $package_id);
+		$this->session->set_flashdata('Package updated!');
+		redirect('admin/user/'.$user_id);
 	}
 	
 	/**

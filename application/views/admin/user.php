@@ -9,6 +9,12 @@
 	<li>Level: <?php echo __($user->level);?></li>
 </ul>
 
+<form method="post" action="<?php echo site_url('admin/user_change_package'); ?>" class="form form-inline">
+	<?php echo form_dropdown('package_id', $packages, $user->package_id); ?>
+	<?php echo form_hidden('user_id', $user->id); ?>
+	<?php echo form_submit('', 'Change Package', 'class="btn btn-primary"'); ?>
+</form>
+
 <p>
 	<?php if ($user->status == 1): ?>
 	<a href="<?php echo site_url('admin/deactivate_user').'/'.$user->id; ?>" class="btn btn-danger">Deactivate User</a>
@@ -37,8 +43,8 @@
 	<tr>
 		<td><a href="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></a></td>
 		<td><?php echo ($check->active == 1) ? 'Active' : 'Inactive'; ?></td>
-		<td><?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></td>
-		<td><?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></td>
+		<td><?php echo (!empty_date($check->last_live_check_ts)) ? date('F j, Y, g:i a', strtotime($check->last_live_check_ts)) : 'Not yet.'; ?></td>
+		<td><?php echo (!empty_date($check->last_daily_check_ts)) ? date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)) : 'Not yet.'; ?></td>
 	</tr>
 	<?php endforeach; ?>
 	<?php endif; ?>

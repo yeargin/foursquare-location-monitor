@@ -7,18 +7,6 @@
 			<?php echo form_input('check_title', $check->check_title); ?>
 		</div>
 	</div>
-	<?php if (isset($check->id)): ?>
-	<div>
-		<label>Status</label>
-		<div class="input">
-			<label class="checkbox">
-				<?php echo form_checkbox('active', '1', (bool) $check->active); ?>
-				Active
-			</label>
-		</div>
-	</div>
-
-	<?php endif; ?>
 	<div class="form-actions">
 		<?php if (isset($check->id)): ?>
 		<?php echo form_submit('add', 'Update Check', 'class="btn btn-primary"'); ?>

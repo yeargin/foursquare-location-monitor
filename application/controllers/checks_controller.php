@@ -52,6 +52,10 @@ class Checks_controller extends CI_Controller {
 		// Grab user object from session
 		$user = unserialize($this->session->userdata('user'));
 
+		// Check counts
+		$counts = $this->foursquare_check->remainingChecksCount();
+		$data['counts'] = $counts;
+
 		// Load list of checks
 		$checks = $this->foursquare_check->getChecksByUserId($user->id, $this->input->get('tag'));
 		$data['checks'] = $checks;
@@ -145,7 +149,6 @@ class Checks_controller extends CI_Controller {
 			$record['user_id'] = $user->id;
 			$record['venue_id'] = $venue_id;
 			$record['check_title'] = $this->input->post('check_title');
-			$record['active'] = '1';
 			$record['insert_ts'] = date('c');
 			$result = $this->foursquare_check->addNewCheck($record);
 			redirect(sprintf('foursquare/venue/%s', $venue_id));
@@ -176,7 +179,6 @@ class Checks_controller extends CI_Controller {
 		if ($this->input->post('check_title') != ''):
 			$record['id'] = $check_id;
 			$record['check_title'] = $this->input->post('check_title');
-			$record['active'] = ($this->input->post('active') == '1') ? '1' : '0' ;
 			$result = $this->foursquare_check->updateCheck($record);
 			redirect(sprintf('foursquare/venue/%s', $check->venue_id));
 		endif;
@@ -209,10 +211,39 @@ class Checks_controller extends CI_Controller {
 		// Show Edit Form
 		$this->load->view('checks/check_delete', $data);
 		
-		
-		
 	}
 	
+	public function check_activate() {
+		$check_id = $this->uri->segment(3);
+		$check = $this->foursquare_check->getCheckById($check_id);
+		if (!isset($check->id))
+			show_error('Check could not be found.', 404);
+				
+		$result = $this->foursquare_check->activate($check_id);
+		
+		if ($result == true)
+			$this->session->set_flashdata('message', 'Check activated!');
+		else
+			$this->session->set_flashdata('message', 'Unable to activate check.');
+			
+		redirect('checks');
+	}
+	
+	public function check_deactivate() {
+		$check_id = $this->uri->segment(3);
+		$check = $this->foursquare_check->getCheckById($check_id);
+		if (!isset($check->id))
+			show_error('Check could not be found.', 404);
+				
+		$result = $this->foursquare_check->deactivate($check_id);
+		
+		if ($result == true)
+			$this->session->set_flashdata('message', 'Check deactivated!');
+		else
+			$this->session->set_flashdata('message', 'Unable to deactivate check.');
+			
+		redirect('checks');
+	}
 	
 	/* *** AJAX data sources *** */
 

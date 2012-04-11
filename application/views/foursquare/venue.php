@@ -66,7 +66,7 @@
 			<?php if (isset($check->id) && $check->id > 0): ?>
 			<?php if ($check->active != '1'): ?>
 			<p class="alert alert-error">
-				<i class="icon-exclamation-sign"></i> <strong>This check is not active!</strong> Data is not being collected for this venue. <a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>">Edit Check</a>
+				<i class="icon-exclamation-sign"></i> <strong>This check is not active!</strong> Data is not being collected for this venue. <a href="<?php echo site_url('checks/check_activate') .'/'. $check->id; ?>">Activate Check</a>
 				<span class="close" onclick="$('.alert.warning').hide();">&times</span>
 			</p>
 			<?php endif; ?>

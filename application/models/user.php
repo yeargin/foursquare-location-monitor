@@ -12,7 +12,7 @@ class User extends CI_Model {
 	}
 
 	public function login() {
-		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level'));
+		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id', 'insert_ts', 'status'));
 		$this->db->where('username', $this->input->post('username'));
 		$this->db->where('password', md5($this->input->post('password') . $this->config->item('encryption_key')));
 		$this->db->where('status', 1);
@@ -92,6 +92,15 @@ class User extends CI_Model {
 		
 		return $user;
 	}
+	
+	public function packageList() {
+		$this->db->order_by('check_limit', 'ASC');
+		$query = $this->db->get('packages');
+		
+		return $query->result();
+		
+	}
+	
 
 	/* ***** Site Administrator Methods ***** */
 	
@@ -139,6 +148,19 @@ class User extends CI_Model {
 		$status = $this->db->update('users', $status_data);
 		
 		return $status;
+	}
+	
+	public function adminchangeUserPackage($user_id, $package_id) {
+		$user = $this->getUserById($user_id);
+		if (!$user)
+			show_error('Could not locate user record', 404);
+
+		// Process update
+		$user_update_data = array(
+			'package_id' => $package_id
+		);
+		$this->db->where('id', $user->id);
+		$this->db->update('users', $user_update_data);
 	}
 	
 	public function adminAssumeUser($user_id) {

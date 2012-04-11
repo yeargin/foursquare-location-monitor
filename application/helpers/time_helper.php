@@ -29,3 +29,10 @@ function time_ago($date) {
     }
     return "$difference $periods[$j] {$tense}";
 }
+
+function empty_date($str) {
+	if ($str == '0000-00-00 00:00:00' || $str == '0000-00-00' || $str == '')
+		return true;
+	else
+		return false;
+}

@@ -97,7 +97,7 @@ class Foursquare_check_log extends CI_Model {
 	
 	public function getAllCheckDataDelta($user_id, $date_since = null) {
 		if ($date_since == '' || is_null($date_since))
-			$date_since = date('Y-m-d', strtotime('-5 days'));
+			$date_since = date('Y-m-d', strtotime('-6 days'));
 		
 		$this->db->where('foursquare_check_log.insert_ts >=', $date_since);
 		$this->db->where('user_id', $user_id);

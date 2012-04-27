@@ -1,5 +1,21 @@
 <?php if ($has_foursquare): ?>
 
+	<?php if (count($checks) > 0): ?>
+	<div class="hidden-desktop">
+		<form class="well form-inline">
+		<fieldset>
+		<select name="check_list" onchange="window.location=$(this).val()">
+			<option value="">(Select a Venue)</option>
+			<?php foreach ($checks as $check): ?>
+			<?php if ($check->active != '1') continue; ?>
+			<option value="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></option>
+			<?php endforeach; ?>
+		</select>
+		</fieldset>
+		</form>
+	</div>
+	<?php endif; ?>
+
 	<?php if (is_array($dashboard_modules) && count($dashboard_modules) > 0): ?>
 	<?php foreach ($dashboard_modules as $module): ?>
 	<div class="dashboard-module span4">
@@ -20,7 +36,8 @@
 				<th>Photos</th>
 			</tr>
 			<?php if (isset($module['total_checkins'])): ?>
-			<?php foreach (array_keys($module['total_checkins']) as $date): ?>
+			<?php foreach (array_keys($module['total_checkins']) as $k => $date): ?>
+			<?php if ($k+1 > 5): continue; endif; ?>
 			<tr>
 				<td class="decimal"><?php echo date('n/j', strtotime($date)); ?></td>
 				<td><?php echo number_format($module['total_checkins'][$date]); ?></td>

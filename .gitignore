@@ -1,0 +1,5 @@
+.DS_Store
+application/cache/*
+application/config/application.php
+application/config/database.php
+application/logs/*

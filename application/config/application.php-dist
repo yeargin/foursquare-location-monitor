@@ -1,0 +1,10 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+$config['application_name'] = 'Location Monitor';
+$config['application_email'] = 'contact@example.com';
+$config['require_beta_key'] = true;
+
+/* Foursquare */
+$config['foursquare_consumer_key']    = 'ABCDEFHIJKLMOPQRSTUVWXYZ1234567890ABCDEFHIJKLMOP';
+$config['foursquare_consumer_secret'] = 'ABCDEFHIJKLMOPQRSTUVWXYZ1234567890ABCDEFHIJKLMOP';
+$config['foursquare_callback_url']    = 'http://example.com/callback';

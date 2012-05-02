@@ -39,7 +39,9 @@ class Dashboard_controller extends CI_Controller {
 		$data['checks'] = $checks;
 
 		$data['page_title'] = 'Dashboard';
-		$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
+		
+		if ($data['has_foursquare'])
+			$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
 
 		$data['dashboard_modules'] = $this->foursquare_check_log->getAllCheckDataDelta($user->id);
 

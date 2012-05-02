@@ -14,10 +14,7 @@
 | path to your installation.
 |
 */
-if (defined('IS_PRODUCTION') && IS_PRODUCTION == true)
-	$config['base_url']	= 'http://locmon.yearg.in/';
-else
-	$config['base_url']	=  isset($_SERVER['HTTP_HOST']) ? sprintf('http://%s/', $_SERVER['HTTP_HOST']) : '';
+$config['base_url'] =  isset($_SERVER['HTTP_HOST']) ? sprintf('http://%s/', $_SERVER['HTTP_HOST']) : '';
 	
 /*
 |--------------------------------------------------------------------------
@@ -227,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '15c4683193f210ca9c640af9241e8c18';
+$config['encryption_key'] = md5($config['base_url'].'locationmonitorsalt');
 
 /*
 |--------------------------------------------------------------------------

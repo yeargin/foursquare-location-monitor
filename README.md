@@ -12,7 +12,7 @@ Installation (Core)
 ===================
 
  1. Use `git clone https://stephenyeargin@github.com/stephenyeargin/foursquare-location-monitor.git` (requires git) to obtain the latest version of the project.
- 2. Run `git submodule init` and `git submodule update` to pull down the requisite libraries (see .gitsubmodules for where they are to be loaded)
+ 2. Run `git submodule init` and `git submodule update` to pull down the requisite libraries (see `.gitmodules` for where they are to be loaded)
  3. Rename and edit `application/config/database.php-dish` and `application/config/applicaiton.php-dist` to connect to your desired MySQL server and to provide your foursquare OAuth Consumer information. See https://developer.foursquare.com/overview/auth.html for more information about how to get this information.
  4. Import the default MySQL database dump from `application/config/database-schema.sql`
  5. Create a user by first running a query such as `INSERT INTO beta_keys (beta_key, status) VALUES ('ABCDEF123456', 1);` and then using the given beta key to create an account.

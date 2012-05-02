@@ -7,4 +7,4 @@ $config['require_beta_key'] = true;
 /* Foursquare */
 $config['foursquare_consumer_key']    = 'ABCDEFHIJKLMOPQRSTUVWXYZ1234567890ABCDEFHIJKLMOP';
 $config['foursquare_consumer_secret'] = 'ABCDEFHIJKLMOPQRSTUVWXYZ1234567890ABCDEFHIJKLMOP';
-$config['foursquare_callback_url']    = 'http://example.com/callback';
+$config['foursquare_callback_url']    = 'http://example.com/foursquare/callback';

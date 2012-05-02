@@ -68,7 +68,7 @@
 <div class="hero-unit">
 	<h2>Welcome!</h2>
 	<p>
-		Your first step is to <a href="<?php echo site_url('foursquare/authenticate'); ?>">authenticate with Foursquare</a>.
+		Your first step is to <a href="<?php echo site_url('foursquare/authenticate'); ?>"><img src="https://playfoursquare.s3.amazonaws.com/press/logo/connect-white.png" alt="connect to foursquare"></a>
 	</p>
 </div>
 

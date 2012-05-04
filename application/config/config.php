@@ -224,7 +224,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = md5($config['base_url'].'locationmonitorsalt');
+$config['encryption_key'] = '15c4683193f210ca9c640af9241e8c18';
 
 /*
 |--------------------------------------------------------------------------

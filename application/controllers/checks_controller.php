@@ -405,6 +405,11 @@ class Checks_controller extends CI_Controller {
 					$this->console_log(sprintf('Requesting statistics for "%s" (%s)', $item->check_title, $item->venue_id ));
 					$this->ignitefoursquare->SetAccessToken($foursquare_token[0]);
 					$venue = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s', $item->venue_id)));
+					if (isset($venue->meta->code) && $venue->meta->code == 403):
+						$this->console_log('API rate limit was hit. Sleeping for 60 seconds, then re-attempting last request.');
+						sleep(60);
+						$venue = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s', $item->venue_id)));
+					endif;
 					$log_data = isset($venue->response->venue->stats) ? $venue->response->venue->stats : false;
 					
 					// If statistical information present, log it.
@@ -467,6 +472,11 @@ class Checks_controller extends CI_Controller {
 					$this->console_log(sprintf('Requesting statistics for "%s" (%s)', $item->check_title, $item->venue_id ));
 					$this->ignitefoursquare->SetAccessToken($foursquare_token[0]);
 					$venue = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s', $item->venue_id)));
+					if (isset($venue->meta->code) && $venue->meta->code == 403):
+						$this->console_log('API rate limit was hit. Sleeping for 60 seconds, then re-attempting last request.');
+						sleep(60);
+						$venue = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s', $item->venue_id)));
+					endif;
 					$log_data = isset($venue->response->venue->hereNow) ? $venue->response->venue->hereNow : false;
 					
 					// If statistical information present, log it.

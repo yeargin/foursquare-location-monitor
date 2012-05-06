@@ -40,7 +40,7 @@
 			<?php endif; ?>
 
 			<p style="margin-top:1em;">
-				<a href="<?php echo ($venue->canonicalUrl); ?>" class="btn">View on Foursquare</a>
+				<a href="<?php echo ($venue->canonicalUrl); ?>" class="btn"><i class="icon-map-marker"></i> View on Foursquare</a>
 			</p>
 
 		</div>
@@ -98,11 +98,10 @@
 			<?php endif; ?>
 
 			<p>
-				<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small">Check Log</a>
-				<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small">Edit Check</a>
+				<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small"><i class="icon-book"></i> Check Log</a>
+				<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small"><i class="icon-pencil"></i> Edit Check</a>
+				<span class="taglist" data-check_id="<?php echo __($check->id); ?>" style="display:block;"><?php echo (isset($tags[$check->id])) ? listTags($tags[$check->id]) : ''; ?></span>
 			</p>
-
-			<hr />
 
 			<?php else: ?>
 

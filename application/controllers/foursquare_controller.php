@@ -15,6 +15,7 @@ class Foursquare_controller extends CI_Controller {
 			redirect('/login/?redirect=/foursquare');
 
 		$this->load->helper('time');
+		$this->load->helper('tag');
 
 		$this->apiKey = $this->config->item('foursquare_consumer_key');
 		$this->clientId = $this->config->item('foursquare_consumer_key');
@@ -57,28 +58,41 @@ class Foursquare_controller extends CI_Controller {
 		
 		// Basic venue data
 		$venue = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s', $venue_id)));
+		if (isset($venue->meta->code) && $venue->meta->code != 200)
+			show_error($venue->meta->errorDetail, $venue->meta->code);
 		$data['venue'] = $venue->response->venue;
 
 		// Tips
 		$tips = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s/tips', $venue_id)));
+		if (isset($tips->meta->code) && $tips->meta->code != 200)
+			show_error($tips->meta->errorDetail, $tips->meta->code);
 		$data['tips'] = $tips->response->tips;
 		
 		// Photos
 		$photos = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s/photos', $venue_id)));
+		if (isset($photos->meta->code) && $photos->meta->code != 200)
+			show_error($photos->meta->errorDetail, $photos->meta->code);
 		$data['photos'] = $photos->response->photos;
 		
 		// Nearby
 		$position = number_format($venue->response->venue->location->lat,6,'.',',') . ',' . number_format($venue->response->venue->location->lng,6,'.',',');
 		$nearby = json_decode($this->ignitefoursquare->GetPrivate('/venues/search', array('ll' => $position, 'limit' => 10)));
+		if (isset($nearby->meta->code) && $nearby->meta->code != 200)
+			show_error($nearby->meta->errorDetail, $nearby->meta->code);
 		$data['nearby'] = $nearby->response->venues;
 		
 		// Stats
 		$stats = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s/stats', $venue_id)));
+		if (isset($stats->meta->code) && $stats->meta->code != 200)
+			show_error($stats->meta->errorDetail, $stats->meta->code);
 		$data['stats'] = $stats->response;
 
 		// Get list of Foursquare Checks
 		$checks = $this->foursquare_check->getChecksByUserId($user->id);
 		$data['checks'] = $checks;
+
+		$tags = $this->foursquare_check->getTags();
+		$data['tags'] = $tags;
 
 		// Check Data
 		$check = $this->foursquare_check->getCheckByVenueId($venue_id);

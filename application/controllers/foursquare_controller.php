@@ -80,12 +80,6 @@ class Foursquare_controller extends CI_Controller {
 		if (isset($nearby->meta->code) && $nearby->meta->code != 200)
 			show_error($nearby->meta->errorDetail, $nearby->meta->code);
 		$data['nearby'] = $nearby->response->venues;
-		
-		// Stats
-		$stats = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s/stats', $venue_id)));
-		if (isset($stats->meta->code) && $stats->meta->code != 200)
-			show_error($stats->meta->errorDetail, $stats->meta->code);
-		$data['stats'] = $stats->response;
 
 		// Get list of Foursquare Checks
 		$checks = $this->foursquare_check->getChecksByUserId($user->id);

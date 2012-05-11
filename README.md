@@ -11,12 +11,13 @@ This CodeIgniter-based project can be used to monitor a group of foursquare venu
 Installation (Core)
 ===================
 
- 1. Use `git clone https://stephenyeargin@github.com/stephenyeargin/foursquare-location-monitor.git` (requires git) to obtain the latest version of the project.
+ 1. Use `git clone git://github.com/yeargin/foursquare-location-monitor.git` (requires git) to obtain the latest version of the project.
  2. Run `git submodule init` and `git submodule update` to pull down the requisite libraries (see `.gitmodules` for where they are to be loaded)
- 3. Rename and edit `application/config/database.php-dish` and `application/config/applicaiton.php-dist` to connect to your desired MySQL server and to provide your foursquare OAuth Consumer information. See https://developer.foursquare.com/overview/auth.html for more information about how to get this information.
- 4. Import the default MySQL database dump from `application/config/database-schema.sql`
- 5. Create a user by first running a query such as `INSERT INTO beta_keys (beta_key, status) VALUES ('ABCDEF123456', 1);` and then using the given beta key to create an account.
- 6. Change the 'level' column for the created user from 'user' to 'admin' to be able to access the Site Administration section (requires logout).
+ 3. There's a good chance that bootstrap in `application/third_party/bootstrap` isn't built. So you can either a) `make bootrap` if you have all the required build tools or b) download http://twitter.github.com/bootstrap/assets/bootstrap.zip, unzip it, and place it within that folder (it will read `bootstrap/bootstrap/css`), etc.
+ 4. Rename and edit `application/config/database.php-dish` and `application/config/applicaiton.php-dist` to connect to your desired MySQL server and to provide your foursquare OAuth Consumer information. See https://developer.foursquare.com/overview/auth.html for more information about how to get this information.
+ 5. Import the default MySQL database dump from `application/config/database-schema.sql`
+ 6. Create a user by first running a query such as `INSERT INTO beta_keys (beta_key, status) VALUES ('ABCDEF123456', 1);` and then using the given beta key to create an account.
+ 7. Change the 'level' column for the created user from 'user' to 'admin' to be able to access the Site Administration section (requires logout).
 
 Installation (Monitoring)
 =========================

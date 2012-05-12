@@ -7,8 +7,8 @@
 </ul>
 
 <p>
-	<a href="<?php echo site_url('foursquare/venue') .'/'. $check->venue_id; ?>" class="btn small">View Venue</a>
-	<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small">Edit Check</a>
+	<a href="<?php echo site_url('foursquare/venue') .'/'. $check->venue_id; ?>" class="btn small"><i class="icon-map-marker"></i> View Venue</a>
+	<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small"><i class="icon-pencil"></i> Edit Check</a>
 </p>
 
 <h3>Live Data</h3>

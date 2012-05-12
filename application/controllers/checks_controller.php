@@ -343,7 +343,33 @@ class Checks_controller extends CI_Controller {
 		echo json_encode($return);
 		
 	}
-	
+
+	public function ajax_check_status() {
+		
+		$this->layout = null;
+		
+		$check_id = $this->uri->segment(3);
+		$check = $this->foursquare_check->getCheckById($check_id);
+		if (!isset($check->id))
+			show_error('Check could not be found.', 404);
+		$status = $this->input->get('status');
+
+		// Switch
+		if ($status == '1')
+			$result = $this->foursquare_check->activate($check_id);
+		elseif ($status == '0')
+			$result = $this->foursquare_check->deactivate($check_id);
+		
+		if ($result == true)
+			$out = 'success';
+		else
+			$out = 'failed';
+			
+		header('Content-type: application/json');
+		echo json_encode($out);
+		
+	}
+
 	
 
 	/* *** Command line tools *** */

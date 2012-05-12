@@ -67,6 +67,17 @@ class User extends CI_Model {
 		return $update;
 	}
 	
+	public function updatePasswordFromPost($id) {
+		$update_user_data = array(
+			'password' => md5($this->input->post('password') . $this->config->item('encryption_key'))
+		);
+		$this->db->where('id', $id);
+		$update = $this->db->update('users', $update_user_data);
+		
+		return $update;
+	}
+	
+	
 	public function createNewUserFromPost() {
 		$insert_user_data = array(
 			'username' => $this->input->post('username'),

@@ -16,7 +16,7 @@
 		<?php if (isset($check->id)): ?>
 		<?php echo form_submit('add', 'Update Check', 'class="btn btn-primary"'); ?>
 		<a href="<?php echo site_url('checks/check_delete').'/'.$check->id; ?>" class="btn btn-danger">Delete Check</a>
-		<a href="<?php echo site_url('checks/check' .'/'. $check->id); ?>" class="btn btn-cancel">Cancel</a>
+		<a href="<?php echo site_url('checks/check' .'/'. $check->id); ?>">Cancel</a>
 		<?php else: ?>
 		<?php echo form_submit('add', 'Add Check', 'class="btn btn-primary"'); ?>
 		<a href="" class="btn btn-cancel">Cancel</a>

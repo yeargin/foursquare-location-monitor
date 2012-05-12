@@ -1,3 +1,5 @@
+<?php echo validation_errors(); ?>
+
 <?php echo form_open('profile/change_password', 'class="form form-vertical"'); ?>
 <?php echo form_fieldset(''); ?>
 

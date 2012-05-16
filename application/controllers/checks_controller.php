@@ -444,6 +444,9 @@ class Checks_controller extends CI_Controller {
 						// Cast as an array
 						$log_data = (array) $log_data;
 						$log_data['check_id'] = $item->id;
+						
+						// This was moved out of the stats array, so read from ->photos->count instead
+						$log_data['photoCount'] = isset($venue->response->venue->photos->count) ? $venue->response->venue->photos->count : 0;
 					
 						// Add log entry
 						$this->console_log('Adding log entry ...');

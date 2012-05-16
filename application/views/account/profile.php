@@ -4,13 +4,6 @@
 <?php echo form_fieldset(''); ?>
 
 <div class="clearfix">
-	<label></label>
-	<div class="input">
-		<a href="<?php echo site_url('profile/change_password'); ?>">Change Password</a>
-	</div>
-</div>
-
-<div class="clearfix">
 	<?php echo form_label('First Name', 'first_name'); ?>
 	<div class="input">
 		<?php echo form_input('first_name', $profile->first_name); ?>
@@ -28,6 +21,13 @@
 	<?php echo form_label('E-mail', 'email'); ?>
 	<div class="input">
 		<?php echo form_input('email', $profile->email); ?>
+	</div>
+</div>
+
+<div class="clearfix">
+	<label>&nbsp;</label>
+	<div class="input">
+		<a href="<?php echo site_url('profile/change_password'); ?>">Change Password</a>
 	</div>
 </div>
 

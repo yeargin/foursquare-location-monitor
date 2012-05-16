@@ -10,7 +10,7 @@
 <div class="form-actions">
 <p>
 	<input type="submit" name="confirm" class="btn btn-danger btn-large" value="Delete Check" />
-	<a href="<?php echo site_url('checks/check_edit').'/'.$check->id; ?>" class="btn btn-cancel btn-large">Cancel</a>
+	<a href="<?php echo site_url('checks/check_edit').'/'.$check->id; ?>">Cancel</a>
 	(This removes all associated log data forever. Consider <a href="<?php echo site_url('checks/check_edit').'/'.$check->id; ?>">deactivating</a> instead.)
 </p>
 </div>

@@ -53,6 +53,19 @@ class Profile_controller extends CI_Controller {
 		// Setup controller
 		$data = $this->setup();
 
+		$this->form_validation->set_error_delimiters('<div class="alert alert-error">', '<a class="close" href="#">&times;</a></div>');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[3]');
+		$this->form_validation->set_rules('password_confirm', 'Password (confirm)', 'required|matches[password]');
+
+		if ($this->input->post()):
+			if ($this->form_validation->run() != FALSE):
+				$user = unserialize($this->session->userdata('user'));
+				$this->user->updatePasswordFromPost($user->id);
+				$this->session->set_flashdata('message', 'Password updated!');
+				redirect('profile');
+			endif;
+		endif;
+
 		$data['page_title'] = 'Change Password';
 		$this->load->view('account/change_password', $data);
 	}

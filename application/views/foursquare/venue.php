@@ -24,7 +24,7 @@
 				<li><?php echo number_format($venue->stats->checkinsCount); ?> total checkins</li>
 				<li><?php echo number_format($venue->stats->usersCount); ?> unique visitors</li>
 				<li><?php echo number_format($venue->stats->tipCount); ?> tips left</li>
-				<li><?php echo isset($venue->stats->photoCount) ? number_format($venue->stats->photoCount) : 0; ?> photos posted</li>
+				<li><?php echo isset($venue->photos->count) ? number_format($venue->photos->count) : 0; ?> photos posted</li>
 			</ul>
 	
 		</div>

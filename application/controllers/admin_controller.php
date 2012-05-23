@@ -53,13 +53,15 @@ class Admin_controller extends CI_Controller {
 	 */
 	public function users() {
 
-		$limit = 10;
-		$offset = (int) $this->input->get('page') * 10;
+		if ($this->uri->segment(3) == 'inactive'):
+			$data['page_title'] = 'Inactive Users';
+			$data['accounts'] = $this->user->adminGetAllUsers(false);
+		else:
+			$data['page_title'] = 'Active Users';
+			$data['accounts'] = $this->user->adminGetAllUsers(true);
+		endif;
 
-		$data['active_accounts'] = $this->user->adminGetAllUsers(true, $limit, $offset);
-		$data['inactive_accounts'] = $this->user->adminGetAllUsers(false, $limit, $offset);
-
-		return;
+		$this->load->view('admin/users', $data);
 	}
 	
 	/**
@@ -130,7 +132,10 @@ class Admin_controller extends CI_Controller {
 	}
 
 	public function beta_keys() {
-		return;
+		$data['beta_keys'] = $this->beta_key->adminGetAllBetaKeys(25);
+		$data['page_title'] = 'Beta Keys';
+	
+		$this->load->view('admin/beta_keys', $data);
 	}
 
 	/**
@@ -157,7 +162,29 @@ class Admin_controller extends CI_Controller {
 		$this->load->view('admin/form_beta_key', $data);
 	}
 	
+	/**
+	 * Beta Key Revoke
+	 */
+	public function beta_key_revoke() {
+		$beta_key = $this->uri->segment(3);
+		
+		// Must have a valid beta key
+		if (!$beta_key || strlen($beta_key) < 10)
+			redirect('admin');
+		
+		$status = $this->beta_key->adminRevokeBetaKey($beta_key);
+		
+		if ($status):
+			$this->session->set_flashdata('message', 'Revoked beta key.');
+		else:
+			$this->session->set_flashdata('message', 'Could not revoke beta key.');
+		endif;
+		
+		redirect('/admin');
+		
+	}
 	
+	/* Private Methods Below */
 	/**
 	 * Send Beta Key Email
 	 *
@@ -181,5 +208,4 @@ class Admin_controller extends CI_Controller {
 		
 	}
 	
-
 }

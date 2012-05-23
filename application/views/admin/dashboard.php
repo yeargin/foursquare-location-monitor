@@ -30,6 +30,7 @@
 	</tbody>
 </table>
 <?php else: ?>
+<br />
 <p class="alert alert-information">
 	No accounts are currently active. This usually indicates a database error.
 </p>
@@ -67,6 +68,7 @@
 	</tbody>
 </table>
 <?php else: ?>
+<br />
 <p class="alert alert-information">
 	No accounts are currently inactive.
 </p>
@@ -97,15 +99,16 @@
 	</tbody>
 </table>
 <?php else: ?>
+<br />
 <p class="alert alert-information">
 	No checks have been run. This usually indicates a database error.
 </p>
 <?php endif; ?>
 
 
-<p class="pull-right">
-	<a href="<?php echo site_url('admin/beta_key_new'); ?>" class="btn btn-small"><i class="icon-plus"></i> New Beta Key</a>
-</p>
+<div class="pull-right">
+		<a href="<?php echo site_url('admin/beta_key_new'); ?>" class="btn btn-small"><i class="icon-plus"></i> New Beta Key</a>
+</div>
 
 <h3>Beta Keys</h3>
 
@@ -118,6 +121,7 @@
 			<th>E-mail</th>
 			<th>Status</th>
 			<th>Created</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -128,12 +132,20 @@
 			<td><?php echo auto_link($key->email); ?></td>
 			<td><?php echo ($key->status == 1) ? 'Not Claimed' : 'Claimed' ?></td>
 			<td><?php echo date('F j, Y, g:i a', strtotime($key->insert_ts)); ?></td>
+			<td><a href="<?php echo site_url('admin/beta_key_revoke/'.$key->beta_key); ?>" class="btn confirm"><i class="icon-trash"></i></a></td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
 </table>
 <?php else: ?>
+<br />
 <p class="alert alert-information">
 	No beta keys found. It probably means that none have been created yet.
 </p>
 <?php endif; ?>
+<script type="text/javascript">
+	$('a.confirm').click(function(event) {
+		event.stopPropagation();
+		return confirm('Are you sure you want to do that?');
+	});
+</script>

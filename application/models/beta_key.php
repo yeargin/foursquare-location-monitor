@@ -86,4 +86,20 @@ class Beta_key extends CI_Model {
 		return false;
 	}
 	
+	/**
+	 * Admin Revoke Beta Key
+	 */
+	public function adminRevokeBetaKey($beta_key) {
+		
+		$this->db->where('beta_key', $beta_key);
+		$delete = $this->db->delete('beta_keys', $insert_beta_key_data);
+
+		// If deleted, return true
+		if ($delete)
+			return true;
+
+		return false;
+	
+	}
+	
 }

@@ -157,7 +157,29 @@ class Admin_controller extends CI_Controller {
 		$this->load->view('admin/form_beta_key', $data);
 	}
 	
+	/**
+	 * Beta Key Revoke
+	 */
+	public function beta_key_revoke() {
+		$beta_key = $this->uri->segment(3);
+		
+		// Must have a valid beta key
+		if (!$beta_key || strlen($beta_key) < 10)
+			redirect('admin');
+		
+		$status = $this->beta_key->adminRevokeBetaKey($beta_key);
+		
+		if ($status):
+			$this->session->set_flashdata('message', 'Revoked beta key.');
+		else:
+			$this->session->set_flashdata('message', 'Could not revoke beta key.');
+		endif;
+		
+		redirect('/admin');
+		
+	}
 	
+	/* Private Methods Below */
 	/**
 	 * Send Beta Key Email
 	 *
@@ -181,5 +203,4 @@ class Admin_controller extends CI_Controller {
 		
 	}
 	
-
 }

@@ -15,4 +15,9 @@ $(document).ready(function() {
 
 	$('a[rel="tooltip"]').tooltip();
 
+	$('a.confirm').click(function(event) {
+		event.stopPropagation();
+		return confirm('Are you sure you want to do that?');
+	});
+
 });

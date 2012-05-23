@@ -53,13 +53,15 @@ class Admin_controller extends CI_Controller {
 	 */
 	public function users() {
 
-		$limit = 10;
-		$offset = (int) $this->input->get('page') * 10;
+		if ($this->uri->segment(3) == 'inactive'):
+			$data['page_title'] = 'Inactive Users';
+			$data['accounts'] = $this->user->adminGetAllUsers(false);
+		else:
+			$data['page_title'] = 'Active Users';
+			$data['accounts'] = $this->user->adminGetAllUsers(true);
+		endif;
 
-		$data['active_accounts'] = $this->user->adminGetAllUsers(true, $limit, $offset);
-		$data['inactive_accounts'] = $this->user->adminGetAllUsers(false, $limit, $offset);
-
-		return;
+		$this->load->view('admin/users', $data);
 	}
 	
 	/**
@@ -130,7 +132,10 @@ class Admin_controller extends CI_Controller {
 	}
 
 	public function beta_keys() {
-		return;
+		$data['beta_keys'] = $this->beta_key->adminGetAllBetaKeys(25);
+		$data['page_title'] = 'Beta Keys';
+	
+		$this->load->view('admin/beta_keys', $data);
 	}
 
 	/**

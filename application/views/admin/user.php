@@ -1,28 +1,69 @@
-<ul>
-	<li>Display Name: <?php echo __($user->display_name);?></li>
-	<li>First Name: <?php echo __($user->first_name);?></li>
-	<li>Last Name: <?php echo __($user->last_name);?></li>
-	<li>E-mail: <?php echo auto_link($user->email);?></li>
-	<li>Package: <?php echo __($user->package_id);?></li>
-	<li>Joined: <?php echo date('F j, Y, g:i a', strtotime($user->insert_ts)); ?></li>
-	<li>Status: <?php echo ($user->status == 1) ? 'Active' : 'Inactive';?></li>
-	<li>Level: <?php echo __($user->level);?></li>
-</ul>
+<form method="post" action="<?php echo site_url('admin/user_change_package'); ?>" class="form form-stacked" id="change_package">
 
-<form method="post" action="<?php echo site_url('admin/user_change_package'); ?>" class="form form-inline">
-	<?php echo form_dropdown('package_id', $packages, $user->package_id); ?>
-	<?php echo form_hidden('user_id', $user->id); ?>
-	<?php echo form_submit('', 'Change Package', 'class="btn btn-primary"'); ?>
+<div class="row">
+
+	<div class="span3">
+		<label>Display Name</label>
+		<h3><?php echo __($user->display_name); ?></h3>
+	</div>
+	
+	<div class="span3">
+		<label>Email</label>
+		<h3><?php echo __($user->email); ?></h3>
+	</div>
+		
+	<div class="span3">
+		<label>Change Package</label>
+		<?php echo form_dropdown('package_id', $packages, $user->package_id, 'onchange="$(\'form#change_package\').submit()"'); ?>
+		<?php echo form_hidden('user_id', $user->id); ?>
+		<?php echo form_submit('', 'Change Package', 'class="hide"'); ?>
+	</div>
+
+</div>
+
+<br />
+
+<div class="row">
+
+	<div class="span3">
+		<label>Joined</label>
+		<h3><?php echo date('F j, Y, g:i a', strtotime($user->insert_ts)); ?></h3>
+	</div>
+
+	<div class="span3">
+		<label>Status</label>
+		<div><?php if ($user->status == 1): ?>
+		<a href="<?php echo site_url('admin/deactivate_user').'/'.$user->id; ?>" class="btn btn-danger"><i class="icon-ban-circle icon-white"></i> Deactivate User</a>
+		<?php else: ?>
+		<a href="<?php echo site_url('admin/activate_user').'/'.$user->id; ?>" class="btn btn-primary"><i class="icon-ok-circle icon-white"></i> Activate User</a>	
+		<?php endif; ?></div>
+	</div>
+
+	<div class="span3">
+		<label>Level</label>
+		<h3><?php echo ucwords($user->level); ?></h3>
+	</div>
+
+</div>
+
+<br />
+
+<div class="row">
+
+	<div class="span3">
+		<label>Account Management</label>
+		<p>
+			<a href="<?php echo site_url('admin/assume_user').'/'.$user->id; ?>" rel="tooltip" class="btn btn-information" title="Note: This will log you out of your own account and in as this user."><i class="icon-user"></i> Login As User</a>
+		</p>
+	</div>
+
+	<div class="span3">
+
+	</div>
+
+</div>
+
 </form>
-
-<p>
-	<?php if ($user->status == 1): ?>
-	<a href="<?php echo site_url('admin/deactivate_user').'/'.$user->id; ?>" class="btn btn-danger">Deactivate User</a>
-	<?php else: ?>
-	<a href="<?php echo site_url('admin/activate_user').'/'.$user->id; ?>" class="btn btn-primary">Activate User</a>	
-	<?php endif; ?>
-	<a href="<?php echo site_url('admin/assume_user').'/'.$user->id; ?>" rel="tooltip" class="btn btn-information" title="Note: This will log you out of your own account and in as this user.">Login As User</a>
-</p>
 
 <hr />
 

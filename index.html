@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>foursquare-location-monitor by yeargin</title>
+    <title>Location Monitor | Track check-ins to foursquare venues</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -11,11 +11,26 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-635661-31']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
   </head>
   <body>
     <div class="wrapper">
       <header>
-        <h1>foursquare-location-monitor</h1>
+        <h1>Location Monitor</h1>
         <p>Mock SaaS project that allows routine monitoring of selected foursquare venues.</p>
         <p class="view"><a href="https://github.com/yeargin/foursquare-location-monitor">View the Project on GitHub <small>yeargin/foursquare-location-monitor</small></a></p>
         <ul>
@@ -25,43 +40,17 @@
         </ul>
       </header>
       <section>
-        <h1>Foursquare Location Monitor</h1>
+        <h2>Synopsis</h2>
+        <p>This CodeIgniter-based project can be used to monitor a group of foursquare venues (particular places that a foursquare user can "check-in"). A backend script queries the foursquare API at regular intervals and logs the results to a MySQL database. The front-end interface manages which venues are being monitored (add and remove) as well as aggregate that data in charts and tables.</p>
 
-<p>Mock SaaS project that allows routine monitoring of selected foursquare venues.</p>
-
-<h1>Synopsis</h1>
-
-<p>This CodeIgniter-based project can be used to monitor a group of foursquare venues (particular places that a foursquare user can "check-in"). A backend script queries the foursquare API at regular intervals and logs the results to a MySQL database. The front-end interface manages which venues are being monitored (add and remove) as well as aggregate that data in charts and tables.</p>
-
-<h1>Installation (Core)</h1>
-
-<ol>
-<li>Use <code>git clone git://github.com/yeargin/foursquare-location-monitor.git</code> (requires git) to obtain the latest version of the project.</li>
-<li>Run <code>git submodule init</code> and <code>git submodule update</code> to pull down the requisite libraries (see <code>.gitmodules</code> for where they are to be loaded)</li>
-<li>There's a good chance that bootstrap in <code>application/third_party/bootstrap</code> isn't built. So you can either a) <code>make bootrap</code> if you have all the required build tools or b) download <a href="http://twitter.github.com/bootstrap/assets/bootstrap.zip">http://twitter.github.com/bootstrap/assets/bootstrap.zip</a>, unzip it, and place it within that folder (it will read <code>bootstrap/bootstrap/css</code>), etc.</li>
-<li>Rename and edit <code>application/config/database.php-dish</code> and <code>application/config/applicaiton.php-dist</code> to connect to your desired MySQL server and to provide your foursquare OAuth Consumer information. See <a href="https://developer.foursquare.com/overview/auth.html">https://developer.foursquare.com/overview/auth.html</a> for more information about how to get this information.</li>
-<li>Import the default MySQL database dump from <code>application/config/database-schema.sql</code>
-</li>
-<li>Create a user by first running a query such as <code>INSERT INTO beta_keys (beta_key, status) VALUES ('ABCDEF123456', 1);</code> and then using the given beta key to create an account.</li>
-<li>Change the 'level' column for the created user from 'user' to 'admin' to be able to access the Site Administration section (requires logout).</li>
-</ol><h1>Installation (Monitoring)</h1>
-
-<p>Within the <code>application/cron</code> folder, you will find a shell script and a faux daemon script for local testing. Set these up to run about every 5-10 minutes on your server. You may need to prepend a <code>cd</code> into the working directory to make this work on some hosts.</p>
-
-<p><code>cd /path/to/webroot ; ./application/cron/foursquare_checks.sh</code></p>
-
-<p>The script will self-regulate (meaning, it will not attempt a daily check more than once a day, and live checks are configured to be no more than one every 15 minutes). The larger your check database becomes, the more often you will need to process through records.</p>
-
-<h1>Powered By</h1>
-
-<ul>
-<li>CodeIgniter - <a href="http://codeigniter.com/">http://codeigniter.com/</a>
-</li>
-<li>Twitter Bootstrap - <a href="http://twitter.github.com/bootstrap/">http://twitter.github.com/bootstrap/</a>
-</li>
-<li>foursquare API - <a href="https://developer.foursquare.com/">https://developer.foursquare.com/</a>
-</li>
-</ul>
+        <h2>Screenshots</h2>
+        <img src="images/screenshot_dashboard.png" alt="Dashboard" class="thumbnail" />
+        <img src="images/screenshot_search.png" alt="Search" class="thumbnail" />
+        <img src="images/screenshot_venue_details.png" alt="Details" class="thumbnail" />
+        <img src="images/screenshot_venue_metrics.png" alt="Metrics" class="thumbnail" />
+        <img src="images/screenshot_venue_photos.png" alt="Photos" class="thumbnail" />
+        <img src="images/screenshot_venue_tips.png" alt="Tips" class="thumbnail" />
+        <img src="images/screenshot_admin_user.png" alt="Admin" class="thumbnail" />
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/yeargin">yeargin</a></p>

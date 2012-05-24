@@ -253,3 +253,10 @@ footer {
     color:#444;
   }
 }
+
+img.thumbnail {
+	padding: 5px;
+	margin: 1em;
+	border: solid 1px #bababa;
+	box-shadow: 2px 2px 2px #dddddd;
+}

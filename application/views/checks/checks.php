@@ -37,7 +37,7 @@
 					<li><a href="<?php echo site_url('checks/check_edit') .'/'. ($check->id); ?>"><i class="icon-pencil"></i> Edit Check</a></li>
 					<li><a data-toggle="modal" href="#tagModal" onclick="openTagModal(this)" data-check_title="<?php echo __($check->check_title); ?>" data-check_id="<?php echo __($check->id); ?>" data-tags="<?php echo (isset($tags[$check->id])) ? join(', ', $tags[$check->id]) : ''; ?>"><i class="icon-tag"></i> Edit Tags</a>
 					<?php if ($check->active == 1): ?>
-					<li><a href="<?php echo site_url('checks/check_deactivate') .'/'. ($check->id); ?>"><i class="icon-off"></i> Deactivate Check</a></li>
+					<li><a href="<?php echo site_url('checks/check_deactivate') .'/'. ($check->id); ?>"><i class="icon-remove-circle"></i> Deactivate Check</a></li>
 					<?php else: ?>
 					<li><a href="<?php echo site_url('checks/check_activate') .'/'. ($check->id); ?>"><i class="icon-ok-circle"></i> Activate Check</a></li>
 					<?php endif; ?>

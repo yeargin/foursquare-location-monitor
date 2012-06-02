@@ -87,7 +87,7 @@
 	<footer class="container">
 		<hr />
 		<p>
-			<a href="<?php echo site_url(); ?>"><?php echo $this->config->item('application_name'); ?></a> &bull; Powered by <a href="https://github.com/yeargin/foursquare-location-monitor">Location Monitor</a> and  <a href="http://foursquare.com"><img src="https://developer.foursquare.com/img/poweredByFoursquare/poweredby_16x16.png" alt="foursquare icon" /> foursquare</a> 
+			<a href="<?php echo site_url(); ?>"><?php echo $this->config->item('application_name'); ?></a> &bull; Powered by <a href="http://yeargin.github.com/foursquare-location-monitor/">Location Monitor</a> and  <a href="http://foursquare.com"><img src="https://developer.foursquare.com/img/poweredByFoursquare/poweredby_16x16.png" alt="foursquare icon" /> foursquare</a> 
 		</p>
 	</footer>
 	

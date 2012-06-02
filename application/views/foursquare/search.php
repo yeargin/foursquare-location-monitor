@@ -29,7 +29,7 @@
 		</td>
 		<td class="action-cell">
 			<div class="btn-group">
-				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Action<span class="caret"></span></a>
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-wrench"></i><span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="<?php echo site_url('foursquare/venue') .'/'. $row->id; ?>"><i class="icon-map-marker"></i> View Venue</a></li>
 					<?php if (isset($checks_by_venue[$row->id])): ?>

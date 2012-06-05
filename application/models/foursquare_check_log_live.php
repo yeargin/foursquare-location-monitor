@@ -50,9 +50,9 @@ class Foursquare_check_log_live extends CI_Model {
 		$this->db->where('check_id', $check_id);
 		
 		// Handle date range if set
-		if (isset($range['start_ts']) && isset($range['end_ts'])):
-			$this->db->where('insert_ts >=', $range['start_ts']);
-			$this->db->where('insert_ts <=', $range['end_ts']);
+		if (isset($range['start_date']) && isset($range['end_date'])):
+			$this->db->where('insert_ts >=', $range['start_date']);
+			$this->db->where('insert_ts <=', $range['end_date']);
 		endif;
 		
 		$this->db->order_by('insert_ts', 'ASC');

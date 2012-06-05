@@ -28,6 +28,28 @@ class Foursquare_controller extends CI_Controller {
 		$this->load->model('foursquare_token');
 		$this->load->model('foursquare_check');
 
+		// If set in GET parameters, set and write to cookie
+		if ($this->input->get('start_date') && $this->input->get('end_date')):
+			$this->date_range = array(
+				'start_date' => date('c', strtotime($this->input->get('start_date')) ),
+				'end_date' => date('c', strtotime($this->input->get('end_date')) )
+			);
+			$this->input->set_cookie('locmon_start_date', $this->input->get('start_date'), 3600, null, '/');
+			$this->input->set_cookie('locmon_end_date', $this->input->get('end_date'), 3600, null, '/');
+		// Read from cookie
+		elseif ($this->input->cookie('locmon_start_date') && $this->input->cookie('locmon_end_date')):
+			$this->date_range = array(
+				'start_date' => date('c', strtotime($this->input->cookie('locmon_start_date')) ),
+				'end_date' => date('c', strtotime($this->input->cookie('locmon_end_date')) )
+			);
+		// Default to 7 days back
+		else:
+			$this->date_range = array(
+				'start_date' => date('c', time() - (3600*24*7) ),
+				'end_date' => date('c', time())
+			);
+		endif;
+
 	}
 	
 	/**
@@ -94,23 +116,13 @@ class Foursquare_controller extends CI_Controller {
 			
 			// Check Settings
 			$data['check'] = $check;
-			
-			// Load Live Check Data (30 days)
-			$date_range = array(
-				'start_ts' => date('c', time() - (3600*24*30) ),
-				'end_ts' => date('c', time())
-			);
+
 			$this->load->model('foursquare_check_log_live');
-			$live_data = $this->foursquare_check_log_live->getCheckData($check->id, $date_range);
+			$live_data = $this->foursquare_check_log_live->getCheckData($check->id, $this->date_range);
 			$data['live_data'] = $live_data;
 
-			// Load Daily Check Data (7 days)
-			$date_range = array(
-				'start_ts' => date('c', time() - (3600*24*10) ),
-				'end_ts' => date('c', time())
-			);
 			$this->load->model('foursquare_check_log');
-			$daily_data = $this->foursquare_check_log->getCheckData($check->id, $date_range);
+			$daily_data = $this->foursquare_check_log->getCheckData($check->id, $this->date_range);
 			$data['daily_data'] = $daily_data;
 		
 			// Calculate date difference
@@ -118,11 +130,14 @@ class Foursquare_controller extends CI_Controller {
 		
 		endif;
 
+		$data['date_range'] = $this->date_range;
+
 		$data['page_title'] = sprintf('Venue: %s', isset($data['venue']->name) ? __($data['venue']->name) : 'Venue');
 		$data['head_content'] = $this->load->view('foursquare/_head', $data, true);
 		$data['head_content'] .= $this->load->view('checks/_chart_js', $data, true);
-		$data['sidebar_content'] = $this->load->view('foursquare/_sidebar', $data, true);
-		$data['sidebar_content'] .= $this->load->view('checks/_sidebar', $data, true);
+		$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
+		$data['sidebar_content'] .= $this->load->view('checks/_date_range_form', $data, true);
+
 		$this->load->view('foursquare/venue', $data);
 		
 	}

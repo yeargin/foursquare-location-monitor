@@ -5,10 +5,14 @@ class Migration_installation extends CI_Migration {
 
 	public function up() {
 
+		// If a user table already exists, safe to bet that
+		// installation has already run.
+		$query = $this->db->query('SHOW TABLES LIKE \'users\' ');
+		if ($query->row())
+			return;
+
 		// Beta Keys
-		$this->db->query("DROP TABLE IF EXISTS `beta_keys`");
-		$this->db->query("
-			CREATE TABLE `beta_keys` (
+		$this->db->query("CREATE TABLE `beta_keys` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `name` varchar(255) NOT NULL DEFAULT '',
 		  `email` varchar(255) NOT NULL DEFAULT '',
@@ -22,7 +26,6 @@ class Migration_installation extends CI_Migration {
 		)");
 		
 		// Foursquare Check Log
-		$this->db->query("DROP TABLE IF EXISTS `foursquare_check_log`");
 		$this->db->query("CREATE TABLE `foursquare_check_log` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `check_id` int(11) NOT NULL,
@@ -37,7 +40,6 @@ class Migration_installation extends CI_Migration {
 		)");
 
 		// Foursquare Check Log Live
-		$this->db->query("DROP TABLE IF EXISTS `foursquare_check_log_live`");
 		$this->db->query("CREATE TABLE `foursquare_check_log_live` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `check_id` int(11) NOT NULL,
@@ -50,7 +52,6 @@ class Migration_installation extends CI_Migration {
 		)");
 
 		// Foursquare Check Tags
-		$this->db->query("DROP TABLE IF EXISTS `foursquare_check_tags`");
 		$this->db->query("CREATE TABLE `foursquare_check_tags` (
 		  `check_id` int(11) NOT NULL,
 		  `tag` varchar(255) NOT NULL DEFAULT '',
@@ -59,7 +60,6 @@ class Migration_installation extends CI_Migration {
 		)");
 
 		// Foursquare Checks Table
-		$this->db->query("DROP TABLE IF EXISTS `foursquare_checks`");
 		$this->db->query("CREATE TABLE `foursquare_checks` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `user_id` int(11) NOT NULL,
@@ -77,7 +77,6 @@ class Migration_installation extends CI_Migration {
 		)");
 
 		// Foursquare Tokens
-		$this->db->query("DROP TABLE IF EXISTS `foursquare_tokens`");
 		$this->db->query("CREATE TABLE `foursquare_tokens` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `user_id` int(11) NOT NULL,
@@ -88,7 +87,6 @@ class Migration_installation extends CI_Migration {
 		)");
 
 		// Packages Table
-		$this->db->query("DROP TABLE IF EXISTS `packages`");
 		$this->db->query("CREATE TABLE `packages` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `name` varchar(250) NOT NULL DEFAULT '',
@@ -104,7 +102,6 @@ class Migration_installation extends CI_Migration {
 			(3,'Enterprise','',200)");
 
 		// Users Table
-		$this->db->query("DROP TABLE IF EXISTS `users`");
 		$this->db->query("CREATE TABLE `users` (
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `username` varchar(50) NOT NULL DEFAULT '',

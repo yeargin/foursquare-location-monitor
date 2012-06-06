@@ -1,3 +1,9 @@
+<?php if ($prompt_update): ?>
+<p class="alert alert-danger">
+	<strong><i class="icon-exclamation-sign"></i> Your database is out of date!</strong> Run the <a href="<?php echo site_url('admin/system_upgrade'); ?>">upgrade script</a>.
+</p>
+<?php endif; ?>
+
 <h3>Active Accounts <small><a href="<?php echo site_url('admin/users/active'); ?>">View All</a></small></h3>
 
 <?php if (isset($active_accounts) && is_array($active_accounts) && count($active_accounts) > 0): ?>
@@ -9,7 +15,7 @@
 </p>
 <?php endif; ?>
 
-<h3>Inanctive Accounts <small><a href="<?php echo site_url('admin/users/inactive'); ?>">View All</a></small></h3>
+<h3>Inactive Accounts <small><a href="<?php echo site_url('admin/users/inactive'); ?>">View All</a></small></h3>
 
 <?php if (isset($inactive_accounts) && is_array($inactive_accounts) && count($inactive_accounts) > 0): ?>
 <?php $this->load->view('admin/_user_table', array('accounts'=>$inactive_accounts)); ?>

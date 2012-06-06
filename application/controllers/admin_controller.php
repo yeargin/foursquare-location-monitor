@@ -32,6 +32,12 @@ class Admin_controller extends CI_Controller {
 	 */
 	public function index() {
 
+		// See if upgrade is needed
+		$this->load->config('migration');
+		$query = $this->db->query('SELECT `version` FROM `migrations`');
+		$migration = $query->row();
+		$data['prompt_update'] = ((int) $migration->version < (int) $this->config->item('migration_version')) ? true : false;
+
 		// Get list of users
 		$data['active_accounts'] = $this->user->adminGetAllUsers(true, 10);
 		$data['inactive_accounts'] = $this->user->adminGetAllUsers(false, 10);

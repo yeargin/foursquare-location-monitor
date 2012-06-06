@@ -18,6 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/bootstrap/css/bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/bootstrap/css/bootstrap-responsive.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/js/jquery.meow/jquery.meow.css'); ?>" />
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/js/datepicker.js/css/datepicker.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/css/main.css'); ?>" />
 
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
@@ -103,12 +104,13 @@
 	</div>
 	<?php endif; ?>
 	
-	<script src="<?php echo base_url('/assets/bootstrap/js/bootstrap.js'); ?>"> </script>
-	<script src="<?php echo base_url('/assets/js/jquery.meow/jquery.meow.js'); ?>"> </script>
+	<script src="<?php echo base_url('assets/bootstrap/js/bootstrap.js'); ?>"> </script>
+	<script src="<?php echo base_url('assets/js/jquery.meow/jquery.meow.js'); ?>"> </script>
 	<script src="<?php echo base_url('assets/js/spin.js/spin.js'); ?>"> </script>
 	<script src="<?php echo base_url('assets/js/jquery.spin.js'); ?>"> </script>
 	<script src="<?php echo base_url('assets/js/jquery.fancybox/source/jquery.fancybox.pack.js'); ?>"> </script>
 	<script src="<?php echo base_url('assets/js/jquery.fancybox/lib/jquery.mousewheel-3.0.6.pack.js'); ?>"> </script>
+	<script src="<?php echo base_url('assets/js/datepicker.js/js/bootstrap-datepicker.js'); ?>"> </script>
 	<link rel="stylesheet" href="<?php echo base_url('assets/js/jquery.fancybox/source/jquery.fancybox.css'); ?>" type="text/css" media="screen">
 	
 	<script src="<?php echo base_url('/assets/js/global.js'); ?>"> </script>

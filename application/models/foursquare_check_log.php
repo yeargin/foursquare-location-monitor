@@ -53,9 +53,9 @@ class Foursquare_check_log extends CI_Model {
 		$this->db->where('check_id', $check_id);
 		
 		// Handle date range if set
-		if (isset($range['start_ts']) && isset($range['end_ts'])):
-			$this->db->where('insert_ts >=', $range['start_ts']);
-			$this->db->where('insert_ts <=', $range['end_ts']);
+		if (isset($range['start_date']) && isset($range['end_date'])):
+			$this->db->where('insert_ts >=', $range['start_date']);
+			$this->db->where('insert_ts <=', $range['end_date']);
 		endif;
 		
 		$this->db->order_by('log_date', 'ASC');
@@ -95,11 +95,9 @@ class Foursquare_check_log extends CI_Model {
 	
 	/* *** Calculation methods *** */
 	
-	public function getAllCheckDataDelta($user_id, $date_since = null) {
-		if ($date_since == '' || is_null($date_since))
-			$date_since = date('Y-m-d', strtotime('-6 days'));
-		
-		$this->db->where('foursquare_check_log.insert_ts >=', $date_since);
+	public function getAllCheckDataDelta($user_id, $date_range = array()) {		
+		$this->db->where('foursquare_check_log.insert_ts >=', date('Y-m-d', strtotime($date_range['start_date'])));
+		$this->db->where('foursquare_check_log.insert_ts <=', date('Y-m-d', strtotime($date_range['end_date'])));
 		$this->db->where('user_id', $user_id);
 		$this->db->where('active', '1');
 		$this->db->join('foursquare_checks', 'check_id = foursquare_checks.id');

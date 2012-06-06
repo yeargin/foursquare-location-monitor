@@ -358,5 +358,13 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 
+/*
+|--------------------------------------------------------------------------
+| Application Version
+|--------------------------------------------------------------------------
+*/
+$config['application_version'] = '1.0-beta';
+
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */

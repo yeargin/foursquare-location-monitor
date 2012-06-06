@@ -41,10 +41,16 @@ class User extends CI_Model {
 			return true;
 	}
 	
-	public function getUserById($id) {
+	public function getUserById($id = 0) {
 		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id', 'insert_ts', 'status'));
 		$query = $this->db->get_where('users', array('id' => $id), 1);
-		return array_shift($query->result());
+		return $query->row();
+	}
+	
+	public function getUserByUsername($username = null) {
+		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id', 'insert_ts', 'status'));
+		$query = $this->db->get_where('users', array('username' => $username), 1);
+		return $query->row();
 	}
 	
 	public function updateUserFromPost($id) {
@@ -112,6 +118,26 @@ class User extends CI_Model {
 		
 	}
 	
+	public function userExists($username = null) {
+		$this->db->where('username', $username);
+		$query = $this->db->get('users');
+		$result = $query->row();
+		
+		if (isset($result->username) && $result->username == $username):
+			return true;
+		endif;
+		
+		return false;
+		
+	}
+
+	public function getPasswordResetKey($username = '') {
+		
+	}
+
+	public function usePasswordResetKey($key = '') {
+
+	}
 
 	/* ***** Site Administrator Methods ***** */
 	

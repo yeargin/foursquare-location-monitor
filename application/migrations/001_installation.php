@@ -6,10 +6,14 @@ class Migration_installation extends CI_Migration {
 	public function up() {
 
 		// If a user table already exists, safe to bet that
-		// installation has already run.
+		// installation has already run. Fix the missing migrations table.
 		$query = $this->db->query('SHOW TABLES LIKE \'users\' ');
-		if ($query->row())
+		if ($query->row()):
+			$this->db->query('CREATE TABLE `migrations` (`version` int(3) NOT NULL)');
+			$this->db->query('UPDATE TABLE `migrations` SET `version` = 1');
 			return;
+		endif;
+		
 
 		// Beta Keys
 		$this->db->query("CREATE TABLE `beta_keys` (

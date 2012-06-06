@@ -184,6 +184,20 @@ class Admin_controller extends CI_Controller {
 		
 	}
 	
+	public function system_upgrade() {
+
+		$this->load->library('migration');
+
+		if ( ! $this->migration->current()):
+			show_error($this->migration->error_string());
+		endif;
+
+		$this->session->set_flashdata('message', 'Database upgrade complete!');
+		redirect('/admin/');
+		
+	}
+	
+	
 	/* Private Methods Below */
 	/**
 	 * Send Beta Key Email

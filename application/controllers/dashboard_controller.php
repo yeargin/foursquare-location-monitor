@@ -10,6 +10,11 @@ class Dashboard_controller extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 
+		// Check if installed
+		$query = $this->db->query('SHOW TABLES LIKE \'migrations\' ');
+		if (!$query->row())
+			redirect('install');
+
 		// Require login
 		if (!$this->user->isLoggedIn())
 			redirect('login');

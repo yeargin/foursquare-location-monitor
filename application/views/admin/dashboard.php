@@ -3,16 +3,16 @@
 	<strong><i class="icon-exclamation-sign"></i> Your database is out of date!</strong> Run the <a href="<?php echo site_url('admin/system_upgrade'); ?>">upgrade script</a>.
 </p>
 <?php endif; ?>
+<?php if ($prompt_cron): ?>
+<p class="alert alert-danger">
+	<strong><i class="icon-exclamation-sign"></i> Monitoring task appears to be stopped!</strong> Last check on <?php echo date('F j, Y \a\t g:ia', strtotime($prompt_cron)); ?>, see <tt>README.md</tt> for help with monitoring script.
+</p>
+<?php endif; ?>
 
 <h3>Active Accounts <small><a href="<?php echo site_url('admin/users/active'); ?>">View All</a></small></h3>
 
 <?php if (isset($active_accounts) && is_array($active_accounts) && count($active_accounts) > 0): ?>
 <?php $this->load->view('admin/_user_table', array('accounts'=>$active_accounts)); ?>
-<?php else: ?>
-<br />
-<p class="alert alert-information">
-	No accounts are currently active. This usually indicates a database error.
-</p>
 <?php endif; ?>
 
 <h3>Inactive Accounts <small><a href="<?php echo site_url('admin/users/inactive'); ?>">View All</a></small></h3>
@@ -22,7 +22,7 @@
 <?php else: ?>
 <br />
 <p class="alert alert-information">
-	No accounts are currently inactive.
+	<i class="icon-info-sign"></i> No accounts are currently inactive.
 </p>
 <?php endif; ?>
 
@@ -37,7 +37,7 @@
 <?php else: ?>
 <br />
 <p class="alert alert-information">
-	No beta keys found. It probably means that none have been created yet.
+	<i class="icon-info-sign"></i> No beta keys found.
 </p>
 <?php endif; ?>
 
@@ -48,6 +48,6 @@
 <?php else: ?>
 <br />
 <p class="alert alert-information">
-	No checks have been run. This usually indicates a database error.
+	<i class="icon-cog"></i> No checks have been run. Please see <tt>README.md</tt> for instructions on how to set up monitoring.
 </p>
 <?php endif; ?>

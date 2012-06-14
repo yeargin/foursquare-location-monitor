@@ -36,7 +36,12 @@ class Admin_controller extends CI_Controller {
 		$this->load->config('migration');
 		$query = $this->db->query('SELECT `version` FROM `migrations`');
 		$migration = $query->row();
-		$data['prompt_update'] = ((int) $migration->version < (int) $this->config->item('migration_version')) ? true : false;
+		$data['prompt_update'] = ((int) $migration->version < (int) $this->config->item('migration_version')) ? $migration->version : false;
+
+		// Check to see if monitoring is running
+		$query = $this->db->query('SELECT MAX(insert_ts) AS `last_insert`, NOW() AS `right_now` FROM foursquare_check_log_live;');
+		$last_check = $query->row();
+		$data['prompt_cron'] = ($last_check->last_insert && (strtotime($last_check->right_now) - strtotime($last_check->last_insert)) > 60*60) ? $last_check->last_insert : false;
 
 		// Get list of users
 		$data['active_accounts'] = $this->user->adminGetAllUsers(true, 10);

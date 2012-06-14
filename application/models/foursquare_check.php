@@ -307,6 +307,7 @@ class Foursquare_check extends CI_Model {
 	public function adminGetAllChecks($limit = 25, $offset = 0) {
 		$this->db->select(array('foursquare_checks.id AS check_id', 'check_title', 'venue_id', 'last_live_check_ts', 'last_daily_check_ts', 'users.id AS user_id', 'username'));
 		$this->db->join('users', 'users.id = foursquare_checks.user_id');
+		$this->db->where('last_live_check_ts >', '0000-00-00');
 		$this->db->order_by('last_live_check_ts', 'DESC');
 		$this->db->limit($limit, $offset);
 		$query = $this->db->get('foursquare_checks');

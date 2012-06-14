@@ -26,7 +26,11 @@ Within the `application/cron` folder, you will find a shell script and a faux da
 
 `cd /path/to/webroot ; ./application/cron/foursquare_checks.sh`
 
-The script will self-regulate (meaning, it will not attempt a daily check more than once a day, and live checks are configured to be no more than one every 15 minutes). The larger your check database becomes, the more often you will need to process through records.
+The script will self-regulate (meaning, it will not attempt a daily check more than once a day, and live checks are configured to be no more than one every 15 minutes). The larger your check database becomes, the more often you will need to process through records. If you receive an error in the Administrator Dashboard that says that monitoring has stopped, verify that `cron` or other task scheduling service is running properly.
+
+If you are wanting to set up Location Monitor for local development, the easiest way is to use the script found in `application/cron/daemon.sh`. Here is a recommended usage:
+
+`$ ./application/cron/daemon.sh ./application/cron/foursquare_checks.sh 300`
 
 Powered By
 ==========

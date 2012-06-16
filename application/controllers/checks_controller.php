@@ -153,7 +153,7 @@ class Checks_controller extends CI_Controller {
 		
 		// Grab check_id from URL
 		$check_id = $this->uri->segment(3);
-		$export_type = $this->uri->segment(4);
+		$export_type = $this->input->get('type');
 
 		// Get data for this check
 		$check = $this->foursquare_check->getCheckById($check_id);

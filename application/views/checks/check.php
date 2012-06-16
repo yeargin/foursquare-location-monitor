@@ -1,16 +1,52 @@
-<ul>
-	<li><strong>Status:</strong> <?php echo ($check->active == 1) ? 'Active' : 'Disabled'; ?></li>
-	<li><strong>Created:</strong> <?php echo date('F j, Y', strtotime($check->insert_ts)); ?></li>
-	<li><strong>Updated:</strong> <?php echo date('F j, Y', strtotime($check->insert_ts)); ?></li>
-	<li><strong>Last Daily Check:</strong> <?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></li>
-	<li><strong>Last Live Check:</strong> <?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></li>
-</ul>
+<div class="row">
 
-<p>
-	<a href="<?php echo site_url('foursquare/venue') .'/'. $check->venue_id; ?>" class="btn small"><i class="icon-map-marker"></i> View Venue</a>
-	<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small"><i class="icon-pencil"></i> Edit Check</a>
-</p>
+	<div class="span3">
+		<label>Venue</label>
+		<h3><i class="icon-map-marker"></i> <a href="<?php echo site_url('foursquare/venue') .'/'. $check->venue_id; ?>"><?php echo __($check->check_title); ?></a></h3>
+	</div>
+	
+	<div class="span3">
+		<label>Status</label>
+		<div><?php if ($check->active == 1): ?>
+		<h3>Active</h3>
+		<?php else: ?>
+		<h3>Inactive</h3>
+		<?php endif; ?></div>
+	</div>
+	
+	<div class="span3">
+		<label>Created</label>
+		<h3><?php echo date('F j, Y', strtotime($check->insert_ts)); ?></h3>
+	</div>
+	
+</div>
 
+<br />
+	
+<div class="row">
+
+	<div class="span3">
+		<label>Last Daily Check</label>
+		<h3><?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></h3>
+	</div>
+	
+	<div class="span3">
+		<label>Last Live Check</label>
+		<h3><?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></h3>
+	</div>
+	
+	<div class="span3">
+		<label>&nbsp;</label>
+		<p><a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small"><i class="icon-pencil"></i> Edit Check</a></p>
+	</div>
+	
+</div>
+
+<hr />
+
+<div class="pull-right">
+	<a href="<?php echo site_url('checks/export') .'/'. $check->id . '?type=live'; ?>" class="btn small" rel="tooltip" title="Export CSV"><i class="icon-download-alt"></i></a>
+</div>
 <h3>Live Data</h3>
 <?php if (count($live_data) > 2): ?>
 <div id="chart_live" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">
@@ -46,6 +82,9 @@
 
 <hr />
 
+<div class="pull-right">
+	<a href="<?php echo site_url('checks/export') .'/'. $check->id . '?type=daily'; ?>" class="btn small" rel="tooltip" title="Export CSV"><i class="icon-download-alt"></i></a>
+</div>
 <h3>Daily Data</h3>
 <?php if (count($daily_data_delta) > 2): ?>
 <div id="chart_daily" class="spinner" style="width:100%; height:275px; margin-bottom:1em;">

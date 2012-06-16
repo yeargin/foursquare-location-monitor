@@ -19,11 +19,19 @@
 	<?php if (is_array($dashboard_modules) && count($dashboard_modules) > 0): ?>
 	<?php foreach ($dashboard_modules as $module): ?>
 	<div class="dashboard-module span4">
-		<p class="pull-right">
-			<a href="<?php echo site_url('foursquare/venue') .'/'. $module['venue_id']; ?>" class="btn btn-small" rel="tooltip" title="View Venue"><i class="icon-map-marker"></i></a>
-			<a href="<?php echo site_url('checks/check_edit') .'/'. $module['check_id']; ?>" class="btn btn-small" rel="tooltip" title="Edit Check"><i class="icon-pencil"></i></a>
-			<a href="<?php echo site_url('checks/check') .'/'. $module['check_id']; ?>" class="btn btn-small" rel="tooltip" title="View Check Log"><i class="icon-book"></i></a>
-		</p>
+		<div class="pull-right">
+			<div class="btn-group">
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i><span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="<?php echo site_url('foursquare/venue') .'/'. $module['venue_id']; ?>"><i class="icon-map-marker"></i> View Venue</a></li>
+					<li><a href="<?php echo site_url('checks/check_edit') .'/'. $module['check_id']; ?>"><i class="icon-pencil"></i> Edit Check</a></li>
+					<li><a href="<?php echo site_url('checks/check') .'/'. $module['check_id']; ?>"><i class="icon-book"></i> View Check Log</a></li>
+					<li class="divider"></li>
+					<li><a href="<?php echo site_url('checks/export') .'/'. $module['check_id'] . '?type=daily'; ?>"><i class="icon-download-alt"></i> Daily Export</a></li>
+					<li><a href="<?php echo site_url('checks/export') .'/'. $module['check_id'] . '?type=live'; ?>"><i class="icon-download-alt"></i> Live Export</a></li>
+				</ul>
+			</div>
+		</div>
 		<h3>
 			<a href="<?php echo site_url('foursquare/venue') .'/'. $module['venue_id']; ?>"><?php echo (strlen($module['check_title']) > 20) ? __(substr($module['check_title'], 0, 22)).'&#133;' : __($module['check_title']); ?></a>
 		</h3>

@@ -71,6 +71,9 @@
 			</p>
 			<?php endif; ?>
 
+			<div class="pull-right">
+				<a href="<?php echo site_url('checks/export') .'/'. $check->id . '?type=live'; ?>" class="btn small" rel="tooltip" title="Export CSV"><i class="icon-download-alt"></i></a>
+			</div>
 			<h3>Live Metrics <small>(About every 10 minutes)</small></h3>
 
 			<?php if (count($live_data) > 2): ?>
@@ -84,6 +87,9 @@
 			</p>
 			<?php endif; ?>
 
+			<div class="pull-right">
+				<a href="<?php echo site_url('checks/export') .'/'. $check->id . '?type=daily'; ?>" class="btn small" rel="tooltip" title="Export CSV"><i class="icon-download-alt"></i></a>
+			</div>
 			<h3>Daily Metrics</h3>
 
 			<?php if (count($daily_data_delta) > 2): ?>

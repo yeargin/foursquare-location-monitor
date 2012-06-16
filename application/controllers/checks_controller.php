@@ -17,6 +17,7 @@ class Checks_controller extends CI_Controller {
 
 		$this->load->helper('time');
 		$this->load->helper('tag');
+		$this->load->helper('csv');
 
 		$this->apiKey = $this->config->item('foursquare_consumer_key');
 		$this->clientId = $this->config->item('foursquare_consumer_key');
@@ -135,7 +136,55 @@ class Checks_controller extends CI_Controller {
 		$data['sidebar_content'] = $this->load->view('checks/_date_range_form', $data, true);
 		$data['page_title'] = 'Check Log: ' . __($data['check']->check_title);
 		
-		$this->load->view('checks/check', $data);	
+		$this->load->view('checks/check', $data);
+	}
+	
+	/**
+	 * Export check Data
+	 */
+	public function export() {
+		$this->layout = null;
+		
+		// Setup for various actions
+		$data = $this->setup();
+
+		// Grab user object from session
+		$user = unserialize($this->session->userdata('user'));
+		
+		// Grab check_id from URL
+		$check_id = $this->uri->segment(3);
+		$export_type = $this->uri->segment(4);
+
+		// Get data for this check
+		$check = $this->foursquare_check->getCheckById($check_id);
+
+		// Need both models loaded
+		$this->load->model('foursquare_check_log_live');
+		$this->load->model('foursquare_check_log');
+
+		// Switch based on requested file
+		switch($export_type):
+
+			case 'live':
+				// Load Live Check Data
+				$export_data = $this->foursquare_check_log_live->getCheckData($check_id, $this->date_range);
+				$download_filename = 'live_export_'.url_title($check->check_title.'_'.time());
+				break;
+
+			case 'daily':
+			default:
+				// Load Daily Check Data
+				$export_data = $this->foursquare_check_log->getCheckData($check_id, $this->date_range);
+				$download_filename = 'daily_export_'.url_title($check->check_title.'_'.time());
+				break;
+			
+		endswitch;
+
+		// Build Download File
+		array_objects_to_csv($export_data, $download_filename);
+	
+		return;
+		
 	}
 	
 	/**

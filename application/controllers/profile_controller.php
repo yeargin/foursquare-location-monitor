@@ -15,6 +15,7 @@ class Profile_controller extends CI_Controller {
 			redirect('/login/?redirect=/profile');
 	
 		$this->load->model('user');
+		$this->load->model('foursquare_check');
 		$this->load->library('form_validation');
 	}
 
@@ -38,6 +39,9 @@ class Profile_controller extends CI_Controller {
 			$this->session->set_flashdata('message', 'Profile updated!');
 			redirect('profile');
 		endif;
+
+		// Get Package Information
+		$data['usage'] = $this->foursquare_check->remainingChecksCount();
 
 		$data['page_title'] = 'Profile';
 		$data['sidebar_content'] = $this->load->view('account/_sidebar', $data, true);

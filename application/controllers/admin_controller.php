@@ -24,6 +24,7 @@ class Admin_controller extends CI_Controller {
 		// Models
 		$this->load->model('foursquare_check');
 		$this->load->model('beta_key');
+		$this->load->model('package');
 
 	}
 
@@ -86,7 +87,7 @@ class Admin_controller extends CI_Controller {
 			show_error('Invalid user ID.');
 		
 		// Package list
-		$packages = $this->user->packageList();
+		$packages = $this->package->getPackages();
 		foreach ($packages as $row):
 			$package_list[$row->id] = sprintf('%s (%s)', $row->name, number_format($row->check_limit));
 		endforeach;

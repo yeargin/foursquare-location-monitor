@@ -91,7 +91,7 @@ class Checks_controller extends CI_Controller {
 		$tag_list = $this->foursquare_check->getTagList();
 		$data['tag_list'] = $tag_list;
 		
-		$data['page_title'] = 'Venue Checks';
+		$data['page_title'] = 'Monitored Locations';
 		$data['head_content'] = $this->load->view('checks/_head', $data, true);
 		$this->load->view('checks/checks', $data);	
 		$this->load->view('checks/_tag_modal', $data);	
@@ -134,7 +134,7 @@ class Checks_controller extends CI_Controller {
 
 		$data['date_range'] = $this->date_range;
 		$data['sidebar_content'] = $this->load->view('checks/_date_range_form', $data, true);
-		$data['page_title'] = 'Check Log: ' . __($data['check']->check_title);
+		$data['page_title'] = 'Monitoring Log: ' . __($data['check']->check_title);
 		
 		$this->load->view('checks/check', $data);
 	}
@@ -222,7 +222,8 @@ class Checks_controller extends CI_Controller {
 			redirect(sprintf('foursquare/venue/%s', $venue_id));
 		endif;
 		
-		// Confirm Add
+		$data['page_title'] = 'Add Location Monitoring';
+		
 		$this->load->view('checks/check_form', $data);
 	}
 	
@@ -251,7 +252,8 @@ class Checks_controller extends CI_Controller {
 			redirect(sprintf('foursquare/venue/%s', $check->venue_id));
 		endif;
 		
-		// Show Edit Form
+		$data['page_title'] = 'Edit Location Monitoring';
+		
 		$this->load->view('checks/check_form', $data);
 	
 	}
@@ -276,7 +278,8 @@ class Checks_controller extends CI_Controller {
 			redirect(sprintf('foursquare/venue/%s', $check->venue_id));
 		endif;
 			
-		// Show Edit Form
+		$data['page_title'] = 'Delete Location Monitoring';
+
 		$this->load->view('checks/check_delete', $data);
 		
 	}

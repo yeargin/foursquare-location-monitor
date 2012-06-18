@@ -33,13 +33,13 @@
 			<div class="btn-group">
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-wrench"></i><span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="<?php echo site_url('checks/check') .'/'. ($check->id); ?>"><i class="icon-book"></i> Check Log</a></li>
-					<li><a href="<?php echo site_url('checks/check_edit') .'/'. ($check->id); ?>"><i class="icon-pencil"></i> Edit Check</a></li>
+					<li><a href="<?php echo site_url('checks/check') .'/'. ($check->id); ?>"><i class="icon-book"></i> Monitoring Log</a></li>
+					<li><a href="<?php echo site_url('checks/check_edit') .'/'. ($check->id); ?>"><i class="icon-pencil"></i> Edit Monitoring</a></li>
 					<li><a data-toggle="modal" href="#tagModal" onclick="openTagModal(this)" data-check_title="<?php echo __($check->check_title); ?>" data-check_id="<?php echo __($check->id); ?>" data-tags="<?php echo (isset($tags[$check->id])) ? join(', ', $tags[$check->id]) : ''; ?>"><i class="icon-tag"></i> Edit Tags</a>
 					<?php if ($check->active == 1): ?>
-					<li><a href="<?php echo site_url('checks/check_deactivate') .'/'. ($check->id); ?>"><i class="icon-remove-circle"></i> Deactivate Check</a></li>
+					<li><a href="<?php echo site_url('checks/check_deactivate') .'/'. ($check->id); ?>"><i class="icon-remove-circle"></i> Deactivate Monitoring</a></li>
 					<?php else: ?>
-					<li><a href="<?php echo site_url('checks/check_activate') .'/'. ($check->id); ?>"><i class="icon-ok-circle"></i> Activate Check</a></li>
+					<li><a href="<?php echo site_url('checks/check_activate') .'/'. ($check->id); ?>"><i class="icon-ok-circle"></i> Activate Monitoring</a></li>
 					<?php endif; ?>
 				</ul>
 			</div>
@@ -53,5 +53,5 @@
 <hr />
 
 <p>
-	<a href="<?php echo site_url('checks'); ?>">&laquo; Back to Venue Checks</a>
+	<a href="<?php echo site_url('checks'); ?>">&laquo; Back to Monitored Locations</a>
 </p>

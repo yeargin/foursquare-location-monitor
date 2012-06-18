@@ -25,9 +25,9 @@
 </div>
 
 <div class="clearfix">
-	<label>&nbsp;</label>
+	<label>Password</label>
 	<div class="input">
-		<a href="<?php echo site_url('profile/change_password'); ?>">Change Password</a>
+		<h3>&bull; &bull; &bull; &bull; &bull; &bull; <small><a href="<?php echo site_url('profile/change_password'); ?>">(Change)</a></small></h3>
 	</div>
 </div>
 

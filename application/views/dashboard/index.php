@@ -67,7 +67,7 @@
 		<div class="hero-unit">
 			<h2>Excellent!</h2>
 			<p>
-				You are authenticated with Foursquare! Now, <a href="<?php echo site_url('foursquare/search'); ?>">search for venues</a> to monitor.
+				You are authenticated with Foursquare! Now, <a href="<?php echo site_url('foursquare/search'); ?>">search for locations</a> to monitor.
 			</p>
 		</div>
 	<?php endif; ?>

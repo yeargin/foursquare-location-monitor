@@ -110,14 +110,6 @@ class User extends CI_Model {
 		return $user;
 	}
 	
-	public function packageList() {
-		$this->db->order_by('check_limit', 'ASC');
-		$query = $this->db->get('packages');
-		
-		return $query->result();
-		
-	}
-	
 	public function userExists($username = null) {
 		$this->db->where('username', $username);
 		$query = $this->db->get('users');

@@ -45,15 +45,21 @@
 				<?php if ($this->session->userdata('user')): ?>
 				<ul class="nav">
 					<li><a href="/">Dashboard</a></li>
-					<li><a href="/checks/">Venue Checks</a></li>
-					<li><a href="/foursquare/search/">Search Venues</a></li>
-					<?php if ($user->level == 'admin'): ?>
-					<li><a href="/admin/">Site Administration</a></li>
-					<?php endif; ?>
+					<li><a href="/checks/">Monitored Locations</a></li>
+					<li><a href="/foursquare/search/">Search</a></li>
 				</ul>
 				<div class="pull-right">
 				<ul class="nav">
-					<li><a href="/profile/"><?php echo $user->display_name; ?>'s Profile</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $user->display_name; ?> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="/profile/">Your Profile</a></li>
+							<?php if ($user->level == 'admin'): ?>
+							<li class="divider"></li>
+							<li><a href="/admin/">Site Administration</a></li>
+							<?php endif; ?>
+						</ul>
+					</li>
 					<li><a href="<?php echo site_url('logout'); ?>">Logout</a></li>
 				</ul>
 				</div>

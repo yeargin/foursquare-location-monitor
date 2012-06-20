@@ -45,18 +45,21 @@ class Packages_controller extends CI_Controller {
 		// Check if change would cause an overage
 		$usage = $this->foursquare_check->remainingChecksCount();
 		$data['usage'] = $usage;
-		$data['overage'] = ($usage['checks']->active_checks > $package->check_limit) ? $usage['checks']->active_checks - $package->check_limit : false;
+		$overage = ($usage['checks']->active_checks > $package->check_limit) ? $usage['checks']->active_checks - $package->check_limit : false;
+		$data['overage'] = $overage;
 
 		// Prevent a change to same package
 		if ($usage['package']->id == $package->id)
 			show_error('You are already using this package.');
 
-		// Load list of checks
-		$checks = $this->foursquare_check->getChecksByUserId($user->id, $this->input->get('tag'));
-		$data['checks'] = $checks;
-
 		// Determine type of change
 		$change_type = ($usage['package']->check_limit < $package->check_limit) ? 'Upgrade' : 'Downgrade';
+
+		if ($this->input->post('confirm_change') == 'true'):
+			$this->user->changePackage($user->id, $package->id);
+			$this->session->set_flashdata('message', sprintf('%s to %s package complete!', $change_type, $package->name));
+			redirect('profile');
+		endif;
 
 		$data['page_title'] = 'Confirm Package ' . $change_type;
 		$this->load->view('account/package_change', $data);

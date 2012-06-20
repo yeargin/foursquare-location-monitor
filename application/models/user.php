@@ -7,10 +7,16 @@ class User extends CI_Model {
 	public $last_name;
 	public $email;
 	
+	/**
+	 * Return instance
+	 */
 	public function instance() {
 		return $this;
 	}
 
+	/**
+	 * Login
+	 */
 	public function login() {
 		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id', 'insert_ts', 'status'));
 		$this->db->where('username', $this->input->post('username'));
@@ -28,11 +34,17 @@ class User extends CI_Model {
 		endif;
 	}
 	
+	/**
+	 * Logout
+	 */
 	public function logout() {
 		$this->session->unset_userdata('user');
 		return true;
 	}
 	
+	/**
+	 * Is Logged In
+	 */
 	public function isLoggedIn() {
 		$user = unserialize($this->session->userdata('user'));
 		if (!$user)
@@ -41,18 +53,33 @@ class User extends CI_Model {
 			return true;
 	}
 	
+	/**
+	 * Get User By ID
+	 *
+	 * @param string $id 
+	 */
 	public function getUserById($id = 0) {
 		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id', 'insert_ts', 'status'));
 		$query = $this->db->get_where('users', array('id' => $id), 1);
 		return $query->row();
 	}
 	
+	/**
+	 * Get User by Username
+	 *
+	 * @param string $username 
+	 */
 	public function getUserByUsername($username = null) {
 		$this->db->select(array('id', 'username', 'display_name', 'first_name', 'last_name', 'email', 'level', 'package_id', 'insert_ts', 'status'));
 		$query = $this->db->get_where('users', array('username' => $username), 1);
 		return $query->row();
 	}
 	
+	/**
+	 * Update User from POST
+	 *
+	 * @param string $id 
+	 */
 	public function updateUserFromPost($id) {
 		$update_user_data = array(
 			'display_name' => $this->input->post('first_name') . ' ' . $this->input->post('last_name'),
@@ -65,14 +92,18 @@ class User extends CI_Model {
 		
 		// Update session information
 		if ($update):
-			$user = $this->getUserById($id);
-			$this->session->unset_userdata('user');
-			$this->session->set_userdata('user', serialize($user));
+			$this->resetSessionData($id);
 		endif;
 		
 		return $update;
 	}
 	
+	/**
+	 * Update Password from POST
+	 *
+	 * @param string $id 
+	 * @return boolean
+	 */
 	public function updatePasswordFromPost($id) {
 		$update_user_data = array(
 			'password' => md5($this->input->post('password') . $this->config->item('encryption_key'))
@@ -83,7 +114,35 @@ class User extends CI_Model {
 		return $update;
 	}
 	
+	/**
+	 * Change Package
+	 *
+	 * @param string $user_id 
+	 * @param string $package_id 
+	 */
+	public function changePackage($user_id = 0, $package_id = 0) {
+		$this->db->where('id', $user_id);
+		$this->db->update('users', array('package_id' => $package_id));
+		$this->resetSessionData($user_id);
+		return true;
+	}
 	
+	/**
+	 * Reset Session Data
+	 *
+	 * @param string $id 
+	 */
+	public function resetSessionData($id) {
+		$user = $this->getUserById($id);
+		$this->session->unset_userdata('user');
+		$this->session->set_userdata('user', serialize($user));
+	}
+	
+	/**
+	 * Create New User from POST
+	 *
+	 * @return $user
+	 */
 	public function createNewUserFromPost() {
 		$insert_user_data = array(
 			'username' => $this->input->post('username'),
@@ -100,9 +159,7 @@ class User extends CI_Model {
 		
 		// Authenticate the user
 		if ($insert):
-			$user = $this->getUserById($this->db->insert_id());
-			$this->session->unset_userdata('user');
-			$this->session->set_userdata('user', serialize($user));
+			$this->resetSessionData($this->db->insert_id());
 		else:
 			show_eror('User registration failed.', 500);
 		endif;
@@ -110,6 +167,12 @@ class User extends CI_Model {
 		return $user;
 	}
 	
+	/**
+	 * User Exists
+	 *
+	 * @param string $username 
+	 * @return boolean
+	 */
 	public function userExists($username = null) {
 		$this->db->where('username', $username);
 		$query = $this->db->get('users');
@@ -134,7 +197,7 @@ class User extends CI_Model {
 	/* ***** Site Administrator Methods ***** */
 	
 	/**
-	 * Admin Check
+	 * Is Admin Check
 	 */
 	public function isAdmin() {
 		$user = unserialize($this->session->userdata('user'));
@@ -145,7 +208,7 @@ class User extends CI_Model {
 	}
 	
 	/**
-	 * Admin Get All USers
+	 * Admin: Get All USers
 	 *
 	 * @param string $status 
 	 * @param string $limit 
@@ -166,6 +229,12 @@ class User extends CI_Model {
 		return $query->result();
 	}
 
+	/**
+	 * Admin: Update User Status
+	 *
+	 * @param string $user_id 
+	 * @param string $status 
+	 */
 	public function adminUpdateUserStatus($user_id, $status = 0) {
 		if (!$this->isAdmin())
 			show_error('Access denied.');
@@ -179,6 +248,12 @@ class User extends CI_Model {
 		return $status;
 	}
 	
+	/**
+	 * Admin: Change User Package
+	 *
+	 * @param string $user_id 
+	 * @param string $package_id 
+	 */
 	public function adminchangeUserPackage($user_id, $package_id) {
 		$user = $this->getUserById($user_id);
 		if (!$user)
@@ -192,6 +267,11 @@ class User extends CI_Model {
 		$this->db->update('users', $user_update_data);
 	}
 	
+	/**
+	 * Admin: Assume User
+	 *
+	 * @param string $user_id 
+	 */
 	public function adminAssumeUser($user_id) {
 		if (!$this->isAdmin())
 			show_error('Access denied.');
@@ -207,6 +287,9 @@ class User extends CI_Model {
 		return $user;
 	}
 	
+	/**
+	 * Admin: Resume Admin
+	 */
 	public function adminResumeAdmin() {
 		
 		// Pull Admin data out of temporary session store

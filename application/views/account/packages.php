@@ -16,7 +16,11 @@
 			<?php if ($profile->package_id == $package->id): ?>
 				<a class="btn disabled"><i class="icon-check"></i> Current Package</a>
 			<?php else: ?>
+				<?php if ($usage['checks']->active_checks > $package->check_limit): ?>
+				<a class="btn disabled" href="<?php echo site_url('packages/change'); ?>?package_id=<?php echo $package->id; ?>" rel="tooltip" title="You cannot downgrade to this level because you have <?php echo number_format($usage['checks']->active_checks - $package->check_limit); ?> too many locations monitored."><i class="icon-exclamation-sign"></i> Switch to <?php echo $package->name; ?></a>
+				<?php else: ?>
 				<a class="btn btn-primary" href="<?php echo site_url('packages/change'); ?>?package_id=<?php echo $package->id; ?>">Switch to <?php echo $package->name; ?></a>
+				<?php endif; ?>
 			<?php endif; ?>
 			</p>
 		</div>

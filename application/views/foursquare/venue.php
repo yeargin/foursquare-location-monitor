@@ -104,8 +104,8 @@
 			<?php endif; ?>
 
 			<p>
-				<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small"><i class="icon-book"></i> Check Log</a>
-				<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small"><i class="icon-pencil"></i> Edit Check</a>
+				<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small"><i class="icon-book"></i> Monitoring Log</a>
+				<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small"><i class="icon-pencil"></i> Edit Monitoring</a>
 				<span class="taglist" data-check_id="<?php echo __($check->id); ?>" style="margin-left:0.5em;"><?php echo (isset($tags[$check->id])) ? listTags($tags[$check->id]) : ''; ?></span>
 			</p>
 

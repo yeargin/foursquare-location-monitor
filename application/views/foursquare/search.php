@@ -31,11 +31,11 @@
 			<div class="btn-group">
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-wrench"></i><span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="<?php echo site_url('foursquare/venue') .'/'. $row->id; ?>"><i class="icon-map-marker"></i> View Venue</a></li>
+					<li><a href="<?php echo site_url('foursquare/venue') .'/'. $row->id; ?>"><i class="icon-map-marker"></i> View Location</a></li>
 					<?php if (isset($checks_by_venue[$row->id])): ?>
-					<li><a href="<?php echo site_url('checks/check') .'/'. $checks_by_venue[$row->id]->id; ?>"><i class="icon-book"></i> Check Log</a></li>
+					<li><a href="<?php echo site_url('checks/check') .'/'. $checks_by_venue[$row->id]->id; ?>"><i class="icon-book"></i> Monitoring Log</a></li>
 					<?php else: ?>
-					<li><a href="<?php echo site_url('checks/check_add') .'/'. $row->id; ?>"><i class="icon-plus-sign"></i> Add Check</a></li>
+					<li><a href="<?php echo site_url('checks/check_add') .'/'. $row->id; ?>"><i class="icon-plus-sign"></i> Add Monitoring</a></li>
 					<?php endif; ?>
 				</ul>
 			</div>

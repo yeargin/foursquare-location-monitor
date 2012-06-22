@@ -22,9 +22,8 @@
 		<?php endforeach; ?>
 		
 	</ul>
-	
 	<p>
-		<a href="<?php echo ($member->canonicalUrl); ?>" class="btn secondary">View on Foursquare</a>
+		<a href="http://foursquare.com/user/<?php echo ($member->id); ?>" class="btn secondary"><i class="icon-user"></i> View on Foursquare</a>
 	</p>
 
 </div>

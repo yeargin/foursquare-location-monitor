@@ -159,7 +159,6 @@ class Foursquare_controller extends CI_Controller {
 		$data['member'] = $profile->response->user;
 
 		$data['page_title'] = sprintf('Profile: %s %s', isset($data['member']->firstName) ? __($data['member']->firstName) : '', isset($data['member']->lastName) ? __($data['member']->lastName) : '' );
-		$data['sidebar_content'] = $this->load->view('foursquare/_sidebar', $data, true);
 		$this->load->view('foursquare/profile', $data);
 		
 	}

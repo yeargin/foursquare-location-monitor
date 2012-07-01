@@ -6,8 +6,6 @@
 
 	<?php echo form_fieldset(); ?>
 
-		<legend>Login</legend>
-
 		<div class="clearfix">
 			<?php echo form_label('Username', 'username'); ?>
 			<div class="input">
@@ -26,11 +24,7 @@
 
 		<div class="form-actions">
 			<?php echo form_submit('login', 'Login', 'class="btn primary"'); ?>
-			<?php if ($beta_only): ?>
-			<a href="<?php echo site_url('register/beta'); ?>">Have a beta code?</a>
-			<?php else: ?>
-			<a href="<?php echo site_url('register'); ?>">Register for an account</a>
-			<?php endif; ?>
+			&nbsp; &nbsp; <a href="<?php echo site_url('login/forgot_password'); ?>">Forgot your password?</a>
 		</div>
 
 	<?php echo form_fieldset_close(); ?>

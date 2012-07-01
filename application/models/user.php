@@ -186,11 +186,73 @@ class User extends CI_Model {
 		
 	}
 
-	public function getPasswordResetKey($username = '') {
+	/**
+	 * Generate Password Reset Key
+	 *
+	 * @return void
+	 * @author Stephen Yeargin
+	 */
+	public function generatePasswordResetKey() {
+		$this->load->helper('string');
+		return sprintf('%s-%d', random_string('alnum', 16), time());
+	}
+
+	/**
+	 * Set Password Reset Key
+	 *
+	 * @param string $username 
+	 */
+	public function setPasswordResetKey($username = '') {
+		$user = $this->getUserByUsername($username);
+		if (!$user)
+			return false;
+		
+		// Generate and set the password reset key
+		$activation_key = $this->generatePasswordResetKey();
+		$this->db->where('id', $user->id);
+		$user_data['activation_key'] = $activation_key;
+		$this->db->update('users', $user_data);
+		
+		// Assemble information to return to controller
+		$data['user'] = $user;
+		$data['activation_key'] = $activation_key;
+		
+		return $data;
 		
 	}
 
-	public function usePasswordResetKey($key = '') {
+	/**
+	 * Use Password Reset Key
+	 *
+	 * @param string $username 
+	 * @param string $activation_key 
+	 */
+	public function usePasswordResetKey($username = '', $activation_key = '') {
+
+		if (!$activation_key)
+			return false;
+
+		$this->db->where('username', $username);
+		$this->db->where('activation_key', $activation_key);
+		$query = $this->db->get('users');
+		$user = $query->row();
+		
+		if (!$user)
+			return false;
+		
+		// Remove activation key data
+		$this->db->where('id', $user->id);
+		$user_data['activation_key'] = null;
+		$this->db->update('users', $user_data);
+		
+		// Prevent keys from being permanently available
+		$ts = explode('-', $activation_key);
+		if (time()-3600 > $ts[1])
+			show_error('Activation key expired. Please request a new key.');
+
+		$this->resetSessionData($user->id);
+		
+		return true;
 
 	}
 

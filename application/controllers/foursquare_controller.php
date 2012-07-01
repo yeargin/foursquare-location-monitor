@@ -232,8 +232,10 @@ class Foursquare_controller extends CI_Controller {
 		$userInfo = json_decode($this->ignitefoursquare->GetPrivate('/users/self'));
 
 		// Check for error in initial response, usually indicates API outage
-		if (!isset($userInfo->response->user))
-			show_error('Response: ' . serialize($userInfo), 500);
+		if (!isset($userInfo->response->user) && isset($userInfo->reponse->errorDetail))
+			show_error($userInfo->response->errorDetail, 500);
+		elseif ($userInfo == false)
+			show_error('Application could not understand response from the foursquare server.', 500);
 
 		$data['userInfo'] = $userInfo->response->user;
 

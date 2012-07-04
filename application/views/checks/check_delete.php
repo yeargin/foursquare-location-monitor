@@ -1,6 +1,6 @@
 <form method="post">
 <fieldset>
-<legend>Are you sure you want to delete this venue check?<legend>
+<legend>Are you sure you want to delete this venue check?</legend>
 <div class="control-group">
 	<ul class="unstyled">
 		<li><strong>Title:</strong> <?php echo __($check->check_title); ?></li>

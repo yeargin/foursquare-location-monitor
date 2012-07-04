@@ -523,6 +523,7 @@ class Checks_controller extends CI_Controller {
 						$this->console_log('Adding log entry ...');
 						$this->foursquare_check_log->addLogEntry($log_data);
 					else:
+						if (isset($venue->meta->errorDetail)) $this->console_log('[ERROR] ' . $venue->meta->errorDetail); else '[ERROR] ' . $this->console_log(serialize($venue));
 						$this->console_log('This check did not return any statistics. Could be an API error. Skipping.');
 						continue;
 					endif;
@@ -590,6 +591,7 @@ class Checks_controller extends CI_Controller {
 						$this->console_log('Adding log entry ...');
 						$this->foursquare_check_log_live->addLogEntry($log_data);
 					else:
+						if (isset($venue->meta->errorDetail)) $this->console_log('[ERROR] ' . $venue->meta->errorDetail); else '[ERROR] ' . $this->console_log(serialize($venue));
 						$this->console_log('This check did not return any statistics. Could be an API error. Skipping.');
 						continue;
 					endif;

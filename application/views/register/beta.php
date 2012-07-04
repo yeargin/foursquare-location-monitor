@@ -1,17 +1,17 @@
 <?php echo validation_errors(); ?>
 
-<?php echo form_open('register', array('class' => 'form form-vertical', 'method' => 'get')); ?>
+<?php echo form_open('register', array('class' => 'form form-horizontal', 'method' => 'get')); ?>
 <?php echo form_fieldset(''); ?>
 
-<div class="clearfix">
-	<?php echo form_label('Beta Key', 'beta_key'); ?>
-	<div class="input">
+<div class="control-group">
+	<?php echo form_label('Beta Key', 'beta_key', array('class'=>'control-label')); ?>
+	<div class="controls">
 		<?php echo form_input('beta_key', $beta_key); ?>
 	</div>
 </div>
 
 <div class="form-actions">
-	<?php echo form_submit('', 'Validate Beta Key', 'class="btn primary"'); ?>
+	<?php echo form_submit('', 'Validate Beta Key', 'class="btn btn-primary"'); ?>
 	<a href="<?php echo site_url('/'); ?>">Cancel</a>
 </div>
 

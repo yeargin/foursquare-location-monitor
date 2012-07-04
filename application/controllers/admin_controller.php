@@ -54,6 +54,7 @@ class Admin_controller extends CI_Controller {
 		// Get beta keys
 		$data['beta_keys'] = $this->beta_key->adminGetAllBetaKeys(25);
 
+		$data['sidebar_content'] = $this->load->view('admin/_sidebar', $data, true);
 		$data['page_title'] = 'Administrator Dashboard';
 		$this->load->view('admin/dashboard', $data);
 		
@@ -206,6 +207,75 @@ class Admin_controller extends CI_Controller {
 
 		$this->session->set_flashdata('message', 'Database upgrade complete!');
 		redirect('/admin/');
+		
+	}
+	
+	public function packages() {
+		$data['packages'] = $this->package->getPackagesWithUserCount();
+		$data['page_title'] = 'Manage Packages';
+		
+		$this->load->view('admin/packages', $data);
+	}
+	
+	public function package() {
+		
+		$package_id = $this->uri->segment(3);
+		
+		// Handle update request
+		if ($this->input->post('id') > 0):
+			$this->package->updatePackageFromPost();
+			$this->session->set_flashdata('message', 'Package updated!');
+			redirect('admin/packages');
+
+		// handle add request
+		elseif ($this->input->post('name') != ''):
+			$this->package->addPackageFromPost();
+			$this->session->set_flashdata('message', 'Package added!');
+			redirect('admin/packages');
+		endif;
+	
+		// Display new package Form
+		if ($package_id == 'new'):
+					
+			$data['package'] = new Package();
+			$data['page_title'] = 'New Package';
+		
+		// Display packaged edit form
+		else:
+			
+			$package = $this->package->getPackageById($package_id);
+			if (!$package)
+				show_404();
+			
+			$data['package'] = $package;
+			$data['page_title'] = $package->name;
+			
+		endif;
+		
+		$this->load->view('admin/form_package', $data);
+		
+	}
+	
+	public function package_delete() {
+		$package_id = $this->uri->segment(3);
+		
+		$package = $this->package->getPackageById($package_id);
+		if (!$package)
+			show_404();
+		
+		if ($this->input->post('migrate_to') > 0):
+			$this->package->deletePAckage($package->id, $this->input->post('migrate_to'));
+			$this->session->set_flashdata('message', 'Package deleted!');
+			redirect('admin/packages');
+		endif;
+		
+		$data['packages'] = $this->package->getPackages();		
+		$data['package'] = $package;
+
+		$data['page_title'] = 'Delete ' . $package->name;
+		
+		$this->load->view('admin/form_package_delete', $data);
+		
 		
 	}
 	

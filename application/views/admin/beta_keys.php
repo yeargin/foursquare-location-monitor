@@ -1,3 +1,9 @@
+<div class="pull-right">
+	<p>
+		<a href="<?php echo site_url('admin/beta_key_new'); ?>" class="btn btn-small"><i class="icon-plus"></i> New Beta Key</a>
+	</p>
+</div>
+
 <?php if (isset($beta_keys) && is_array($beta_keys) && count($beta_keys) > 0): ?>
 <?php $this->load->view('admin/_beta_keys_table', array('beta_keys'=>$beta_keys)); ?>
 <?php else: ?>

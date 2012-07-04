@@ -2,4 +2,5 @@
 application/cache/*
 application/config/application.php
 application/config/database.php
+application/config/email.php
 application/logs/*

@@ -20,6 +20,6 @@ $(document).ready(function() {
 		return confirm('Are you sure you want to do that?');
 	});
 	
-	$('input[type="date"]').datepicker();
+	$('input.datepicker').datepicker();
 
 });

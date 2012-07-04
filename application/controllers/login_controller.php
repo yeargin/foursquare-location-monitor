@@ -70,7 +70,8 @@ class Login_controller extends CI_Controller
 				
 		endif;
 		
-		$data = array();
+		$data['page_title'] = 'Forgot Password';
+		
 		$this->load->view('login/forgot_password_form', $data);
 	}
 	

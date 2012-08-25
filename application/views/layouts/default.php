@@ -14,6 +14,7 @@
 	<title><?php echo $this->config->item('application_name'); ?><?php echo isset($page_title) ? ' &raquo; ' . __($page_title) : ''; ?></title>
 
 	<link rel="shortcut icon" type="application/ico" href="<?php echo site_url('/assets/img/favicon.ico'); ?>" />
+	<link rel="apple-touch-icon" type="image/png" href="<?php echo site_url('/assets/img/location-monitor-iphone.png'); ?>" />
 
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/libraries/bootstrap/css/bootstrap.css'); ?>" />
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/libraries/bootstrap/css/bootstrap-responsive.css'); ?>" />
@@ -38,7 +39,7 @@
 					<span class="icon-bar"></span>
 				</a>
 				<!-- Be sure to leave the brand out there if you want it shown -->
-				<a class="brand" href="<?php echo site_url('/'); ?>"><img src="<?php echo site_url('/assets/img/monitor_icon.png'); ?>" /> <?php echo $this->config->item('application_name'); ?></a>
+				<a class="brand" href="<?php echo site_url('/'); ?>"><img src="<?php echo site_url('/assets/img/location-monitor-32x32.png'); ?>" alt="location monitor icon" /> <?php echo $this->config->item('application_name'); ?></a>
  
 				<!-- Everything you want hidden at 940px or less, place within here -->
 				<div class="nav-collapse">
@@ -94,7 +95,7 @@
 	<footer class="container">
 		<hr />
 		<p>
-			<a href="<?php echo site_url(); ?>"><?php echo $this->config->item('application_name'); ?></a> &bull; Powered by <a href="http://yeargin.github.com/foursquare-location-monitor/">Location Monitor</a> and  <a href="http://foursquare.com"><img src="https://developer.foursquare.com/img/poweredByFoursquare/poweredby_16x16.png" alt="foursquare icon" /> foursquare</a> 
+			<a href="<?php echo site_url(); ?>"><?php echo $this->config->item('application_name'); ?></a> &bull; Powered by <a href="http://yeargin.github.com/foursquare-location-monitor/"><img src="<?php echo site_url('/assets/img/location-monitor-32x32.png'); ?>" alt="location monitor icon" class="location-monitor-icon" />  Location Monitor</a> and  <a href="http://foursquare.com"><img src="https://developer.foursquare.com/img/poweredByFoursquare/poweredby_16x16.png" alt="foursquare icon" class="foursquare-icon" /> foursquare</a> 
 		</p>
 	</footer>
 	

@@ -13,11 +13,10 @@ Installation (Core)
 
  1. Use `git clone git://github.com/yeargin/foursquare-location-monitor.git` (requires git) to obtain the latest version of the project.
  2. Run `git submodule init` and `git submodule update` to pull down the requisite libraries (see `.gitmodules` for where they are to be loaded)
- 3. There's a good chance that bootstrap in `application/third_party/bootstrap` isn't built. So you can either a) `make bootrap` if you have all the required build tools or b) download http://twitter.github.com/bootstrap/assets/bootstrap.zip, unzip it, and place it within that folder (it will read `bootstrap/bootstrap/css`), etc.
- 4. Rename and edit `application/config/database.php-dish` and `application/config/applicaiton.php-dist` to connect to your desired MySQL server and to provide your foursquare OAuth Consumer information. See https://developer.foursquare.com/overview/auth.html for more information about how to get this information.
- 5. Navigating to `/install` in your web browser will run the necessary database queries to set up your installation. If a connection error occurs, be sure to check your `application/config/database.php` file to make sure your credentials and database name are correct. 
- 6. Create a user by first running a query such as `INSERT INTO beta_keys (beta_key, status) VALUES ('ABCDEF123456', 1);` and then use the given beta key to create an account.
- 7. Change the 'level' column for the created user from 'user' to 'admin' to be able to access the Site Administration section (requires logout).
+ 3. Rename and edit `application/config/database.php-dish` and `application/config/applicaiton.php-dist` to connect to your desired MySQL server and to provide your foursquare OAuth Consumer information. See https://developer.foursquare.com/overview/auth.html for more information about how to get this information.
+ 4. Navigating to `/install` in your web browser will run the necessary database queries to set up your installation. If a connection error occurs, be sure to check your `application/config/database.php` file to make sure your credentials and database name are correct. 
+ 5. Create a user by first running a query such as `INSERT INTO beta_keys (beta_key, status) VALUES ('ABCDEF123456', 1);` and then use the given beta key to create an account.
+ 6. Change the 'level' column for the created user from 'user' to 'admin' to be able to access the Site Administration section (requires logout).
 
 Installation (Monitoring)
 =========================

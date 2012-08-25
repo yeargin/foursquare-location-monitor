@@ -7,6 +7,3 @@
 [submodule "application/third_party/php-foursquare"]
 	path = application/third_party/php-foursquare
 	url = git://github.com/stephenyoung/php-foursquare.git
-[submodule "application/third_party/bootstrap"]
-	path = application/third_party/bootstrap
-	url = git://github.com/twitter/bootstrap.git

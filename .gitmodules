@@ -1,3 +1,6 @@
+[submodule "application/third_party/swiftmailer"]
+	path = application/third_party/swiftmailer
+	url = git://github.com/swiftmailer/swiftmailer.git
 [submodule "assets/js/jquery.fancybox"]
 	path = assets/js/jquery.fancybox
 	url = git://github.com/fancyapps/fancyBox.git

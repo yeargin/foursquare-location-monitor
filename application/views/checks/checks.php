@@ -14,7 +14,6 @@
 	<tr>
 		<th>Title</th>
 		<th>Tags</th>
-		<th>Status</th>
 		<th>Last "Live" Check</th>
 		<th>Last Daily Check</th>
 		<th></th>
@@ -24,11 +23,17 @@
 	<?php if (is_array($checks) && count($checks) > 0): ?>
 	<?php foreach ($checks as $check): ?>
 	<tr id="check_<?php echo __($check->id); ?>">
-		<td><a href="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></a></td>
+		<td>
+			<?php if ($check->active == 1): ?>
+				<a rel="tooltip" title="Active"><i class="icon-star"></i></a>
+			<?php else: ?>
+				<a rel="tooltip" title="Inactive"><i class="icon-star-empty"></i></a>
+			<?php endif; ?>
+			<a href="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></a>
+		</td>
 		<td><span class="taglist" data-check_id="<?php echo __($check->id); ?>" style="display:block;"><?php echo (isset($tags[$check->id])) ? listTags($tags[$check->id]) : ''; ?></span></td>
-		<td><?php echo ($check->active == 1) ? 'Active' : 'Inactive'; ?></td>
-		<td><?php echo (!empty_date($check->last_live_check_ts)) ? date('F j, Y, g:i a', strtotime($check->last_live_check_ts)) : 'Not yet.'; ?></td>
-		<td><?php echo (!empty_date($check->last_daily_check_ts)) ? date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)) : 'Not yet.'; ?></td>
+		<td><?php echo (!empty_date($check->last_live_check_ts)) ? date('n/j/Y, g:i a', strtotime($check->last_live_check_ts)) : '-'; ?></td>
+		<td><?php echo (!empty_date($check->last_daily_check_ts)) ? date('n/j/Y, g:i a', strtotime($check->last_daily_check_ts)) : '-'; ?></td>
 		<td class="action-cell">
 			<div class="btn-group">
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-wrench"></i><span class="caret"></span></a>

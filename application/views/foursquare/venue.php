@@ -1,17 +1,31 @@
+<div class="row">
+
+	<p class="pull-right">
+		<?php if (isset($check->id) && $check->id > 0): ?>
+		<?php if ($check->active == 0): ?>
+		<small><span class="muted"><i class="icon-star-empty"></i> Monitoring Inactive</span></small>
+		<?php else: ?>
+		<small><span class="muted"><i class="icon-star"></i> Monitoring</span></small>
+		<?php endif; ?>
+		<?php else: ?>
+		<small><span class="muted"><i class="icon-star-empty"></i> Not Monitoring</span></small>
+		<?php endif; ?>
+	</p>
+
+</div>
+
 <div class="hero-unit">
 
 	<div class="row">
-		<div class="span7">
 		<div id="map" class="spinner" style="width:100%; height:200px; margin-bottom:1em;">
 			<p class="alert alert-info">Loading ...</p>
-		</div>
 		</div>
 	</div>
 
 	<div class="row">
 	
 		<div class="span3">
-				
+			
 			<address>
 				<?php echo isset($venue->location->address) ? $venue->location->address . '<br />' : ''; ?> 
 				<?php echo isset($venue->location->city) ? $venue->location->city . ', ': ''; ?> 	<?php echo isset($venue->location->state) ? $venue->location->state : ''; ?>

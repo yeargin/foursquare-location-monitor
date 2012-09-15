@@ -2,21 +2,21 @@
 
 	<div class="span3">
 		<label>Venue</label>
-		<h3><i class="icon-map-marker"></i> <a href="<?php echo site_url('foursquare/venue') .'/'. $check->venue_id; ?>"><?php echo __($check->check_title); ?></a></h3>
+		<h4><i class="icon-map-marker"></i> <a href="<?php echo site_url('foursquare/venue') .'/'. $check->venue_id; ?>"><?php echo __($check->check_title); ?></a></h4>
 	</div>
 	
 	<div class="span3">
 		<label>Status</label>
 		<div><?php if ($check->active == 1): ?>
-		<h3>Active</h3>
+		<h4><i class="icon-star"></i> Active</h4>
 		<?php else: ?>
-		<h3>Inactive</h3>
+		<h4><i class="icon-star-empty"></i> Inactive</h4>
 		<?php endif; ?></div>
 	</div>
-	
+		
 	<div class="span3">
 		<label>Created</label>
-		<h3><?php echo date('F j, Y', strtotime($check->insert_ts)); ?></h3>
+		<h4><?php echo (!empty_date($check->insert_ts)) ? date('F j, Y', strtotime($check->insert_ts)) : '<span class="muted">N/A</span>'; ?></h4>
 	</div>
 	
 </div>
@@ -27,12 +27,12 @@
 
 	<div class="span3">
 		<label>Last Daily Check</label>
-		<h3><?php echo date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)); ?></h3>
+		<h4><?php echo (!empty_date($check->last_daily_check_ts)) ? date('F j, Y, g:i a', strtotime($check->last_daily_check_ts)) : '<span class="muted">-</span>'; ?></h4>
 	</div>
 	
 	<div class="span3">
 		<label>Last Live Check</label>
-		<h3><?php echo date('F j, Y, g:i a', strtotime($check->last_live_check_ts)); ?></h3>
+		<h4><?php echo (!empty_date($check->last_daily_check_ts)) ? date('F j, Y, g:i a', strtotime($check->last_live_check_ts)) : '<span class="muted">-</span>'; ?></h4>
 	</div>
 	
 	<div class="span3">
@@ -62,7 +62,7 @@
 <table class="table table-striped table-bordered table-rounded">
 <thead>
 <tr>
-	<th>Date</th>
+	<th>Date &amp; Time</th>
 	<th>Friends Here</th>
 	<th>Others Here</th>
 	<th>Total Here</th>

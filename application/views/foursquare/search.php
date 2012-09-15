@@ -18,7 +18,13 @@
 <tbody>
 	<?php foreach ($search_results as $row): ?>
 	<tr>
-		<td><a href="<?php echo site_url('foursquare/venue') .'/'. $row->id; ?>"><?php echo $row->name; ?></a></td>
+		<td><a href="<?php echo site_url('foursquare/venue') .'/'. $row->id; ?>"><?php echo $row->name; ?></a>
+			<?php if (isset($checks_by_venue[$row->id]) && $checks_by_venue[$row->id]->active == 1): ?>
+			 <a rel="tooltip" title="Monitoring"><i class="icon-star"></i></a>
+			<?php elseif (isset($checks_by_venue[$row->id]) && $checks_by_venue[$row->id]->active == 0): ?>
+			 <a rel="tooltip" title="Inactive"><i class="icon-star-empty"></i></a>
+			<?php endif; ?>
+		</td>
 		<td>
 			<address>
 				<?php echo isset($row->location->address) ? $row->location->address . '<br />' : ''; ?> 

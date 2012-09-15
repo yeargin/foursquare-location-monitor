@@ -1,9 +1,9 @@
-<h3>Monitored Venues</h3>
 <?php if (is_array($checks) && count($checks) > 0): ?>
-
-<?php if (count($checks) > 10): ?>
 <form>
 <fieldset>
+<legend>Monitored Venues</legend>
+
+<?php if (count($checks) > 10): ?>
 <select name="check_list" onchange="window.location=$(this).val()">
 	<option value="">(Select a Venue)</option>
 	<?php foreach ($checks as $check): ?>
@@ -11,8 +11,6 @@
 	<option value="<?php echo site_url('foursquare/venue') .'/'. ($check->venue_id); ?>"><?php echo ($check->check_title); ?></option>
 	<?php endforeach; ?>
 </select>
-</fieldset>
-</form>
 
 <?php else: ?>
 
@@ -29,3 +27,6 @@
 	<em>No venues monitored. <a href="<?php echo site_url('foursquare/search'); ?>">Add via Search</a></em>.
 </p>
 <?php endif; ?>
+
+</fieldset>
+</form>

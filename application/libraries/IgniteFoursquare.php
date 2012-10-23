@@ -1,6 +1,6 @@
 <?php
 
-require_once APPPATH . 'third_party/php-foursquare/src/FoursquareAPI.class.php';
+require_once APPPATH . '/third_party/php-foursquare/src/FoursquareAPI.class.php';
 
 class IgniteFoursquare extends FoursquareApi {
 

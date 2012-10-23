@@ -10,7 +10,7 @@
 
 	// Daily Chart
 	function drawChartDaily() {
-		<?php if (count($daily_data_delta) > 2): ?>
+		<?php if (isset($daily_data_delta) && count($daily_data_delta) > 2): ?>
 		var data = new google.visualization.DataTable();
 		data.addColumn('date', 'Date');
 		data.addColumn('number', 'Total Checkins');
@@ -37,7 +37,7 @@
 	
 	// Live Chart
 	function drawChartLive(json_live_data) {
-		<?php if (count($live_data) > 2): ?>
+		<?php if (isset($live_data) && count($live_data) > 2): ?>
 		var data = new google.visualization.DataTable();
 		data.addColumn('datetime', 'Date');
 		data.addColumn('number', 'Friends');

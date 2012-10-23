@@ -39,9 +39,10 @@
 				<ul class="dropdown-menu">
 					<li><a href="<?php echo site_url('foursquare/venue') .'/'. $row->id; ?>"><i class="icon-map-marker"></i> View Location</a></li>
 					<?php if (isset($checks_by_venue[$row->id])): ?>
+					<li><a href="javascript:void(0);" onclick="openCheckModal(this);" data-check_title="<?php echo __($checks_by_venue[$row->id]->check_title); ?>" data-venue_id="<?php echo $row->id; ?>" data-check_id="<?php echo $checks_by_venue[$row->id]->id; ?>"><i class="icon-pencil"></i> Edit Monitoring</a></li>
 					<li><a href="<?php echo site_url('checks/check') .'/'. $checks_by_venue[$row->id]->id; ?>"><i class="icon-book"></i> Monitoring Log</a></li>
 					<?php else: ?>
-					<li><a href="<?php echo site_url('checks/check_add') .'/'. $row->id; ?>"><i class="icon-plus-sign"></i> Add Monitoring</a></li>
+					<li><a href="javascript:void(0);" onclick="openCheckModal(this);" data-check_title="<?php echo $row->name; ?>" data-venue_id="<?php echo $row->id; ?>"><i class="icon-plus-sign"></i> Add Monitoring</a></li>
 					<?php endif; ?>
 				</ul>
 			</div>

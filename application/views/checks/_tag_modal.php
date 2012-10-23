@@ -31,6 +31,6 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		<a href="javascript:void(0);" onclick="saveTags();" class="btn btn-primary">Save changes</a>
+		<a href="javascript:void(0);" onclick="saveTags();" class="btn btn-primary">Save Changes</a>
 	</div>
 </div>

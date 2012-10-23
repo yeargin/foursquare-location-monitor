@@ -111,6 +111,19 @@
 	</div>
 	<?php endif; ?>
 	
+	<div class="modal hide fade in" id="modal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3 id="modal_title"></h3>
+		</div>
+		<div class="modal-body">
+		</div>
+		<div class="modal-footer">
+			<a href="javascript:void(0);" class="btn btn-cancel" id="modal_cancel" data-dismiss="modal">Cancel</a>
+			<a href="javascript:void(0);" class="btn btn-primary" id="modal_save">Save Changes</a>
+		</div>
+	</div>
+	
 	<script src="<?php echo base_url('assets/libraries/bootstrap/js/bootstrap.js'); ?>"> </script>
 	<script src="<?php echo base_url('assets/libraries/bootstrap-datepicker/js/bootstrap-datepicker.js'); ?>"> </script>
 	<script src="<?php echo base_url('assets/js/jquery.meow/jquery.meow.js'); ?>"> </script>
@@ -121,5 +134,6 @@
 	<link rel="stylesheet" href="<?php echo base_url('assets/js/jquery.fancybox/source/jquery.fancybox.css'); ?>" type="text/css" media="screen">
 	
 	<script src="<?php echo base_url('/assets/js/global.js'); ?>"> </script>
+	<script src="<?php echo base_url('/assets/js/checks.js'); ?>"> </script>
 </body>
 </html>

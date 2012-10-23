@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/Bootstrap.php" colors="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false">
-	<php>
-		<const name="DB_DRIVER" value="mysql"/>
-	</php>
+
+<phpunit
+	bootstrap="tests/Bootstrap.php"
+	colors="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false">
 	<testsuites>
-		<testsuite name="All Tests">
-			<directory suffix="Test.php">./tests/</directory>
+		<testsuite name="Location Monitor Test Suite">
+			<directory suffix="Test.php">application/tests/libraries</directory>
 		</testsuite>
 	</testsuites>
-	<filters>
+	<filter>
 		<blacklist>
 			<directory suffix=".php">PEAR_INSTALL_DIR</directory>
 			<directory suffix=".php">PHP_LIBDIR</directory>
+			<directory suffix=".php">vendor</directory>
 		</blacklist>
-	</filters>
+	</filter>
 </phpunit>

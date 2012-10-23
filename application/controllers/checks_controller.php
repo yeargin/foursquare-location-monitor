@@ -96,6 +96,7 @@ class Checks_controller extends CI_Controller {
 		$this->load->view('checks/checks', $data);	
 		$this->load->view('checks/_tag_modal', $data);	
 		$this->load->view('checks/_tag_js', $data);	
+		$this->load->view('checks/_check_modal_js', $data);
 
 	}
 	
@@ -441,7 +442,104 @@ class Checks_controller extends CI_Controller {
 		
 	}
 
+	public function ajax_get_check() {
+		$this->layout = null;
+		$id = $this->uri->segment(3);
+		header('Content-type: application/json');
+		$check = $this->foursquare_check->getCheckById($id);
+		print json_encode($check);
+	}
+
+	public function ajax_add_check() {
+		$this->layout = null;
+		header('Content-type: application/json');
+
+		$this->setup();
+
+		// Basic venue data
+		$venue_id = $this->input->get_post('venue_id');
+		$venue = json_decode($this->ignitefoursquare->GetPrivate(sprintf('/venues/%s', $venue_id)));
+		
+		// If venue can't be loaded, error
+		if (isset($venue->meta->code) && $venue->meta->code != 200) {
+			print json_encode(array('error' => 'Venue could not be found.'));
+			exit;
+		} else {
+			$record['venue_id'] = $venue_id;
+		}
+		
+		// Ensure there is a check title
+		if ($this->input->get_post('check_title') != '') {
+			$record['check_title'] = ($this->input->get_post('check_title'));
+		} else {
+			$record['check_title'] = ($venue->response->venue->name);
+		}
+
+		$result = $this->foursquare_check->addNewCheck($record);
+		
+		// Success, echo back the check result
+		print json_encode($result);
+		
+	}
 	
+	public function ajax_edit_check() {
+		header('Content-type: application/json');
+		
+		$this->layout = null;
+		$id = $this->uri->segment(3);
+		$check = $this->foursquare_check->getCheckById($id);
+
+		// Basic check
+		if (!$check || !isset($check->id)) {
+			print json_encode(array('error' => 'Check could not be found.'));
+			exit;
+		}
+
+		// Grab updates from post variables
+		$record['id'] = $check->id;
+		$record['check_title'] = $this->input->get_post('check_title');
+
+		if (empty($record['check_title'])) {
+			print json_encode(array('error' => 'You must provide a title.'));
+			exit;
+		}
+
+		$result = $this->foursquare_check->updateCheck($record);
+
+		// Success, echo back the check result
+		print json_encode($result);
+	}
+	
+	public function ajax_delete_check() {
+		$this->layout = null;
+		$id = $this->uri->segment(3);
+		header('Content-type: application/json');
+		$check = $this->foursquare_check->deleteCheck($id);
+		print json_encode($check);
+	}
+
+	public function ajax_activate_check() {
+		$this->layout = null;
+		$id = $this->uri->segment(3);
+		header('Content-type: application/json');
+		$check = $this->foursquare_check->activate($id);
+		print json_encode($check);
+	}
+	
+	public function ajax_deactivate_check() {
+		$this->layout = null;
+		$id = $this->uri->segment(3);
+		header('Content-type: application/json');
+		$check = $this->foursquare_check->deactivate($id);
+		print json_encode($check);
+	}
+
+
+	public function ajax_modal() {
+		$this->layout = null;
+		$data['check'] = $this->foursquare_check->getInstance();
+		$this->load->view('checks/_check_modal', $data);
+	}
 
 	/* *** Command line tools *** */
 	

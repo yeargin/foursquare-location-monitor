@@ -87,21 +87,47 @@ class Foursquare_check extends CI_Model {
 	 * @param array $record 
 	 */
 	public function addNewCheck($record = array()) {
+	
+		$user = unserialize($this->session->userdata('user'));
+		
+		// Don't allow records to be created if missing title or venue ID
+		if (!isset($record['check_title']) || !$record['check_title'] || !isset($record['venue_id']) || !$record['venue_id'])
+			return false;
+			
+		// Prevent duplicate venue IDs per user account
+		if ( $this->getCheckByVenueId($record['venue_id']) )
+			return false;
+		
+		$record['user_id'] = $user->id;
 		$record['active'] = '0'; // deactivated by default
+		$record['insert_ts'] = date('c');
+		$record['update_ts'] = date('c');
 		$this->db->insert('foursquare_checks', $record);
 		
+		$check_id = $this->db->insert_id();
+		
 		// Activate check (if possible)
-		return $this->activate($this->db->insert_id());
+		$status = $this->activate($check_id);
+		
+		return $status;
+
 	}
 	
 	/**
-	 * Add New Check
+	 * Update Check
 	 *
 	 * @param array $record 
 	 */
 	public function updateCheck($record = array()) {
+
+		// Update set in code
+		$record['update_ts'] = date('c');
+
 		$this->db->where('id', $record['id']);
-		$this->db->update('foursquare_checks', $record);
+		$id = $this->db->update('foursquare_checks', $record);
+
+		// Return check itself
+		return $this->getCheckById($id);
 	}
 	
 	/**
@@ -298,6 +324,9 @@ class Foursquare_check extends CI_Model {
 			return false;
 	}
 	
+	public function getInstance() {
+		return $this;
+	}
 
 	/**
 	 * Admin: Get All Checks

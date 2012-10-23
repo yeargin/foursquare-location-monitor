@@ -118,15 +118,16 @@
 			<?php endif; ?>
 
 			<p>
-				<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn small"><i class="icon-book"></i> Monitoring Log</a>
-				<a href="<?php echo site_url('checks/check_edit') .'/'. $check->id; ?>" class="btn small"><i class="icon-pencil"></i> Edit Monitoring</a>
+				<a href="<?php echo site_url('checks/check') .'/'. $check->id; ?>" class="btn btn-small"><i class="icon-book"></i> Monitoring Log</a>
+				<a href="javascript:void(0);" onclick="openCheckModal(this);" data-check_title="<?php echo __($check->check_title); ?>" data-venue_id="<?php echo $check->venue_id; ?>" data-check_id="<?php echo $check->id; ?>" class="btn btn-small"><i class="icon-pencil"></i> Edit Monitoring</a>
+				
 				<span class="taglist" data-check_id="<?php echo __($check->id); ?>" style="margin-left:0.5em;"><?php echo (isset($tags[$check->id])) ? listTags($tags[$check->id]) : ''; ?></span>
 			</p>
 
 			<?php else: ?>
 
 			<p class="alert alert-information">
-				This venue is not being monitored. <a href="<?php echo site_url('checks/check_add') .'/'. $venue->id; ?>">Activate monitoring check</a>?
+				This venue is not being monitored. <a href="javascript:void(0);" onclick="openCheckModal(this);" data-check_title="<?php echo __($venue->name); ?>" data-venue_id="<?php echo $venue->id; ?>" data-check_id="">Add Monitoring</a>?
 				<span class="close" onclick="$('.alert').hide();">&times</span>
 			</p>
 

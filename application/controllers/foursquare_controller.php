@@ -139,6 +139,7 @@ class Foursquare_controller extends CI_Controller {
 		$data['sidebar_content'] .= $this->load->view('checks/_date_range_form', $data, true);
 
 		$this->load->view('foursquare/venue', $data);
+		$this->load->view('checks/_check_modal_js', $data);
 		
 	}
 
@@ -200,14 +201,17 @@ class Foursquare_controller extends CI_Controller {
 				
 				$search_results = json_decode($this->ignitefoursquare->GetPrivate('/venues/search', array('ll' => $ll, 'query' => $query, 'limit' => 10)));
 				$data['search_results'] = $search_results->response->venues;
-		
+		 
 		else:
 			$data['search_results'] = null;
 		endif;
 		
+		$data['check'] = $this->foursquare_check->getInstance();
+		
 		$data['page_title'] = 'Search Venues';
 		$data['sidebar_content'] = $this->load->view('checks/_sidebar', $data, true);
 		$this->load->view('foursquare/search', $data);
+		$this->load->view('checks/_check_modal_js', $data);
 		
 	}
 	

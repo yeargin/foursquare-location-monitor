@@ -1,7 +1,7 @@
 <?php
 
-require_once APPPATH . '/config/database.php';
-require_once APPPATH . '/config/application.php';
+require_once APPPATH . 'config/database.php-dist';
+require_once APPPATH . 'config/application.php-dist';
 
 class IgniteFoursquareTest extends CI_TestCase {
 	

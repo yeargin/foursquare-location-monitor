@@ -56,7 +56,7 @@
 			<?php endforeach; ?>
 			<?php else: ?>
 			<tr>
-				<td colspan="5"><em>Not enough check history yet.</em></td>
+				<td colspan="5"><em>Not enough check history yet, or monitoring is disabled.</em></td>
 			</tr>
 			<?php endif; ?>
 		</table>

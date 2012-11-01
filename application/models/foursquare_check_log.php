@@ -95,7 +95,17 @@ class Foursquare_check_log extends CI_Model {
 	
 	/* *** Calculation methods *** */
 	
-	public function getAllCheckDataDelta($user_id, $date_range = array()) {		
+	public function getAllCheckDataDelta($user_id, $date_range = array()) {
+		$this->db->where('user_id', $user_id);
+		$this->db->order_by('check_title');
+		$result = $this->db->get('foursquare_checks');
+		$array = $result->result_array();
+		
+		foreach ($array as $k => $v):
+			$return[$v['id']] = $v;
+			$return[$v['id']]['check_id'] = $v['id'];
+		endforeach;
+		
 		$this->db->where('foursquare_check_log.insert_ts >=', date('Y-m-d', strtotime($date_range['start_date'])));
 		$this->db->where('foursquare_check_log.insert_ts <=', date('Y-m-d', strtotime($date_range['end_date'])));
 		$this->db->where('user_id', $user_id);
@@ -108,7 +118,6 @@ class Foursquare_check_log extends CI_Model {
 		$array = $result->result_array();
 		
 		// Build data array
-		$return = array();
 		foreach ($array as $k => $v):
 		
 			// Baseline numbers
@@ -129,15 +138,8 @@ class Foursquare_check_log extends CI_Model {
 				
 			if (isset($array[$k-1]['photo_count']) && $array[$k-1]['check_id'] == $v['check_id'])
 				$return[$v['check_id']]['photo_count'][$array[$k-1]['log_date']] = $array[$k-1]['photo_count'] - $v['photo_count'];
-
-			$return[$v['check_id']]['check_id'] = $v['check_id'];
-			$return[$v['check_id']]['check_title'] = $v['check_title'];
-			$return[$v['check_id']]['venue_id'] = $v['venue_id'];
 			
 		endforeach;
-		
-		// Sort array by check title (date ascending)
-		usort($return, array($this, 'sortByCheckTitle'));
 		
 		return $return;
 		

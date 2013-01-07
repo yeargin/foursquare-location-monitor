@@ -478,7 +478,7 @@ class Checks_controller extends CI_Controller {
 		$result = $this->foursquare_check->addNewCheck($record);
 		
 		// Success, echo back the check result
-		print json_encode($result);
+		print json_encode((bool) $result);
 		
 	}
 	

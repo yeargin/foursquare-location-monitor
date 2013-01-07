@@ -34,13 +34,13 @@ var Checks = {
 			// Determine if we're updating a check or adding one
 			if (typeof check_id == 'number') {
 				Checks.edit(check_id, {
-					check_id : $('#checkModal input[name="check_id"]').val(form_data.check_id),
-					check_title : $('#checkModal input[name="check_title"]').val(form_data.check_title)
+					check_id : $('#checkModal input[name="check_id"]').val(),
+					check_title : $('#checkModal input[name="check_title"]').val()
 				});
 			} else {
 				Checks.add({
-					venue_id : $('#checkModal input[name="venue_id"]').val(form_data.venue_id),
-					check_title : $('#checkModal input[name="check_title"]').val(form_data.check_title)
+					venue_id : $('#checkModal input[name="venue_id"]').val(),
+					check_title : $('#checkModal input[name="check_title"]').val()
 				});
 			}
 		});
@@ -53,13 +53,12 @@ var Checks = {
 			check_title : form_data.check_title
 		}, function( response ) {
 			if (response == true) {
+				$('.venue-id-'+form_data.venue_id).append(' <i class="icon-star"></i>');
 				$.meow({ message : 'Monitored location added!' });
 			} else {
 				$.meow({ message : 'Could not add monitored location.' });
 			}
-			
 		});
-		
 		$('#modal').modal('hide');
 		
 	},
@@ -79,9 +78,11 @@ var Checks = {
 		
 	},
 	'deactivate' : function ( check_id ) {
+		$('.check-id-'+check_id).append(' <i class="icon-star-empty"></i>');
 		$.post('/checks/ajax_deactivate_check/'+check_id);
 	},
 	'activate' : function ( check_id ) {
+		$('.check-id-'+check_id).append(' <i class="icon-star"></i>');
 		$.post('/checks/ajax_activate_check/'+check_id);
 	}
 };
